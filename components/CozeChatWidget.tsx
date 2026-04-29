@@ -1,41 +1,47 @@
 "use client";
-import { useEffect, useState } from "react";
+import { useEffect } from "react";
 
-const BOT_ID = "7629504335063334947";
+const PROJECT_ID = "7629504335063334947";
+const COZE_TOKEN = "eyJhbGciOiJSUzI1NiIsImtpZCI6IjhlODUzNjkxLWYwOTEtNDgwMS1hM2U3LThhYTAyNzFhZmU2ZiJ9.eyJpc3MiOiJodHRwczovL2FwaS5jb3plLmNuIiwiYXVkIjpbImUyc2tGZndKbHVzVEM0R2xSR3ExV1FRbEhhQWpidEtoIl0sImV4cCI6ODIxMDI2Njg3Njc5OSwiaWF0IjoxNzc3NDczMjE1LCJzdWIiOiJzcGlmZmU6Ly9hcGkuY296ZS5jbi93b3JrbG9hZF9pZGVudGl0eS9pZDo3NjI5NTE5NDYzMTEyNTA3MzkyIiwic3JjIjoiaW5ib3VuZF9hdXRoX2FjY2Vzc190b2tlbl9pZDo3NjM0MTg5MzMwMjAxNzA2NTM5In0.T4I6s4HsV_vSwbdNbxMphdGNSXRsD5XHaSbkC3fDmknsLjMwBX5Vvvw7P9QA_iBa7_ye48Jd5TIP7VwOtUYI9eDIdv_D08PInOkgV8CCPM0iOTILuAnYzHhycK-jR0T5o1XmQFStdYgdoz81Xw2MeAd0_aD2PvqwdfsZFPI3N7BzcFp_lvTLvwLUpN1_L5lYgzwtf4qDXkbrDr_XfQSJJ6HV8S9jeyPlE0nK8WJJA7RO4AhABNOcyazG7Hl1eu38m7RBOxraM0qpaZeq3O71ESx3glHKNVzKuklvuEML-gj4JgxVBva5kOtYd7FBwAKjhw46tVtS5TCiWBZUpYY1Lw";
 
-// 右下角浮动按钮版本
+// 右下角浮动按钮 - 点击打开Agent
 export default function CozeChatWidget() {
   useEffect(() => {
-    // Load Coze Web SDK (国内版) - 使用官方文档指定版本
-    const existingScript = document.querySelector('script[src*="chat-app-sdk"]');
+    const existingScript = document.querySelector('script[src*="coze/web-sdk"]');
     if (existingScript) return;
 
     const script = document.createElement("script");
-    script.src = "https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.20/libs/cn/index.js";
+    script.src = "https://lf-cdn.coze.cn/obj/unpkg/latest/coze/web-sdk/dist/js-umd/index.min.js";
     script.async = true;
     document.body.appendChild(script);
 
     script.onload = () => {
-      console.log("Coze SDK loaded successfully");
+      console.log("Coze Web SDK loaded successfully");
     };
 
-    script.onerror = (e) => {
-      console.error("Failed to load Coze SDK", e);
+    script.onerror = () => {
+      console.error("Failed to load Coze Web SDK");
     };
   }, []);
 
   const openChat = () => {
-    if (typeof window !== "undefined" && (window as any).CozeWebSDK) {
-      new (window as any).CozeWebSDK.WebChatClient({
-        config: {
-          bot_id: BOT_ID,
-        },
-        componentProps: {
-          title: "Standard House Assistant",
-        },
+    if (typeof window !== "undefined" && (window as any).cozeWebSDK) {
+      (window as any).cozeWebSDK.init({
+        projectId: PROJECT_ID,
+        refreshToken: () => Promise.resolve(COZE_TOKEN),
       });
     } else {
-      alert("SDK加载中，请稍后再试");
+      console.error("Coze SDK not loaded yet, trying to load...");
+      const script = document.createElement("script");
+      script.src = "https://lf-cdn.coze.cn/obj/unpkg/latest/coze/web-sdk/dist/js-umd/index.min.js";
+      script.async = true;
+      document.body.appendChild(script);
+      script.onload = () => {
+        (window as any).cozeWebSDK.init({
+          projectId: PROJECT_ID,
+          refreshToken: () => Promise.resolve(COZE_TOKEN),
+        });
+      };
     }
   };
 
@@ -64,7 +70,7 @@ export default function CozeChatWidget() {
   );
 }
 
-// 内联按钮版本 - 可在页面任意位置使用
+// 内联按钮版本 - 主页"Chat with Agent"使用
 export function CozeChatButton({ 
   className = "",
   children 
@@ -72,29 +78,23 @@ export function CozeChatButton({
   className?: string;
   children?: React.ReactNode;
 }) {
-  useEffect(() => {
-    // 确保SDK加载
-    const existingScript = document.querySelector('script[src*="chat-app-sdk"]');
-    if (existingScript) return;
-
-    const script = document.createElement("script");
-    script.src = "https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.20/libs/cn/index.js";
-    script.async = true;
-    document.body.appendChild(script);
-  }, []);
-
   const openChat = () => {
-    if (typeof window !== "undefined" && (window as any).CozeWebSDK) {
-      new (window as any).CozeWebSDK.WebChatClient({
-        config: {
-          bot_id: BOT_ID,
-        },
-        componentProps: {
-          title: "Standard House Assistant",
-        },
+    if (typeof window !== "undefined" && (window as any).cozeWebSDK) {
+      (window as any).cozeWebSDK.init({
+        projectId: PROJECT_ID,
+        refreshToken: () => Promise.resolve(COZE_TOKEN),
       });
     } else {
-      alert("SDK加载中，请稍后再试");
+      const script = document.createElement("script");
+      script.src = "https://lf-cdn.coze.cn/obj/unpkg/latest/coze/web-sdk/dist/js-umd/index.min.js";
+      script.async = true;
+      document.body.appendChild(script);
+      script.onload = () => {
+        (window as any).cozeWebSDK.init({
+          projectId: PROJECT_ID,
+          refreshToken: () => Promise.resolve(COZE_TOKEN),
+        });
+      };
     }
   };
 

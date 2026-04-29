@@ -34,13 +34,10 @@ export default function RootLayout({
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
       <head>
         <Script
-          src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.20/libs/cn/index.js"
+          src="https://lf-cdn.coze.cn/obj/unpkg/latest/coze/web-sdk/dist/js-umd/index.min.js"
           strategy="afterInteractive"
           onLoad={() => {
-            console.log("Coze SDK loaded successfully");
-          }}
-          onError={(e) => {
-            console.error("Failed to load Coze SDK", e);
+            console.log("Coze Web SDK loaded");
           }}
         />
       </head>
