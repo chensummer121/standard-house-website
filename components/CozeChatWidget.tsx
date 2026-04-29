@@ -8,15 +8,15 @@ export default function CozeChatWidget() {
   const [isSDKLoaded, setIsSDKLoaded] = useState(false);
 
   useEffect(() => {
-    // Load Coze Web SDK (International version)
-    const existingScript = document.querySelector('script[src*="coze.com/obj/unpkg-va"]');
+    // Load Coze Web SDK (国内版)
+    const existingScript = document.querySelector('script[src*="lf-cdn.coze.cn"]');
     if (existingScript) {
       setIsSDKLoaded(true);
       return;
     }
 
     const script = document.createElement("script");
-    script.src = "https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/latest/libs/oversea/index.js";
+    script.src = "https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/latest/libs/cn/index.js";
     script.async = true;
     document.body.appendChild(script);
 
@@ -96,7 +96,7 @@ export function CozeChatButton({
       console.error("Coze SDK not loaded yet");
       // Try to load SDK first
       const script = document.createElement("script");
-      script.src = "https://sf-cdn.coze.com/obj/unpkg-va/flow-platform/chat-app-sdk/latest/libs/oversea/index.js";
+      script.src = "https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/latest/libs/cn/index.js";
       script.async = true;
       document.body.appendChild(script);
       script.onload = () => {
