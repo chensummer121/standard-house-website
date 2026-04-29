@@ -1,5 +1,6 @@
 import type { Metadata } from "next";
 import { Inter, Playfair_Display } from "next/font/google";
+import Script from "next/script";
 import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -31,6 +32,18 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en" className={`${inter.variable} ${playfair.variable}`}>
+      <head>
+        <Script
+          src="https://lf-cdn.coze.cn/obj/unpkg/flow-platform/chat-app-sdk/1.2.0-beta.20/libs/cn/index.js"
+          strategy="afterInteractive"
+          onLoad={() => {
+            console.log("Coze SDK loaded successfully");
+          }}
+          onError={(e) => {
+            console.error("Failed to load Coze SDK", e);
+          }}
+        />
+      </head>
       <body className="font-sans antialiased">
         <Header />
         <main>{children}</main>
