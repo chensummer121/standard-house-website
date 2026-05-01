@@ -25,7 +25,7 @@ const footerLinks = {
 const socialLinks = [
   { name: "WhatsApp", icon: MessageCircle, href: "https://wa.me/256766969867" },
   { name: "Instagram", icon: Instagram, href: "#" },
-  { name: "Facebook", icon: Facebook, href: "#" },
+  { name: "Facebook", icon: Facebook, href: "https://www.facebook.com/profile.php?id=100093405760075" },
   { name: "LinkedIn", icon: Linkedin, href: "#" },
 ];
 
