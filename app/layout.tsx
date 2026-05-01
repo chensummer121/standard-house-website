@@ -19,10 +19,10 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Standard House | Premium African Home Designs",
+  title: "Standard House | Premium African Home Designs Uganda",
   description:
-    "Discover beautifully crafted house designs inspired by African architecture. Custom home building, investment opportunities, and sustainable living solutions.",
-  keywords: "house design, African architecture, home plans, custom homes, Ethiopia real estate",
+    "Discover beautifully crafted house designs inspired by African architecture. Custom home building, investment opportunities, and sustainable living solutions in Uganda.",
+  keywords: "house design, African architecture, home plans, custom homes, Uganda real estate",
 };
 
 export default function RootLayout({

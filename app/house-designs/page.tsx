@@ -25,7 +25,7 @@ const houses = [
     bathrooms: 3,
     area: 280,
     badge: "Popular",
-    price: "ETB 4.5M",
+    price: "UGX 1B",
   },
   {
     id: "2",
@@ -34,7 +34,7 @@ const houses = [
     bedrooms: 3,
     bathrooms: 2,
     area: 180,
-    price: "ETB 2.8M",
+    price: "UGX 550M",
   },
   {
     id: "3",
@@ -44,7 +44,7 @@ const houses = [
     bathrooms: 4,
     area: 420,
     badge: "Premium",
-    price: "ETB 7.2M",
+    price: "UGX 2B",
   },
   {
     id: "4",
@@ -53,7 +53,7 @@ const houses = [
     bedrooms: 2,
     bathrooms: 1,
     area: 95,
-    price: "ETB 1.5M",
+    price: "UGX 280M",
   },
   {
     id: "5",
@@ -63,7 +63,7 @@ const houses = [
     bathrooms: 5,
     area: 550,
     badge: "Luxury",
-    price: "ETB 12M",
+    price: "UGX 2.5B",
   },
   {
     id: "6",
@@ -72,7 +72,7 @@ const houses = [
     bedrooms: 3,
     bathrooms: 2,
     area: 165,
-    price: "ETB 2.4M",
+    price: "UGX 480M",
   },
   {
     id: "7",
@@ -82,7 +82,7 @@ const houses = [
     bathrooms: 3,
     area: 320,
     badge: "New",
-    price: "ETB 5.8M",
+    price: "UGX 1.1B",
   },
   {
     id: "8",
@@ -91,7 +91,7 @@ const houses = [
     bedrooms: 1,
     bathrooms: 1,
     area: 65,
-    price: "ETB 950K",
+    price: "UGX 180M",
   },
 ];
 

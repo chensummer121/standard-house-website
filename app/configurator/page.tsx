@@ -30,7 +30,7 @@ const houseOptions = [
     bedrooms: 4,
     bathrooms: 3,
     area: 280,
-    price: "ETB 4.5M",
+    price: "UGX 1B",
   },
   {
     id: "2",
@@ -39,7 +39,7 @@ const houseOptions = [
     bedrooms: 3,
     bathrooms: 2,
     area: 180,
-    price: "ETB 2.8M",
+    price: "UGX 550M",
   },
   {
     id: "3",
@@ -48,7 +48,7 @@ const houseOptions = [
     bedrooms: 2,
     bathrooms: 1,
     area: 95,
-    price: "ETB 1.5M",
+    price: "UGX 280M",
   },
 ];
 
@@ -59,12 +59,12 @@ const customizationOptions = {
 };
 
 const featureOptions = [
-  { id: "garage", name: "Garage", price: "ETB 350K" },
-  { id: "pool", name: "Swimming Pool", price: "ETB 800K" },
-  { id: "garden", name: "Landscaped Garden", price: "ETB 200K" },
-  { id: "solar", name: "Solar Panel System", price: "ETB 450K" },
-  { id: "smart", name: "Smart Home System", price: "ETB 300K" },
-  { id: "terrace", name: "Rooftop Terrace", price: "ETB 400K" },
+  { id: "garage", name: "Garage", price: "UGX 65M" },
+  { id: "pool", name: "Swimming Pool", price: "UGX 150M" },
+  { id: "garden", name: "Landscaped Garden", price: "UGX 35M" },
+  { id: "solar", name: "Solar Panel System", price: "UGX 85M" },
+  { id: "smart", name: "Smart Home System", price: "UGX 55M" },
+  { id: "terrace", name: "Rooftop Terrace", price: "UGX 75M" },
 ];
 
 export default function ConfiguratorPage() {
@@ -298,7 +298,7 @@ export default function ConfiguratorPage() {
                   <div className="space-y-6">
                     <div>
                       <label className="block text-sm font-medium text-earth-700 mb-2">
-                        Total Budget (ETB)
+                        Total Budget (UGX)
                       </label>
                       <input
                         type="text"
@@ -391,7 +391,7 @@ export default function ConfiguratorPage() {
                     </div>
                     <div className="pt-6 border-t border-earth-200">
                       <p className="text-sm text-earth-500">Estimated Total</p>
-                      <p className="text-3xl font-bold text-primary">ETB 5.5M</p>
+                      <p className="text-3xl font-bold text-primary">UGX 1.1B</p>
                     </div>
                   </div>
                 </div>

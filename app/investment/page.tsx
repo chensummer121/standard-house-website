@@ -117,7 +117,7 @@ export default function InvestmentPage() {
               <div className="space-y-6">
                 <div>
                   <label className="block text-sm font-medium text-earth-700 mb-2">
-                    Investment Amount (ETB)
+                    Investment Amount (UGX)
                   </label>
                   <input
                     type="text"
@@ -152,7 +152,7 @@ export default function InvestmentPage() {
 
               <div className="mt-8 p-6 bg-white rounded-xl shadow-md">
                 <p className="text-sm text-earth-500 mb-2">Estimated Value After {calculatorInputs.years} Years</p>
-                <p className="text-4xl font-bold text-primary">ETB {estimatedReturn()}</p>
+                <p className="text-4xl font-bold text-primary">UGX {estimatedReturn()}</p>
                 <p className="text-sm text-sage-600 mt-2">
                   +{(parseInt(calculatorInputs.investmentAmount) * 0.15 * parseInt(calculatorInputs.years)).toLocaleString("en-US")} gain
                 </p>
@@ -165,20 +165,20 @@ export default function InvestmentPage() {
               {[
                 {
                   name: "Starter",
-                  minInvestment: "5,000,000",
+                  minInvestment: "1,800,000,000",
                   returns: "12%",
                   features: ["1-2 properties", "Standard management", "Quarterly reports"]
                 },
                 {
                   name: "Growth",
-                  minInvestment: "15,000,000",
+                  minInvestment: "5,500,000,000",
                   returns: "15%",
                   popular: true,
                   features: ["3-5 properties", "Premium management", "Monthly reports", "Priority support"]
                 },
                 {
                   name: "Premium",
-                  minInvestment: "50,000,000",
+                  minInvestment: "18,500,000,000",
                   returns: "18%",
                   features: ["5+ properties", "Full-service management", "Weekly reports", "Dedicated advisor"]
                 }
@@ -192,7 +192,7 @@ export default function InvestmentPage() {
                     <span className="text-primary font-bold">{pkg.returns} APY</span>
                   </div>
                   <p className="text-sm text-earth-200 mb-3">
-                    Min. Investment: ETB {pkg.minInvestment}
+                    Min. Investment: UGX {pkg.minInvestment}
                   </p>
                   <ul className="space-y-2">
                     {pkg.features.map((feature) => (
@@ -249,7 +249,7 @@ export default function InvestmentPage() {
                   <input
                     type="tel"
                     className="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="+251 XX XXX XXXX"
+                    placeholder="+256 XXX XXX XXX"
                   />
                 </div>
                 <div>

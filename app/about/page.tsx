@@ -54,7 +54,7 @@ export default function AboutPage() {
                 </p>
                 <p>
                   What started as a small team of passionate architects and builders has 
-                  grown into one of Ethiopia's most trusted construction companies.
+                  grown into one of Uganda's most trusted construction companies.
                 </p>
                 <p>
                   Today, we've completed over 500 projects across 12 African countries, 
@@ -169,7 +169,7 @@ export default function AboutPage() {
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {["National Bank", "Ethio Telecom", "CBE", "Awash Bank"].map((partner) => (
+            {["Housing Finance Bank", "Airtel Uganda", "dfcu Bank", "Stanbic Bank Uganda"].map((partner) => (
               <div key={partner} className="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
                 <div className="h-16 bg-white/20 rounded-lg mb-3" />
                 <span className="font-medium">{partner}</span>
@@ -200,8 +200,8 @@ export default function AboutPage() {
                   <div>
                     <h3 className="font-semibold text-earth-800 mb-1">Visit Our Office</h3>
                     <p className="text-earth-600">
-                      Bole Road, Atlas Building, 5th Floor<br />
-                      Addis Ababa, Ethiopia
+                      6th Street, Industrial Area<br />
+                      Kampala, Uganda
                     </p>
                   </div>
                 </div>
@@ -212,8 +212,8 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-earth-800 mb-1">Call Us</h3>
-                    <p className="text-earth-600">+251 911 234 567</p>
-                    <p className="text-earth-600">+251 11 123 4567</p>
+                    <p className="text-earth-600">+256 766 969 867</p>
+                    <p className="text-earth-600">+256 414 123 456</p>
                   </div>
                 </div>
 
@@ -223,8 +223,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-earth-800 mb-1">Email Us</h3>
-                    <p className="text-earth-600">hello@standard-house.com</p>
-                    <p className="text-earth-600">sales@standard-house.com</p>
+                    <p className="text-earth-600">standradhouseug@standard-house.com</p>
                   </div>
                 </div>
 
