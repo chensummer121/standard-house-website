@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { MapPin, Calendar, ArrowRight } from "lucide-react";
+import { MapPin, Calendar, ArrowRight, Home } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 interface ProjectCardProps {
@@ -10,6 +10,8 @@ interface ProjectCardProps {
   image: string;
   completedDate: string;
   status: "completed" | "in-progress";
+  model?: string;
+  description?: string;
   className?: string;
 }
 
@@ -19,6 +21,8 @@ export default function ProjectCard({
   image,
   completedDate,
   status,
+  model,
+  description,
   className,
 }: ProjectCardProps) {
   return (
@@ -36,7 +40,7 @@ export default function ProjectCard({
           fill
           className="object-cover group-hover:scale-105 transition-transform duration-500"
         />
-        <div className="absolute top-4 left-4">
+        <div className="absolute top-4 left-4 flex gap-2">
           <span
             className={cn(
               "px-3 py-1 text-xs font-medium rounded-full",
@@ -47,14 +51,24 @@ export default function ProjectCard({
           >
             {status === "completed" ? "Completed" : "In Progress"}
           </span>
+          {model && (
+            <span className="px-3 py-1 text-xs font-medium rounded-full bg-earth-800/80 text-white flex items-center gap-1">
+              <Home className="h-3 w-3" />
+              {model}
+            </span>
+          )}
         </div>
       </div>
 
       {/* Content */}
       <div className="p-6">
-        <h3 className="text-xl font-display font-semibold text-earth-800 mb-3">
+        <h3 className="text-xl font-display font-semibold text-earth-800 mb-2">
           {title}
         </h3>
+
+        {description && (
+          <p className="text-sm text-earth-600 mb-3">{description}</p>
+        )}
 
         <div className="flex items-center gap-4 text-sm text-earth-600 mb-4">
           <div className="flex items-center gap-1">

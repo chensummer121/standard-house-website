@@ -2,6 +2,7 @@
 
 import { useState } from "react";
 import Image from "next/image";
+import Link from "next/link";
 import { 
   ChevronRight, 
   ChevronLeft, 
@@ -10,75 +11,92 @@ import {
   Palette, 
   LayoutGrid, 
   DollarSign, 
-  FileText 
+  FileText,
+  Package,
+  Shield,
+  Truck
 } from "lucide-react";
 import { cn } from "@/lib/utils";
 
 const steps = [
-  { id: 1, name: "Select House", icon: Home },
+  { id: 1, name: "Select Model", icon: Home },
   { id: 2, name: "Customize", icon: Palette },
   { id: 3, name: "Features", icon: LayoutGrid },
-  { id: 4, name: "Budget", icon: DollarSign },
+  { id: 4, name: "BOM Quote", icon: Package },
   { id: 5, name: "Review", icon: FileText },
 ];
 
-const houseOptions = [
+// Three core product models
+const modelOptions = [
   {
-    id: "1",
-    name: "Savanna Villa",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80",
-    bedrooms: 4,
-    bathrooms: 3,
-    area: 280,
-    price: "UGX 1B",
-  },
-  {
-    id: "2",
-    name: "Acacia Family Home",
+    id: "model-a",
+    name: "Model A - Economy",
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80",
-    bedrooms: 3,
-    bathrooms: 2,
-    area: 180,
-    price: "UGX 550M",
-  },
-  {
-    id: "3",
-    name: "Marula Compact",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=600&q=80",
     bedrooms: 2,
     bathrooms: 1,
-    area: 95,
-    price: "UGX 280M",
+    area: "65-80",
+    structure: "Prefabricated Steel",
+    timeline: "30 Days",
+    price: "UGX 200M",
+    badge: "Economy",
+    description: "Efficient single-story layout. Perfect for first-time homeowners.",
+  },
+  {
+    id: "model-b",
+    name: "Model B - Standard",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80",
+    bedrooms: 3,
+    bathrooms: 2,
+    area: "120-150",
+    structure: "Standard BOM",
+    timeline: "45 Days",
+    price: "UGX 450M",
+    badge: "Popular",
+    description: "Our most popular family home. Complete BOM package included.",
+  },
+  {
+    id: "model-c",
+    name: "Model C - Premium",
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80",
+    bedrooms: 4,
+    bathrooms: 3,
+    area: "200-400",
+    structure: "Modular Custom",
+    timeline: "Custom",
+    price: "Custom",
+    badge: "Premium",
+    description: "Fully customizable villa design. Modular expansion ready.",
   },
 ];
 
 const customizationOptions = {
-  style: ["Modern African", "Traditional", "Contemporary", "Minimalist"],
-  roof: ["Gable", "Hip", "Flat", "Shed"],
-  finishes: ["Standard", "Premium", "Luxury"],
+  roof: ["Gable", "Hip", "Flat"],
+  finishes: ["Standard BOM", "Premium Package", "Luxury Finish"],
+  exterior: ["Standard Cladding", "Premium Cladding", "Custom Design"],
 };
 
-const featureOptions = [
-  { id: "garage", name: "Garage", price: "UGX 65M" },
-  { id: "pool", name: "Swimming Pool", price: "UGX 150M" },
-  { id: "garden", name: "Landscaped Garden", price: "UGX 35M" },
-  { id: "solar", name: "Solar Panel System", price: "UGX 85M" },
-  { id: "smart", name: "Smart Home System", price: "UGX 55M" },
-  { id: "terrace", name: "Rooftop Terrace", price: "UGX 75M" },
+const bomFeatures = [
+  { id: "foundation", name: "Foundation Materials", description: "Complete concrete & steel foundation package", included: true },
+  { id: "structure", name: "Steel Structure", description: "Prefabricated steel frame & connections", included: true },
+  { id: "roofing", name: "Roofing System", description: "Roof sheets, insulation & rain gutters", included: true },
+  { id: "electrical", name: "Electrical System", description: "Wiring, switches, distribution board", included: true },
+  { id: "plumbing", name: "Plumbing System", description: "Pipes, fittings, fixtures", included: true },
+  { id: "finishing", name: "Interior Finishing", description: "Paint, flooring, doors, windows", included: "optional" },
+  { id: "exterior", name: "Exterior Finishing", description: "Cladding, landscaping prep", included: "optional" },
 ];
 
 export default function ConfiguratorPage() {
   const [currentStep, setCurrentStep] = useState(1);
-  const [selectedHouse, setSelectedHouse] = useState<string | null>(null);
+  const [selectedModel, setSelectedModel] = useState<string | null>(null);
   const [customizations, setCustomizations] = useState({
-    style: "",
     roof: "",
     finishes: "",
+    exterior: "",
   });
-  const [selectedFeatures, setSelectedFeatures] = useState<string[]>([]);
+  const [optionalFeatures, setOptionalFeatures] = useState<string[]>([]);
 
   const handleFeatureToggle = (id: string) => {
-    setSelectedFeatures((prev) =>
+    setOptionalFeatures((prev) =>
       prev.includes(id) ? prev.filter((f) => f !== id) : [...prev, id]
     );
   };
@@ -86,13 +104,15 @@ export default function ConfiguratorPage() {
   const canProceed = () => {
     switch (currentStep) {
       case 1:
-        return !!selectedHouse;
+        return !!selectedModel;
       case 2:
-        return customizations.style && customizations.roof && customizations.finishes;
+        return customizations.roof && customizations.finishes && customizations.exterior;
       default:
         return true;
     }
   };
+
+  const getSelectedModel = () => modelOptions.find((m) => m.id === selectedModel);
 
   return (
     <div className="pt-20 md:pt-24 min-h-screen bg-earth-50">
@@ -100,11 +120,11 @@ export default function ConfiguratorPage() {
       <section className="bg-earth-800 text-white py-12">
         <div className="container-custom">
           <h1 className="text-3xl md:text-4xl font-display font-bold mb-4">
-            Home Configurator
+            Configure Your Home
           </h1>
           <p className="text-earth-200 max-w-2xl">
-            Design your perfect home in 5 simple steps. Customize every detail 
-            to match your vision and budget.
+            在线配置你的家 — Select a base model and customize it to your needs. 
+            Get a precise BOM quote with 100% transparent pricing.
           </p>
         </div>
       </section>
@@ -165,43 +185,58 @@ export default function ConfiguratorPage() {
       <section className="section-padding">
         <div className="container-custom">
           <div className="max-w-4xl mx-auto">
-            {/* Step 1: Select House */}
+            {/* Step 1: Select Model */}
             {currentStep === 1 && (
               <div className="animate-fade-in">
-                <h2 className="text-2xl font-display font-bold text-earth-800 mb-6">
-                  Select Your Base Design
+                <h2 className="text-2xl font-display font-bold text-earth-800 mb-2">
+                  Choose Your Base Model
                 </h2>
+                <p className="text-earth-600 mb-6">
+                  Select one of our standard prefabricated models as your starting point.
+                </p>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
-                  {houseOptions.map((house) => (
+                  {modelOptions.map((model) => (
                     <button
-                      key={house.id}
-                      onClick={() => setSelectedHouse(house.id)}
+                      key={model.id}
+                      onClick={() => setSelectedModel(model.id)}
                       className={cn(
                         "text-left rounded-2xl overflow-hidden transition-all",
-                        selectedHouse === house.id
+                        selectedModel === model.id
                           ? "ring-4 ring-primary shadow-lg scale-[1.02]"
                           : "shadow-md hover:shadow-lg"
                       )}
                     >
                       <div className="relative aspect-[4/3]">
                         <Image
-                          src={house.image}
-                          alt={house.name}
+                          src={model.image}
+                          alt={model.name}
                           fill
                           className="object-cover"
                         />
-                        {selectedHouse === house.id && (
+                        {selectedModel === model.id && (
                           <div className="absolute top-4 right-4 w-8 h-8 bg-primary rounded-full flex items-center justify-center">
                             <Check className="h-5 w-5 text-white" />
                           </div>
                         )}
+                        <div className="absolute bottom-4 left-4">
+                          <span className="px-2 py-1 bg-earth-800/80 text-white text-xs font-medium rounded-full">
+                            {model.badge}
+                          </span>
+                        </div>
                       </div>
                       <div className="p-4 bg-white">
-                        <h3 className="font-semibold text-earth-800">{house.name}</h3>
-                        <p className="text-sm text-earth-600 mt-1">
-                          {house.bedrooms} Beds • {house.bathrooms} Baths • {house.area}m²
+                        <h3 className="font-semibold text-earth-800">{model.name}</h3>
+                        <p className="text-sm text-earth-500 mt-1">
+                          {model.bedrooms} Beds • {model.bathrooms} Baths • {model.area}m²
                         </p>
-                        <p className="text-primary font-bold mt-2">{house.price}</p>
+                        <p className="text-xs text-earth-400 mt-1">{model.structure}</p>
+                        <div className="flex items-center justify-between mt-3">
+                          <span className="text-primary font-bold">{model.price}</span>
+                          <span className="text-xs text-earth-500 flex items-center gap-1">
+                            <Truck className="h-3 w-3" />
+                            {model.timeline}
+                          </span>
+                        </div>
                       </div>
                     </button>
                   ))}
@@ -213,15 +248,15 @@ export default function ConfiguratorPage() {
             {currentStep === 2 && (
               <div className="animate-fade-in">
                 <h2 className="text-2xl font-display font-bold text-earth-800 mb-6">
-                  Customize Your Style
+                  Customize Your Configuration
                 </h2>
                 <div className="space-y-8">
                   {Object.entries(customizationOptions).map(([key, options]) => (
                     <div key={key}>
                       <h3 className="text-lg font-semibold text-earth-700 mb-3 capitalize">
-                        {key === "finishes" ? "Interior Finishes" : key}
+                        {key === "exterior" ? "Exterior Design" : key}
                       </h3>
-                      <div className="grid grid-cols-2 md:grid-cols-4 gap-4">
+                      <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                         {options.map((option) => (
                           <button
                             key={option}
@@ -248,92 +283,103 @@ export default function ConfiguratorPage() {
             {/* Step 3: Features */}
             {currentStep === 3 && (
               <div className="animate-fade-in">
-                <h2 className="text-2xl font-display font-bold text-earth-800 mb-6">
-                  Add Premium Features
+                <h2 className="text-2xl font-display font-bold text-earth-800 mb-2">
+                  BOM Add-ons & Upgrades
                 </h2>
                 <p className="text-earth-600 mb-8">
-                  Enhance your home with these optional features (optional)
+                  Enhance your package with optional upgrades. All items come with precise pricing.
                 </p>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                  {featureOptions.map((feature) => (
+                  {[
+                    { id: "solar", name: "Solar Panel System", price: "UGX 85M" },
+                    { id: "smart", name: "Smart Home System", price: "UGX 55M" },
+                    { id: "garage", name: "Garage Addition", price: "UGX 65M" },
+                    { id: "terrace", name: "Rooftop Terrace", price: "UGX 75M" },
+                  ].map((feature) => (
                     <button
                       key={feature.id}
                       onClick={() => handleFeatureToggle(feature.id)}
                       className={cn(
                         "flex items-center justify-between p-4 rounded-xl border-2 transition-all text-left",
-                        selectedFeatures.includes(feature.id)
+                        optionalFeatures.includes(feature.id)
                           ? "border-primary bg-primary/5"
                           : "border-earth-200 hover:border-earth-400"
                       )}
                     >
-                      <span className="font-medium">{feature.name}</span>
                       <div className="flex items-center gap-3">
-                        <span className="text-sm text-earth-500">{feature.price}</span>
                         <div
                           className={cn(
                             "w-6 h-6 rounded-md flex items-center justify-center",
-                            selectedFeatures.includes(feature.id)
+                            optionalFeatures.includes(feature.id)
                               ? "bg-primary text-white"
                               : "bg-earth-100"
                           )}
                         >
-                          {selectedFeatures.includes(feature.id) && (
+                          {optionalFeatures.includes(feature.id) && (
                             <Check className="h-4 w-4" />
                           )}
                         </div>
+                        <span className="font-medium">{feature.name}</span>
                       </div>
+                      <span className="text-primary font-medium">{feature.price}</span>
                     </button>
                   ))}
                 </div>
               </div>
             )}
 
-            {/* Step 4: Budget */}
+            {/* Step 4: BOM Quote */}
             {currentStep === 4 && (
               <div className="animate-fade-in">
-                <h2 className="text-2xl font-display font-bold text-earth-800 mb-6">
-                  Set Your Budget
+                <h2 className="text-2xl font-display font-bold text-earth-800 mb-2">
+                  BOM Precise Quote
                 </h2>
-                <div className="bg-white rounded-2xl p-8 shadow-md">
-                  <div className="space-y-6">
-                    <div>
-                      <label className="block text-sm font-medium text-earth-700 mb-2">
-                        Total Budget (UGX)
-                      </label>
-                      <input
-                        type="text"
-                        placeholder="e.g. 5,000,000"
-                        className="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                      />
+                <p className="text-earth-600 mb-8">
+                  100% Transparent Pricing — Every bolt, every beam accounted for.
+                </p>
+                
+                <div className="bg-white rounded-2xl p-6 shadow-md mb-6">
+                  <div className="flex items-center justify-between mb-6">
+                    <h3 className="text-lg font-semibold">Included in Base Package</h3>
+                    <Shield className="h-6 w-6 text-sage-600" />
+                  </div>
+                  <div className="space-y-3">
+                    {bomFeatures.filter(f => f.included === true).map((feature) => (
+                      <div key={feature.id} className="flex items-start gap-3 p-3 bg-earth-50 rounded-lg">
+                        <Check className="h-5 w-5 text-sage-600 mt-0.5" />
+                        <div>
+                          <span className="font-medium text-earth-800">{feature.name}</span>
+                          <p className="text-sm text-earth-500">{feature.description}</p>
+                        </div>
+                      </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className="bg-primary/5 rounded-2xl p-6">
+                  <div className="flex items-center gap-2 mb-4">
+                    <DollarSign className="h-6 w-6 text-primary" />
+                    <h3 className="text-lg font-semibold">Price Summary</h3>
+                  </div>
+                  <div className="space-y-2">
+                    <div className="flex justify-between">
+                      <span>Base Model ({getSelectedModel()?.name})</span>
+                      <span className="font-medium">{getSelectedModel()?.price}</span>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-earth-700 mb-2">
-                        Payment Timeline
-                      </label>
-                      <select className="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                        <option>Full Payment</option>
-                        <option>12 Months Installment</option>
-                        <option>24 Months Installment</option>
-                        <option>36 Months Installment</option>
-                      </select>
+                    <div className="flex justify-between text-earth-500">
+                      <span>Configuration Upgrade</span>
+                      <span>Included</span>
                     </div>
-                    <div>
-                      <label className="block text-sm font-medium text-earth-700 mb-2">
-                        Financing Preference
-                      </label>
-                      <div className="flex gap-4">
-                        <label className="flex items-center gap-2">
-                          <input type="radio" name="financing" className="accent-primary" />
-                          <span>Bank Loan</span>
-                        </label>
-                        <label className="flex items-center gap-2">
-                          <input type="radio" name="financing" className="accent-primary" />
-                          <span>In-house Financing</span>
-                        </label>
-                        <label className="flex items-center gap-2">
-                          <input type="radio" name="financing" className="accent-primary" />
-                          <span>Self-funded</span>
-                        </label>
+                    {optionalFeatures.length > 0 && (
+                      <div className="flex justify-between text-earth-500">
+                        <span>Optional Add-ons</span>
+                        <span>Based on selection</span>
+                      </div>
+                    )}
+                    <div className="pt-2 mt-2 border-t border-earth-200">
+                      <div className="flex justify-between text-xl font-bold text-primary">
+                        <span>Total BOM Estimate</span>
+                        <span>UGX {getSelectedModel()?.price}</span>
                       </div>
                     </div>
                   </div>
@@ -350,50 +396,68 @@ export default function ConfiguratorPage() {
                 <div className="bg-white rounded-2xl p-8 shadow-md">
                   <div className="space-y-6">
                     <div className="flex items-start gap-4 pb-6 border-b border-earth-200">
-                      <div className="w-24 h-24 relative rounded-lg overflow-hidden">
+                      <div className="w-32 h-24 relative rounded-lg overflow-hidden flex-shrink-0">
                         <Image
-                          src={houseOptions.find((h) => h.id === selectedHouse)?.image || ""}
-                          alt="Selected house"
+                          src={getSelectedModel()?.image || ""}
+                          alt="Selected model"
                           fill
                           className="object-cover"
                         />
                       </div>
                       <div>
-                        <h3 className="text-lg font-semibold">
-                          {houseOptions.find((h) => h.id === selectedHouse)?.name}
-                        </h3>
+                        <h3 className="text-xl font-semibold">{getSelectedModel()?.name}</h3>
                         <p className="text-earth-600">
-                          {houseOptions.find((h) => h.id === selectedHouse)?.price}
+                          {getSelectedModel()?.bedrooms} Beds • {getSelectedModel()?.bathrooms} Baths • {getSelectedModel()?.area}m²
+                        </p>
+                        <p className="text-sm text-earth-500 mt-1">
+                          Delivery: {getSelectedModel()?.timeline}
                         </p>
                       </div>
                     </div>
-                    <div className="grid grid-cols-2 gap-4">
-                      <div>
-                        <p className="text-sm text-earth-500">Style</p>
-                        <p className="font-medium">{customizations.style}</p>
-                      </div>
+
+                    <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                       <div>
                         <p className="text-sm text-earth-500">Roof Type</p>
-                        <p className="font-medium">{customizations.roof}</p>
+                        <p className="font-medium">{customizations.roof || "-"}</p>
                       </div>
                       <div>
                         <p className="text-sm text-earth-500">Finishes</p>
-                        <p className="font-medium">{customizations.finishes}</p>
+                        <p className="font-medium">{customizations.finishes || "-"}</p>
                       </div>
                       <div>
-                        <p className="text-sm text-earth-500">Features</p>
-                        <p className="font-medium">
-                          {selectedFeatures.length > 0
-                            ? selectedFeatures.length + " selected"
-                            : "None"}
-                        </p>
+                        <p className="text-sm text-earth-500">Exterior</p>
+                        <p className="font-medium">{customizations.exterior || "-"}</p>
                       </div>
                     </div>
+
+                    {optionalFeatures.length > 0 && (
+                      <div>
+                        <p className="text-sm text-earth-500">Selected Add-ons</p>
+                        <p className="font-medium">{optionalFeatures.length} upgrades selected</p>
+                      </div>
+                    )}
+
                     <div className="pt-6 border-t border-earth-200">
-                      <p className="text-sm text-earth-500">Estimated Total</p>
-                      <p className="text-3xl font-bold text-primary">UGX 1.1B</p>
+                      <div className="flex items-center justify-between">
+                        <div>
+                          <p className="text-sm text-earth-500">BOM Quote</p>
+                          <p className="text-3xl font-bold text-primary">{getSelectedModel()?.price}</p>
+                        </div>
+                        <div className="flex items-center gap-2 text-sage-600">
+                          <Truck className="h-5 w-5" />
+                          <span>Guaranteed {getSelectedModel()?.timeline} delivery</span>
+                        </div>
+                      </div>
                     </div>
                   </div>
+                </div>
+
+                <div className="mt-8 p-6 bg-sage-50 rounded-xl border border-sage-200">
+                  <h3 className="font-semibold text-earth-800 mb-2">What's Next?</h3>
+                  <p className="text-earth-600 text-sm">
+                    Submit your configuration and our team will contact you within 24 hours to 
+                    discuss your project details and schedule a site visit.
+                  </p>
                 </div>
               </div>
             )}
@@ -428,10 +492,10 @@ export default function ConfiguratorPage() {
                   <ChevronRight className="h-5 w-5" />
                 </button>
               ) : (
-                <button className="flex items-center gap-2 bg-primary text-white hover:bg-primary/90 px-6 py-3 rounded-lg font-medium transition-colors">
-                  Submit Configuration
+                <Link href="/about#contact" className="flex items-center gap-2 bg-primary text-white hover:bg-primary/90 px-6 py-3 rounded-lg font-medium transition-colors">
+                  Contact Us to Proceed
                   <ChevronRight className="h-5 w-5" />
-                </button>
+                </Link>
               )}
             </div>
           </div>

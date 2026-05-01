@@ -4,7 +4,6 @@ import "./globals.css";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import CozeChatWidget from "@/components/CozeChatWidget";
-import WhatsAppButton from "@/components/WhatsAppButton";
 
 const inter = Inter({
   subsets: ["latin"],
@@ -19,10 +18,10 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Standard House | Premium African Home Designs Uganda",
+  title: "Standard House | Premium African Home Designs",
   description:
-    "Discover beautifully crafted house designs inspired by African architecture. Custom home building, investment opportunities, and sustainable living solutions in Uganda.",
-  keywords: "house design, African architecture, home plans, custom homes, Uganda real estate",
+    "Discover beautifully crafted house designs inspired by African architecture. Custom home building, investment opportunities, and sustainable living solutions.",
+  keywords: "house design, African architecture, home plans, custom homes, Ethiopia real estate",
 };
 
 export default function RootLayout({
@@ -36,7 +35,6 @@ export default function RootLayout({
         <Header />
         <main>{children}</main>
         <Footer />
-        <WhatsAppButton />
         <CozeChatWidget />
       </body>
     </html>

@@ -25,7 +25,7 @@ const featuredHouses = [
     bathrooms: 3,
     area: 280,
     badge: "Popular",
-    price: "UGX 1B",
+    price: "ETB 4.5M",
   },
   {
     id: "2",
@@ -34,7 +34,7 @@ const featuredHouses = [
     bedrooms: 3,
     bathrooms: 2,
     area: 180,
-    price: "UGX 550M",
+    price: "ETB 2.8M",
   },
   {
     id: "3",
@@ -44,7 +44,7 @@ const featuredHouses = [
     bathrooms: 4,
     area: 420,
     badge: "Premium",
-    price: "UGX 2B",
+    price: "ETB 7.2M",
   },
   {
     id: "4",
@@ -53,7 +53,7 @@ const featuredHouses = [
     bedrooms: 2,
     bathrooms: 1,
     area: 95,
-    price: "UGX 280M",
+    price: "ETB 1.5M",
   },
 ];
 

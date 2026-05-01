@@ -1,97 +1,67 @@
 import Image from "next/image";
-import { Filter, Grid, List } from "lucide-react";
-import HouseCard from "@/components/HouseCard";
+import Link from "next/link";
+import { ArrowRight, Check, Bed, Bath, Maximize, Hammer, Package, Clock } from "lucide-react";
 
-const categories = [
-  { id: "all", name: "All Designs", count: 24 },
-  { id: "villa", name: "Villas", count: 8 },
-  { id: "family", name: "Family Homes", count: 10 },
-  { id: "compact", name: "Compact Living", count: 6 },
-];
-
-const filters = {
-  bedrooms: ["Any", "1", "2", "3", "4", "5+"],
-  bathrooms: ["Any", "1", "2", "3", "4+"],
-  area: ["Any", "Under 100m²", "100-200m²", "200-300m²", "300m²+"],
-  price: ["Any", "Under 2M", "2M-5M", "5M-10M", "10M+"],
-};
-
-const houses = [
+const houseModels = [
   {
-    id: "1",
-    name: "Savanna Villa",
-    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-    bedrooms: 4,
-    bathrooms: 3,
-    area: 280,
-    badge: "Popular",
-    price: "UGX 1B",
-  },
-  {
-    id: "2",
-    name: "Acacia Family Home",
+    id: "model-a",
+    name: "Model A - Economy Single Story",
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
-    bedrooms: 3,
-    bathrooms: 2,
-    area: 180,
-    price: "UGX 550M",
-  },
-  {
-    id: "3",
-    name: "Savannah Penthouse",
-    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
-    bedrooms: 5,
-    bathrooms: 4,
-    area: 420,
-    badge: "Premium",
-    price: "UGX 2B",
-  },
-  {
-    id: "4",
-    name: "Marula Compact",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
     bedrooms: 2,
     bathrooms: 1,
-    area: 95,
-    price: "UGX 280M",
+    area: "65-80",
+    structure: "Prefabricated Steel Frame",
+    timeline: "30 Days",
+    price: "From UGX 200M",
+    badge: "Economy",
+    description: "Perfect starter home with efficient layout. Prefabricated steel structure for quick assembly.",
+    features: [
+      "Open plan living & dining",
+      "2 comfortable bedrooms",
+      "1 modern bathroom",
+      "Steel frame construction",
+      "Complete BOM package",
+    ],
   },
   {
-    id: "5",
-    name: "Baobab Estate",
-    image: "https://images.unsplash.com/photo-1600566753190-17f0baa2a6c3?w=800&q=80",
-    bedrooms: 6,
-    bathrooms: 5,
-    area: 550,
-    badge: "Luxury",
-    price: "UGX 2.5B",
-  },
-  {
-    id: "6",
-    name: "Camelia Townhouse",
-    image: "https://images.unsplash.com/photo-1600573472550-8090b5e0745e?w=800&q=80",
+    id: "model-b",
+    name: "Model B - Standard Family Home",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
     bedrooms: 3,
     bathrooms: 2,
-    area: 165,
-    price: "UGX 480M",
+    area: "120-150",
+    structure: "Standard BOM Package",
+    timeline: "45 Days",
+    price: "From UGX 450M",
+    badge: "Popular",
+    description: "Our most popular model. Complete BOM package with 45-day guaranteed delivery.",
+    features: [
+      "Spacious open plan layout",
+      "3 bedrooms with closet space",
+      "2 full bathrooms",
+      "Standard BOM included",
+      "Kitchen & utility area",
+    ],
   },
   {
-    id: "7",
-    name: "Sage Garden Villa",
-    image: "https://images.unsplash.com/photo-1600047509807-ba8f99d2cdde?w=800&q=80",
+    id: "model-c",
+    name: "Model C - Premium Villa Series",
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
     bedrooms: 4,
     bathrooms: 3,
-    area: 320,
-    badge: "New",
-    price: "UGX 1.1B",
-  },
-  {
-    id: "8",
-    name: "Cedar Studio",
-    image: "https://images.unsplash.com/photo-1600585154526-990dced4db0d?w=800&q=80",
-    bedrooms: 1,
-    bathrooms: 1,
-    area: 65,
-    price: "UGX 180M",
+    area: "200-400",
+    structure: "Modular Custom",
+    timeline: "Custom Timeline",
+    price: "Contact for Quote",
+    badge: "Premium",
+    description: "Fully customizable modular design. Expand your living space as your family grows.",
+    features: [
+      "Flexible room configuration",
+      "Premium finishes available",
+      "Multi-level options",
+      "Modular expansion ready",
+      "Full customization support",
+    ],
   },
 ];
 
@@ -101,93 +71,124 @@ export default function HouseDesignsPage() {
       {/* Header */}
       <section className="bg-earth-800 text-white py-16 md:py-24">
         <div className="container-custom">
-          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">House Designs</h1>
+          <h1 className="text-4xl md:text-5xl font-display font-bold mb-4">Standard Model Library</h1>
           <p className="text-earth-200 text-lg max-w-2xl">
-            Browse our collection of thoughtfully designed homes, from cozy compact living 
-            to luxurious family villas. Find your perfect match.
+            Choose from our curated collection of prefabricated home models. Each model comes with a 
+            complete BOM (Bill of Materials) package — transparent pricing from blueprint to keys.
           </p>
         </div>
       </section>
 
-      {/* Filters */}
-      <section className="bg-white border-b border-earth-200 sticky top-16 md:top-20 z-40">
-        <div className="container-custom py-4">
-          <div className="flex flex-col lg:flex-row gap-6">
-            {/* Category Tabs */}
-            <div className="flex gap-2 overflow-x-auto pb-2 lg:pb-0">
-              {categories.map((cat) => (
-                <button
-                  key={cat.id}
-                  className={`px-4 py-2 rounded-full text-sm font-medium whitespace-nowrap transition-colors ${
-                    cat.id === "all"
-                      ? "bg-primary text-white"
-                      : "bg-earth-100 text-earth-700 hover:bg-earth-200"
-                  }`}
-                >
-                  {cat.name} ({cat.count})
-                </button>
-              ))}
+      {/* Value Proposition */}
+      <section className="bg-primary/10 py-8">
+        <div className="container-custom">
+          <div className="flex flex-wrap justify-center gap-8 md:gap-16 text-center">
+            <div className="flex items-center gap-2">
+              <Package className="h-5 w-5 text-primary" />
+              <span className="font-medium">100% BOM Transparent</span>
             </div>
-
-            {/* Filter Dropdowns */}
-            <div className="flex flex-wrap gap-3 lg:ml-auto">
-              {Object.entries(filters).map(([key, values]) => (
-                <select
-                  key={key}
-                  className="px-4 py-2 bg-earth-50 border border-earth-200 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-primary"
-                >
-                  {values.map((val) => (
-                    <option key={val} value={val}>
-                      {val.charAt(0).toUpperCase() + val.slice(1)}
-                    </option>
-                  ))}
-                </select>
-              ))}
-              <button className="p-2 bg-earth-100 rounded-lg hover:bg-earth-200 transition-colors lg:hidden">
-                <Filter className="h-5 w-5" />
-              </button>
+            <div className="flex items-center gap-2">
+              <Hammer className="h-5 w-5 text-primary" />
+              <span className="font-medium">Turnkey Solutions</span>
             </div>
-
-            {/* View Toggle */}
-            <div className="hidden lg:flex items-center gap-2 bg-earth-100 rounded-lg p-1">
-              <button className="p-2 bg-white rounded-md shadow-sm">
-                <Grid className="h-5 w-5" />
-              </button>
-              <button className="p-2 hover:bg-white rounded-md transition-colors">
-                <List className="h-5 w-5" />
-              </button>
+            <div className="flex items-center gap-2">
+              <Clock className="h-5 w-5 text-primary" />
+              <span className="font-medium">Guaranteed Timelines</span>
             </div>
           </div>
         </div>
       </section>
 
-      {/* House Grid */}
+      {/* House Models */}
       <section className="section-padding bg-earth-50">
         <div className="container-custom">
-          <div className="flex items-center justify-between mb-8">
-            <p className="text-earth-600">
-              Showing <span className="font-semibold">{houses.length}</span> designs
-            </p>
-            <select className="px-4 py-2 bg-white border border-earth-200 rounded-lg text-sm">
-              <option>Sort by: Featured</option>
-              <option>Price: Low to High</option>
-              <option>Price: High to Low</option>
-              <option>Size: Small to Large</option>
-              <option>Size: Large to Small</option>
-            </select>
-          </div>
+          <div className="space-y-16">
+            {houseModels.map((house, index) => (
+              <div 
+                key={house.id} 
+                className={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
+                  index % 2 === 1 ? 'lg:flex-row-reverse' : ''
+                }`}
+              >
+                {/* Image */}
+                <div className={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+                  <div className="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+                    <Image
+                      src={house.image}
+                      alt={house.name}
+                      fill
+                      className="object-cover"
+                    />
+                    <div className="absolute top-4 left-4">
+                      <span className="px-3 py-1 bg-primary text-white text-sm font-medium rounded-full">
+                        {house.badge}
+                      </span>
+                    </div>
+                  </div>
+                </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 xl:grid-cols-4 gap-8">
-            {houses.map((house) => (
-              <HouseCard key={house.id} {...house} />
+                {/* Content */}
+                <div className={`${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+                  <h2 className="text-2xl md:text-3xl font-display font-bold text-earth-800 mb-4">
+                    {house.name}
+                  </h2>
+                  <p className="text-earth-600 mb-6">{house.description}</p>
+
+                  {/* Quick Stats */}
+                  <div className="grid grid-cols-3 gap-4 mb-6">
+                    <div className="text-center p-3 bg-white rounded-xl shadow-sm">
+                      <Bed className="h-6 w-6 mx-auto text-primary mb-1" />
+                      <div className="text-xl font-bold text-earth-800">{house.bedrooms}</div>
+                      <div className="text-xs text-earth-500">Bedrooms</div>
+                    </div>
+                    <div className="text-center p-3 bg-white rounded-xl shadow-sm">
+                      <Bath className="h-6 w-6 mx-auto text-primary mb-1" />
+                      <div className="text-xl font-bold text-earth-800">{house.bathrooms}</div>
+                      <div className="text-xs text-earth-500">Bathrooms</div>
+                    </div>
+                    <div className="text-center p-3 bg-white rounded-xl shadow-sm">
+                      <Maximize className="h-6 w-6 mx-auto text-primary mb-1" />
+                      <div className="text-xl font-bold text-earth-800">{house.area}m²</div>
+                      <div className="text-xs text-earth-500">Area</div>
+                    </div>
+                  </div>
+
+                  {/* Specs */}
+                  <div className="grid grid-cols-2 gap-3 mb-6">
+                    <div className="flex items-center gap-2 text-sm">
+                      <Check className="h-4 w-4 text-sage-600" />
+                      <span className="text-earth-600">{house.structure}</span>
+                    </div>
+                    <div className="flex items-center gap-2 text-sm">
+                      <Clock className="h-4 w-4 text-sage-600" />
+                      <span className="text-earth-600">{house.timeline}</span>
+                    </div>
+                  </div>
+
+                  {/* Features */}
+                  <ul className="space-y-2 mb-6">
+                    {house.features.map((feature) => (
+                      <li key={feature} className="flex items-center gap-2 text-sm text-earth-600">
+                        <Check className="h-4 w-4 text-primary flex-shrink-0" />
+                        {feature}
+                      </li>
+                    ))}
+                  </ul>
+
+                  {/* Price & CTA */}
+                  <div className="flex flex-wrap items-center gap-4">
+                    <div className="text-2xl font-bold text-primary">{house.price}</div>
+                    <Link 
+                      href="/configurator" 
+                      className="btn-primary inline-flex items-center gap-2"
+                    >
+                      Configure This Model
+                      <ArrowRight className="h-4 w-4" />
+                    </Link>
+                  </div>
+                </div>
+              </div>
             ))}
-          </div>
-
-          {/* Load More */}
-          <div className="text-center mt-12">
-            <button className="btn-outline">
-              Load More Designs
-            </button>
           </div>
         </div>
       </section>
@@ -197,19 +198,19 @@ export default function HouseDesignsPage() {
         <div className="container-custom">
           <div className="bg-gradient-to-r from-earth-700 to-sage-800 rounded-3xl p-8 md:p-16 text-white text-center">
             <h2 className="text-3xl md:text-4xl font-display font-bold mb-4">
-              Can't Find What You're Looking For?
+              Can't Find the Perfect Model?
             </h2>
             <p className="text-earth-200 mb-8 max-w-2xl mx-auto">
-              Use our AI-powered configurator to design your custom home, or contact 
-              our team for personalized recommendations.
+              Use our AI-powered configurator to customize any model to your needs, or contact 
+              our team for personalized design consultation.
             </p>
             <div className="flex flex-wrap justify-center gap-4">
-              <a href="/configurator" className="bg-primary hover:bg-primary/90 text-white font-medium px-8 py-3 rounded-lg transition-colors">
-                Start Custom Design
-              </a>
-              <a href="/about#contact" className="bg-white/10 hover:bg-white/20 text-white font-medium px-8 py-3 rounded-lg transition-colors">
+              <Link href="/configurator" className="bg-primary hover:bg-primary/90 text-white font-medium px-8 py-3 rounded-lg transition-colors">
+                Start Custom Configuration
+              </Link>
+              <Link href="/about#contact" className="bg-white/10 hover:bg-white/20 text-white font-medium px-8 py-3 rounded-lg transition-colors">
                 Contact Us
-              </a>
+              </Link>
             </div>
           </div>
         </div>

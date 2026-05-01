@@ -23,7 +23,9 @@ export default function Header() {
         <div className="flex items-center justify-between h-16 md:h-20">
           {/* Logo */}
           <Link href="/" className="flex items-center gap-2">
-            <img src="/logo.png" alt="Standard House" className="h-10 w-auto" />
+            <div className="w-10 h-10 bg-gradient-to-br from-earth-500 to-earth-700 rounded-lg flex items-center justify-center">
+              <Home className="w-6 h-6 text-white" />
+            </div>
             <div>
               <span className="text-xl font-display font-bold text-earth-800">Standard</span>
               <span className="text-xl font-display font-bold text-primary"> House</span>
