@@ -21,7 +21,7 @@ export default function AboutPage() {
         <div className="absolute inset-0 opacity-20">
           <Image
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80"
-            alt="African architecture"
+            alt="Modern prefabricated home"
             fill
             className="object-cover"
           />
@@ -29,12 +29,12 @@ export default function AboutPage() {
         <div className="container-custom relative z-10">
           <div className="max-w-3xl">
             <h1 className="text-4xl md:text-5xl font-display font-bold mb-6">
-              Building Dreams,<br />
-              <span className="text-primary">Creating Homes</span>
+              Redefining Construction<br />
+              <span className="text-primary">in East Africa</span>
             </h1>
             <p className="text-lg text-earth-200">
-              For over 15 years, Standard House has been transforming visions into reality. 
-              We combine African heritage with modern innovation to create homes that inspire.
+              Standard House brings prefabricated technology and PropTech innovation to Uganda, 
+              making quality housing accessible and affordable.
             </p>
           </div>
         </div>
@@ -46,20 +46,20 @@ export default function AboutPage() {
           <div className="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
             <div>
               <span className="text-primary font-medium">Our Story</span>
-              <h2 className="heading-2 mt-2 mb-6">A Legacy of Excellence</h2>
+              <h2 className="heading-2 mt-2 mb-6">From China to Uganda</h2>
               <div className="space-y-4 text-body">
                 <p>
-                  Founded in 2009, Standard House began with a simple mission: to provide 
-                  quality, affordable housing that celebrates African architectural heritage.
+                  Founded in China in 2012, Standard House began as a small team of passionate architects 
+                  dedicated to innovation in prefabricated construction technology.
                 </p>
                 <p>
-                  What started as a small team of passionate architects and builders has 
-                  grown into one of Ethiopia's most trusted construction companies.
+                  With over a decade of experience in the construction industry, we have perfected 
+                  the art of standardized modular building — combining efficiency, quality, and affordability.
                 </p>
                 <p>
-                  Today, we've completed over 500 projects across 12 African countries, 
-                  from cozy family homes to luxurious villas, always maintaining our 
-                  commitment to quality, sustainability, and client satisfaction.
+                  Today, we bring this expertise to Uganda, introducing our "blueprint + materials + construction" 
+                  one-stop custom housing model to East Africa. We believe everyone deserves a home built with 
+                  precision, transparency, and care.
                 </p>
               </div>
             </div>
@@ -72,16 +72,45 @@ export default function AboutPage() {
                 className="rounded-2xl shadow-xl"
               />
               <div className="absolute -bottom-6 -left-6 bg-white rounded-xl shadow-lg p-6">
-                <div className="text-4xl font-bold text-primary mb-1">15+</div>
-                <div className="text-earth-600">Years of Excellence</div>
+                <div className="text-4xl font-bold text-primary mb-1">12+</div>
+                <div className="text-earth-600">Years of Experience</div>
               </div>
             </div>
           </div>
         </div>
       </section>
 
-      {/* Values */}
+      {/* Vision & Mission */}
       <section className="section-padding bg-earth-50">
+        <div className="container-custom">
+          <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+            <div className="bg-white rounded-2xl shadow-md p-8">
+              <h3 className="text-2xl font-display font-bold text-earth-800 mb-4">Our Vision</h3>
+              <p className="text-earth-600 text-lg italic mb-4">
+                "居者有其屋，让建筑回归造福于人的居住本质"
+              </p>
+              <p className="text-earth-600">
+                Everyone deserves a home. We believe construction should serve humanity's fundamental 
+                need for shelter — simple, reliable, and accessible like purchasing an industrial standard product.
+              </p>
+            </div>
+            <div className="bg-white rounded-2xl shadow-md p-8">
+              <h3 className="text-2xl font-display font-bold text-earth-800 mb-4">Our Mission</h3>
+              <p className="text-earth-600 text-lg italic mb-4">
+                "重新定义乌干达的建造方式"
+              </p>
+              <p className="text-earth-600">
+                To redefine how Uganda builds — making home construction as simple and reliable 
+                as purchasing industrial standard products. Transparent pricing, guaranteed timelines, 
+                zero surprises.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      {/* Values */}
+      <section className="section-padding">
         <div className="container-custom">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <h2 className="heading-2 mb-4">Our Core Values</h2>
@@ -94,8 +123,8 @@ export default function AboutPage() {
             {[
               {
                 icon: Heart,
-                title: "Client-Centric",
-                description: "Your vision is our priority. We listen, adapt, and deliver beyond expectations."
+                title: "Transparency",
+                description: "100% transparent pricing. Every bolt, every beam accounted for. No hidden costs."
               },
               {
                 icon: Award,
@@ -104,8 +133,8 @@ export default function AboutPage() {
               },
               {
                 icon: Globe,
-                title: "Sustainability",
-                description: "Eco-friendly practices and designs that respect our environment for future generations."
+                title: "Innovation",
+                description: "PropTech solutions that simplify construction and empower clients with information."
               }
             ].map((value) => {
               const Icon = value.icon;
@@ -123,53 +152,17 @@ export default function AboutPage() {
         </div>
       </section>
 
-      {/* Team Section */}
-      <section id="team" className="section-padding">
-        <div className="container-custom">
-          <div className="text-center max-w-3xl mx-auto mb-16">
-            <span className="text-primary font-medium">Our Team</span>
-            <h2 className="heading-2 mt-2 mb-4">Meet the Experts</h2>
-            <p className="text-body">
-              A dedicated team of architects, engineers, and project managers working together 
-              to bring your vision to life.
-            </p>
-          </div>
-
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
-            {[
-              { name: "Dr. Samuel Mengistu", role: "Founder & CEO", image: "https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=400&q=80" },
-              { name: "Tigist Haile", role: "Head Architect", image: "https://images.unsplash.com/photo-1573496359142-b8d87734a5a2?w=400&q=80" },
-              { name: "Abraham Kebede", role: "Project Director", image: "https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?w=400&q=80" },
-              { name: "Hiwot Tadesse", role: "Design Lead", image: "https://images.unsplash.com/photo-1580489944761-15a19d654956?w=400&q=80" },
-            ].map((member) => (
-              <div key={member.name} className="text-center">
-                <div className="relative w-48 h-48 mx-auto mb-4 rounded-full overflow-hidden">
-                  <Image
-                    src={member.image}
-                    alt={member.name}
-                    fill
-                    className="object-cover"
-                  />
-                </div>
-                <h3 className="text-lg font-semibold text-earth-800">{member.name}</h3>
-                <p className="text-earth-600">{member.role}</p>
-              </div>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Partners Section */}
       <section id="partners" className="section-padding bg-sage-800 text-white">
         <div className="container-custom">
           <div className="text-center max-w-3xl mx-auto mb-12">
             <h2 className="text-3xl font-display font-bold mb-4">Our Partners</h2>
             <p className="text-sage-200">
-              We collaborate with leading organizations to deliver exceptional value.
+              We collaborate with leading organizations across Uganda to deliver exceptional value.
             </p>
           </div>
           <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
-            {["National Bank", "Ethio Telecom", "CBE", "Awash Bank"].map((partner) => (
+            {["Stanbic Bank Uganda", "DFCU Bank", "Uganda Revenue Authority", "NEMA Uganda"].map((partner) => (
               <div key={partner} className="bg-white/10 rounded-xl p-6 text-center backdrop-blur-sm">
                 <div className="h-16 bg-white/20 rounded-lg mb-3" />
                 <span className="font-medium">{partner}</span>
@@ -200,8 +193,8 @@ export default function AboutPage() {
                   <div>
                     <h3 className="font-semibold text-earth-800 mb-1">Visit Our Office</h3>
                     <p className="text-earth-600">
-                      Bole Road, Atlas Building, 5th Floor<br />
-                      Addis Ababa, Ethiopia
+                      6th Street, Industrial Area<br />
+                      Kampala, Uganda
                     </p>
                   </div>
                 </div>
@@ -211,9 +204,8 @@ export default function AboutPage() {
                     <Phone className="h-6 w-6 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-semibold text-earth-800 mb-1">Call Us</h3>
-                    <p className="text-earth-600">+251 911 234 567</p>
-                    <p className="text-earth-600">+251 11 123 4567</p>
+                    <h3 className="font-semibold text-earth-800 mb-1">Call / WhatsApp</h3>
+                    <p className="text-earth-600">+256 766 969 867</p>
                   </div>
                 </div>
 
@@ -223,8 +215,7 @@ export default function AboutPage() {
                   </div>
                   <div>
                     <h3 className="font-semibold text-earth-800 mb-1">Email Us</h3>
-                    <p className="text-earth-600">hello@standard-house.com</p>
-                    <p className="text-earth-600">sales@standard-house.com</p>
+                    <p className="text-earth-600">standradhouseug@standard-house.com</p>
                   </div>
                 </div>
 
@@ -249,34 +240,32 @@ export default function AboutPage() {
                   <label className="block text-sm font-medium text-earth-700 mb-2">Name</label>
                   <input
                     type="text"
-                    className="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="Your name"
+                    className="w-full px-4 py-3 rounded-lg border border-earth-200 focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="Your full name"
                   />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-earth-700 mb-2">Email</label>
                   <input
                     type="email"
-                    className="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="you@example.com"
+                    className="w-full px-4 py-3 rounded-lg border border-earth-200 focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="your.email@example.com"
                   />
                 </div>
                 <div>
-                  <label className="block text-sm font-medium text-earth-700 mb-2">Subject</label>
-                  <select className="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
-                    <option>General Inquiry</option>
-                    <option>House Design Consultation</option>
-                    <option>Investment Inquiry</option>
-                    <option>Partnership</option>
-                    <option>Other</option>
-                  </select>
+                  <label className="block text-sm font-medium text-earth-700 mb-2">Phone</label>
+                  <input
+                    type="tel"
+                    className="w-full px-4 py-3 rounded-lg border border-earth-200 focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="+256 XXX XXX XXX"
+                  />
                 </div>
                 <div>
                   <label className="block text-sm font-medium text-earth-700 mb-2">Message</label>
                   <textarea
                     rows={4}
-                    className="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
-                    placeholder="How can we help you?"
+                    className="w-full px-4 py-3 rounded-lg border border-earth-200 focus:ring-2 focus:ring-primary focus:border-transparent"
+                    placeholder="Tell us about your project..."
                   />
                 </div>
                 <button type="submit" className="btn-primary w-full">

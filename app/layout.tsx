@@ -18,10 +18,10 @@ const playfair = Playfair_Display({
 });
 
 export const metadata: Metadata = {
-  title: "Standard House | Premium African Home Designs",
+  title: "Standard House | Prefabricated Homes in Uganda",
   description:
-    "Discover beautifully crafted house designs inspired by African architecture. Custom home building, investment opportunities, and sustainable living solutions.",
-  keywords: "house design, African architecture, home plans, custom homes, Ethiopia real estate",
+    "Standard House is a PropTech company offering prefabricated homes in Uganda with transparent pricing and guaranteed timelines. Choose from Model A/B/C or customize your dream home.",
+  keywords: "prefabricated homes Uganda, modular housing, PropTech Africa, prefabricated houses Kampala, steel structure homes Uganda, custom home Uganda",
 };
 
 export default function RootLayout({

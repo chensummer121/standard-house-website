@@ -47,21 +47,20 @@ export default function Footer() {
               </div>
             </Link>
             <p className="text-earth-300 mb-6 max-w-md">
-              Building dreams across Africa with sustainable, beautiful, and affordable housing solutions. 
-              Your vision, our expertise.
+              PropTech housing innovator in Uganda. Prefabricated homes with transparent pricing and guaranteed timelines.
             </p>
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-earth-300">
                 <MapPin className="h-5 w-5 text-primary" />
-                <span>Addis Ababa, Ethiopia</span>
+                <span>6th Street, Industrial Area, Kampala, Uganda</span>
               </div>
               <div className="flex items-center gap-3 text-earth-300">
                 <Phone className="h-5 w-5 text-primary" />
-                <span>+251 911 234 567</span>
+                <span>+256 766 969 867</span>
               </div>
               <div className="flex items-center gap-3 text-earth-300">
                 <Mail className="h-5 w-5 text-primary" />
-                <span>hello@standard-house.com</span>
+                <span>standradhouseug@standard-house.com</span>
               </div>
             </div>
           </div>

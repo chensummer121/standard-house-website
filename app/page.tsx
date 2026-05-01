@@ -2,89 +2,78 @@ import Link from "next/link";
 import Image from "next/image";
 import { 
   ArrowRight, 
-  Users, 
-  Hammer, 
-  PiggyBank, 
   Home,
+  Package,
+  Clock,
   Building2,
   TrendingUp,
-  Shield,
-  Leaf
+  Shield
 } from "lucide-react";
 import HouseCard from "@/components/HouseCard";
 import ValueCard from "@/components/ValueCard";
 import { CozeChatButton } from "@/components/CozeChatWidget";
 
-// Sample house data
+// Product Models - Model A/B/C
 const featuredHouses = [
   {
     id: "1",
-    name: "Savanna Villa",
+    name: "Model A",
     image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
-    bedrooms: 4,
-    bathrooms: 3,
-    area: 280,
-    badge: "Popular",
-    price: "ETB 4.5M",
+    bedrooms: 2,
+    bathrooms: 1,
+    area: 72,
+    badge: "Economy",
+    price: "UGX 200M",
+    description: "Prefabricated steel structure, 65-80㎡"
   },
   {
     id: "2",
-    name: "Acacia Family Home",
+    name: "Model B",
     image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
     bedrooms: 3,
     bathrooms: 2,
-    area: 180,
-    price: "ETB 2.8M",
+    area: 135,
+    badge: "Popular",
+    price: "UGX 450M",
+    description: "Standard BOM package, 45-day delivery"
   },
   {
     id: "3",
-    name: "Savannah Penthouse",
+    name: "Model C",
     image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
-    bedrooms: 5,
-    bathrooms: 4,
-    area: 420,
+    bedrooms: 4,
+    bathrooms: 3,
+    area: 300,
     badge: "Premium",
-    price: "ETB 7.2M",
-  },
-  {
-    id: "4",
-    name: "Marula Compact",
-    image: "https://images.unsplash.com/photo-1600607687939-ce8a6c25118c?w=800&q=80",
-    bedrooms: 2,
-    bathrooms: 1,
-    area: 95,
-    price: "ETB 1.5M",
+    price: "Custom Quote",
+    description: "Modular customization, 200-400㎡"
   },
 ];
 
+// Core Values - 3 pillars of PropTech
 const values = [
   {
-    icon: Leaf,
-    title: "Sustainable Design",
-    description: "Eco-friendly materials and energy-efficient designs that respect our environment while reducing your costs.",
+    icon: Home,
+    title: "Standardized Floor Plans",
+    description: "Our curated catalog of pre-designed homes lets you see your future home before breaking ground.",
   },
   {
-    icon: Shield,
-    title: "Quality Assurance",
-    description: "Every home built to international standards with premium materials and expert craftsmanship.",
+    icon: Package,
+    title: "Precise Material Package",
+    description: "Every bolt, every beam accounted for. 100% transparent pricing with zero budget surprises.",
   },
   {
-    icon: TrendingUp,
-    title: "Investment Value",
-    description: "Properties designed to appreciate, with locations chosen for growth and rental potential.",
-  },
-  {
-    icon: Users,
-    title: "Community First",
-    description: "Building not just houses, but thriving communities with shared spaces and modern amenities.",
+    icon: Clock,
+    title: "Guaranteed Timeline",
+    description: "Modular construction management ensures on-time delivery. No endless delays.",
   },
 ];
 
 const roleButtons = [
   { role: "Home Buyer", description: "Find your dream home", icon: Home, href: "/house-designs" },
   { role: "Investor", description: "Explore ROI opportunities", icon: TrendingUp, href: "/investment" },
-  { role: "Builder", description: "Start your project", icon: Hammer, href: "/configurator" },
-  { role: "Partner", description: "Join our network", icon: Building2, href: "/about#partners" },
+  { role: "Builder", description: "Start your project", icon: Building2, href: "/configurator" },
+  { role: "Partner", description: "Join our network", icon: Shield, href: "/about#partners" },
 ];
 
 export default function HomePage() {
@@ -96,7 +85,7 @@ export default function HomePage() {
         <div className="absolute inset-0 z-0">
           <Image
             src="https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=1920&q=80"
-            alt="Modern African home"
+            alt="Modern prefabricated home in Uganda"
             fill
             className="object-cover"
             priority
@@ -108,11 +97,10 @@ export default function HomePage() {
         <div className="container-custom relative z-10 py-20">
           <div className="max-w-2xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl font-display font-bold text-white mb-6 animate-fade-in">
-              Build Your <span className="text-primary">African Dream</span> Home
+              Build with Confidence, <span className="text-primary">Build with Standards</span>
             </h1>
             <p className="text-lg md:text-xl text-earth-100 mb-8 animate-slide-up">
-              Discover beautifully crafted homes inspired by African heritage. 
-              From concept to keys, we bring your vision to life.
+              From blueprint to keys — prefabricated homes with transparent pricing and guaranteed timelines.
             </p>
 
             {/* I want to... buttons */}
@@ -181,14 +169,13 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="text-center max-w-3xl mx-auto mb-16">
             <span className="text-primary font-medium">Why Choose Us</span>
-            <h2 className="heading-2 mt-2 mb-4">Built on Excellence</h2>
+            <h2 className="heading-2 mt-2 mb-4">PropTech Innovation in Uganda</h2>
             <p className="text-body">
-              We combine traditional African architectural beauty with modern construction 
-              techniques to deliver homes that stand the test of time.
+              We combine prefabricated technology with transparent pricing to redefine how Africa builds.
             </p>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {values.map((value) => (
               <ValueCard key={value.title} {...value} />
             ))}
@@ -201,10 +188,10 @@ export default function HomePage() {
         <div className="container-custom">
           <div className="flex flex-col md:flex-row md:items-end md:justify-between gap-4 mb-12">
             <div>
-              <span className="text-primary font-medium">House Collection</span>
+              <span className="text-primary font-medium">Product Models</span>
               <h2 className="heading-2 mt-2">Featured Designs</h2>
               <p className="text-body mt-2 max-w-xl">
-                Explore our most popular home designs, each crafted with care and attention to detail.
+                Choose from our standardized catalog. See exactly what you get — no surprises.
               </p>
             </div>
             <Link
@@ -216,7 +203,7 @@ export default function HomePage() {
             </Link>
           </div>
 
-          <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+          <div className="grid grid-cols-1 md:grid-cols-3 gap-8">
             {featuredHouses.map((house) => (
               <HouseCard key={house.id} {...house} />
             ))}
