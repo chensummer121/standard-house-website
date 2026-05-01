@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Home, Mail, Phone, MapPin, Instagram, Facebook, Twitter, Linkedin } from "lucide-react";
+import { Mail, MapPin, MessageCircle, Instagram, Facebook, Twitter, Linkedin } from "lucide-react";
 
 const footerLinks = {
   explore: [
@@ -23,9 +23,9 @@ const footerLinks = {
 };
 
 const socialLinks = [
+  { name: "WhatsApp", icon: MessageCircle, href: "https://wa.me/256766969867" },
   { name: "Instagram", icon: Instagram, href: "#" },
   { name: "Facebook", icon: Facebook, href: "#" },
-  { name: "Twitter", icon: Twitter, href: "#" },
   { name: "LinkedIn", icon: Linkedin, href: "#" },
 ];
 
@@ -39,7 +39,7 @@ export default function Footer() {
           <div className="lg:col-span-2">
             <Link href="/" className="flex items-center gap-2 mb-6">
               <div className="w-10 h-10 bg-gradient-to-br from-primary to-earth-600 rounded-lg flex items-center justify-center">
-                <Home className="w-6 h-6 text-white" />
+                <img src="/logo.png" alt="SH" className="h-8 w-auto" />
               </div>
               <div>
                 <span className="text-xl font-display font-bold text-white">Standard</span>
@@ -53,16 +53,16 @@ export default function Footer() {
             <div className="space-y-3">
               <div className="flex items-center gap-3 text-earth-300">
                 <MapPin className="h-5 w-5 text-primary" />
-                <span>Addis Ababa, Ethiopia</span>
+                <span>6th Street, Industrial Area, Kampala, Uganda</span>
               </div>
-              <div className="flex items-center gap-3 text-earth-300">
-                <Phone className="h-5 w-5 text-primary" />
-                <span>+251 911 234 567</span>
-              </div>
-              <div className="flex items-center gap-3 text-earth-300">
+              <a href="https://wa.me/256766969867" target="_blank" rel="noopener noreferrer" className="flex items-center gap-3 text-earth-300 hover:text-primary transition-colors">
+                <MessageCircle className="h-5 w-5 text-primary" />
+                <span>+256 766 969 867 (WhatsApp)</span>
+              </a>
+              <a href="mailto:standradhouseug@standard-house.com" className="flex items-center gap-3 text-earth-300 hover:text-primary transition-colors">
                 <Mail className="h-5 w-5 text-primary" />
-                <span>hello@standard-house.com</span>
-              </div>
+                <span>standradhouseug@standard-house.com</span>
+              </a>
             </div>
           </div>
 
