@@ -13,6 +13,13 @@ export default function CozeChatWidget() {
   const sdkLoadedRef = useRef(false);
   const initRef = useRef(false);
 
+  // 监听首页AI Consultant按钮的事件
+  useEffect(() => {
+    const handleOpen = () => setIsOpen(true);
+    window.addEventListener("openCozeChat", handleOpen);
+    return () => window.removeEventListener("openCozeChat", handleOpen);
+  }, []);
+
   // 加载SDK
   useEffect(() => {
     if (sdkLoadedRef.current) return;
