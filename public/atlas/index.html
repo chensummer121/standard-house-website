@@ -114,7 +114,7 @@
                                 <button onclick="setFilter('region', '东非')" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300">东非</button>
                                 <button onclick="setFilter('region', '西非')" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300">西非</button>
                                 <button onclick="setFilter('region', '北非')" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300">北非</button>
-                                <button onclick="setFilter('region', '南非')" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300">南非</button>
+                                <button onclick="setFilter('region', '南部非洲')" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300">南部非洲</button>
                                 <button onclick="setFilter('region', '中非')" class="filter-btn px-3 py-1 text-sm rounded-full bg-gray-200 text-gray-700 hover:bg-gray-300">中非</button>
                             </div>
                         </div>
@@ -362,16 +362,22 @@
     function applyFilters() {
         filteredPlants = DATA.plants.filter(function(plant) {
             // Region filter
-            if (currentFilters.region !== '全部' && plant.region !== currentFilters.region) {
-                return false;
+            if (currentFilters.region !== '全部') {
+                var pr = (plant.region || '').trim();
+                var fr = currentFilters.region.trim();
+                if (pr !== fr && !pr.includes(fr) && !fr.includes(pr)) return false;
             }
             // Type filter
-            if (currentFilters.type !== '全部' && plant.type !== currentFilters.type) {
-                return false;
+            if (currentFilters.type !== '全部') {
+                var pt = (plant.type || '').trim();
+                var ft = currentFilters.type.trim();
+                if (pt !== ft && !pt.includes(ft) && !ft.includes(pt)) return false;
             }
             // Status filter
-            if (currentFilters.status !== '全部' && plant.status !== currentFilters.status) {
-                return false;
+            if (currentFilters.status !== '全部') {
+                var ps = (plant.status || '').trim();
+                var fs = currentFilters.status.trim();
+                if (ps !== fs && !ps.includes(fs) && !fs.includes(ps)) return false;
             }
             // Search filter
             if (currentFilters.search) {
@@ -539,16 +545,14 @@
 
     function flyToRegion(region) {
         var bounds = {
-            '东非': [[-12, 25], [8, 52]],
-            '西非': [[0, -20], [20, 15]],
-            '北非': [[20, -20], [38, 35]],
-            '南非': [[-35, 10], [-5, 42]],
-            '中非': [[-10, 10], [10, 30]]
+            '东非': [[15, 25], [-12, 50]],
+            '西非': [[15, -20], [4, 15]],
+            '北非': [[37, -10], [22, 35]],
+            '南部非洲': [[0, 10], [-35, 40]],
+            '中非': [[10, 10], [-5, 30]]
         };
-        
-        if (bounds[region]) {
-            map.fitBounds(bounds[region]);
-        }
+        var b = bounds[region] || [[37, -20], [-35, 50]];
+        map.flyToBounds(b, { padding: [50, 50], duration: 1.5 });
     }
 
     // ==================== CHART FUNCTIONS ====================
