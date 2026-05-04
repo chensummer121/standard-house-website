@@ -3,7 +3,7 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>非洲水泥工业数据地图 v3 | Africa Cement Industry Data Map</title>
+    <title>非洲水泥工业数据地图 v4 | Africa Cement Industry Data Map</title>
     
     <!-- Tailwind CSS -->
     <script src="https://cdn.tailwindcss.com"></script>
@@ -592,7 +592,7 @@
                 </div>
                 <div>
                     <h1 class="text-lg font-bold text-gray-900">非洲水泥工业数据地图</h1>
-                    <p class="text-xs text-gray-500">Africa Cement Industry Data Map v3</p>
+                    <p class="text-xs text-gray-500">Africa Cement Industry Data Map v4</p>
                 </div>
             </div>
             
@@ -635,7 +635,7 @@
         <section class="bg-gradient-to-br from-blue-600 via-blue-700 to-blue-900 text-white py-16">
             <div class="max-w-7xl mx-auto px-4">
                 <div class="max-w-3xl">
-                    <h2 class="text-4xl font-bold mb-4">非洲水泥工业数据地图 v3</h2>
+                    <h2 class="text-4xl font-bold mb-4">非洲水泥工业数据地图 v4</h2>
                     <p class="text-blue-100 text-lg mb-8">涵盖53个国家、357家工厂的完整非洲水泥行业数据库，包含产能、需求、价格、贸易等核心指标</p>
                     <div class="flex flex-wrap gap-4">
                         <div class="bg-white/20 backdrop-blur px-4 py-2 rounded-lg">
@@ -905,7 +905,7 @@
                     </div>
                 </div>
                 <div class="border-t border-gray-800 mt-8 pt-8 text-center text-gray-500 text-sm">
-                    <p>© 2025 非洲水泥工业数据地图 v3 | Africa Cement Industry Data Map</p>
+                    <p>© 2025 非洲水泥工业数据地图 v4 | Africa Cement Industry Data Map</p>
                 </div>
             </div>
         </footer>
@@ -1213,26 +1213,30 @@
         markers.forEach(({ marker, plant }) => {
             let visible = true;
             
-            // Region filter (exact match after normalization)
+            // Region filter - 包含匹配，处理可能的空格和变体
             if (currentFilters.region !== 'all') {
                 const pr = (plant.region || '').trim();
-                if (pr !== currentFilters.region && !pr.includes(currentFilters.region)) {
+                const rf = currentFilters.region.trim();
+                // 使用双向包含匹配，确保"东非"能匹配"东部非洲"等
+                if (pr !== rf && !pr.includes(rf) && !rf.includes(pr)) {
                     visible = false;
                 }
             }
             
-            // Type filter (match or partial match)
+            // Type filter - 包含匹配
             if (currentFilters.type !== 'all') {
                 const pt = (plant.type || '').trim();
-                if (pt !== currentFilters.type && !pt.includes(currentFilters.type) && !currentFilters.type.includes(pt)) {
+                const tf = currentFilters.type.trim();
+                if (pt !== tf && !pt.includes(tf) && !tf.includes(pt)) {
                     visible = false;
                 }
             }
             
-            // Status filter (match or partial match)
+            // Status filter - 包含匹配
             if (currentFilters.status !== 'all') {
                 const ps = (plant.status || '').trim();
-                if (ps !== currentFilters.status && !ps.includes(currentFilters.status) && !currentFilters.status.includes(ps)) {
+                const sf = currentFilters.status.trim();
+                if (ps !== sf && !ps.includes(sf) && !sf.includes(ps)) {
                     visible = false;
                 }
             }
@@ -1240,7 +1244,7 @@
             // Search filter
             if (searchQuery) {
                 const query = searchQuery.toLowerCase();
-                const searchable = `${plant.name} ${plant.country} ${plant.owner} ${plant.province}`.toLowerCase();
+                const searchable = `${plant.name} ${plant.country} ${plant.owner} ${plant.province} ${plant.notes || ''}`.toLowerCase();
                 if (!searchable.includes(query)) {
                     visible = false;
                 }
@@ -1273,7 +1277,7 @@
     }
     
     function updateVisibleCount() {
-        // 从MarkerClusterGroup获取可见标记数量
+        // 从MarkerClusterGroup获取可见标记数量（实际显示的）
         let visibleCount = 0;
         if (markerClusterGroup) {
             markerClusterGroup.eachLayer(function(layer) {
@@ -1285,22 +1289,52 @@
             });
         }
         
-        // 考虑筛选条件
+        // 使用与 filterMarkers() 一致的筛选逻辑
         const filteredCount = markers.filter(({ plant }) => {
             let visible = true;
-            if (currentFilters.region !== 'all' && plant.region !== currentFilters.region) visible = false;
-            if (currentFilters.type !== 'all' && plant.type !== currentFilters.type) visible = false;
-            if (currentFilters.status !== 'all' && plant.status !== currentFilters.status) visible = false;
+            
+            // Region filter - 使用包含匹配以处理空格等问题
+            if (currentFilters.region !== 'all') {
+                const pr = (plant.region || '').trim();
+                if (pr !== currentFilters.region && !pr.includes(currentFilters.region) && !currentFilters.region.includes(pr)) {
+                    visible = false;
+                }
+            }
+            
+            // Type filter - 包含匹配
+            if (currentFilters.type !== 'all') {
+                const pt = (plant.type || '').trim();
+                if (pt !== currentFilters.type && !pt.includes(currentFilters.type) && !currentFilters.type.includes(pt)) {
+                    visible = false;
+                }
+            }
+            
+            // Status filter - 包含匹配
+            if (currentFilters.status !== 'all') {
+                const ps = (plant.status || '').trim();
+                if (ps !== currentFilters.status && !ps.includes(currentFilters.status) && !currentFilters.status.includes(ps)) {
+                    visible = false;
+                }
+            }
+            
+            // Search filter
             if (searchQuery) {
                 const query = searchQuery.toLowerCase();
                 const searchable = `${plant.name} ${plant.country} ${plant.owner} ${plant.province}`.toLowerCase();
                 if (!searchable.includes(query)) visible = false;
             }
+            
             return visible;
         }).length;
         
         document.getElementById('visible-count').textContent = filteredCount;
         document.getElementById('total-count').textContent = DATA.plants.length;
+        
+        // 同步更新 KPI 显示的工厂数
+        const totalPlantsEl = document.querySelector('[data-target="357"]');
+        if (totalPlantsEl) {
+            totalPlantsEl.dataset.target = DATA.plants.length;
+        }
     }
     
     function resetMapView() {
@@ -1352,7 +1386,34 @@
     // ==================== KPI ANIMATION ====================
     let kpiAnimated = false;
     
+    function updateKPIData() {
+        // 动态更新 KPI 数据
+        const totalCountries = DATA.countries?.length || 53;
+        const totalPlants = DATA.plants?.length || 352;
+        const totalGroups = DATA.groups ? Object.keys(DATA.groups).length : 11;
+        
+        // 计算总产能（万吨 -> Mtpa 需要除以100，但显示时保持万吨单位）
+        let totalCapacity = 0;
+        if (DATA.regionSummary) {
+            const total = DATA.regionSummary.find(r => r.region === '全非合计');
+            if (total) totalCapacity = total.capacity_mtpa || 0;
+        }
+        if (!totalCapacity) {
+            totalCapacity = DATA.plants?.reduce((sum, p) => sum + (p.capacity_mtpa || 0), 0) * 100 || 42628;
+        }
+        
+        // 更新 data-target 属性
+        const kpiCards = document.querySelectorAll('.kpi-card');
+        if (kpiCards[0]) kpiCards[0].querySelector('.kpi-value').dataset.target = totalCountries;
+        if (kpiCards[1]) kpiCards[1].querySelector('.kpi-value').dataset.target = totalPlants;
+        if (kpiCards[2]) kpiCards[2].querySelector('.kpi-value').dataset.target = totalGroups;
+        if (kpiCards[3]) kpiCards[3].querySelector('.kpi-value').dataset.target = Math.round(totalCapacity);
+    }
+    
     function animateKPIs() {
+        // 先更新 KPI 数据
+        updateKPIData();
+        
         // 使用IntersectionObserver观察KPI区域
         const kpiSection = document.getElementById('overview');
         if (!kpiSection) return;
@@ -1448,6 +1509,7 @@
         const chart = echarts.init(document.getElementById('region-capacity-chart'));
         const regions = DATA.regionSummary.filter(r => r.region !== '全非合计');
         
+        // 转换单位：数据中的 capacity_mtpa 单位是万吨，需要除以100得到 Mtpa
         const option = {
             tooltip: {
                 trigger: 'axis',
@@ -1473,14 +1535,14 @@
                 {
                     name: '设计产能',
                     type: 'bar',
-                    data: regions.map(r => r.design_capacity_mtpa),
+                    data: regions.map(r => (r.design_capacity_mtpa || 0) / 100),
                     itemStyle: { color: '#3b82f6' },
                     barWidth: '35%'
                 },
                 {
                     name: '运营产能',
                     type: 'bar',
-                    data: regions.map(r => r.capacity_mtpa),
+                    data: regions.map(r => (r.capacity_mtpa || 0) / 100),
                     itemStyle: { color: '#22c55e' },
                     barWidth: '35%'
                 }
@@ -1496,13 +1558,19 @@
     }
     
     function initRegionPlantsChart() {
-        const chart = echarts.init(document.getElementById('region-plants-chart'));
+        const chartDom = document.getElementById('region-plants-chart');
+        if (!chartDom || !DATA.regionSummary?.length) {
+            console.warn('区域汇总数据不可用');
+            return;
+        }
+        
+        const chart = echarts.init(chartDom);
         const regions = DATA.regionSummary.filter(r => r.region !== '全非合计');
         
         const option = {
             tooltip: {
                 trigger: 'item',
-                formatter: '{b}: {c} ({d}%)'
+                formatter: '{b}: {c} 家工厂 ({d}%)'
             },
             legend: {
                 orient: 'vertical',
@@ -1522,7 +1590,7 @@
                     formatter: '{b}: {c}'
                 },
                 data: regions.map((r, i) => ({
-                    value: r.operating_plants,
+                    value: r.operating_plants || 0,
                     name: r.region,
                     itemStyle: {
                         color: ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444', '#8b5cf6'][i % 5]
@@ -1543,10 +1611,20 @@
         const chart = echarts.init(document.getElementById('group-ranking-chart'));
         const topGroups = DATA.groups['十大'] || [];
         
+        // 排序并取前10
+        const sortedGroups = [...topGroups].sort((a, b) => (b['设计总产能（Mtpa）'] || 0) - (a['设计总产能（Mtpa）'] || 0)).slice(0, 10);
+        
         const option = {
             tooltip: {
                 trigger: 'axis',
-                axisPointer: { type: 'bar' }
+                axisPointer: { type: 'bar' },
+                formatter: function(params) {
+                    const group = sortedGroups[params[0].dataIndex];
+                    return `<b>${group['资方集团/主体'].split('（')[0]}</b><br/>
+                            设计产能: ${group['设计总产能（Mtpa）'] || 0} Mtpa<br/>
+                            运营产能: ${group['运营产能（Mtpa）'] || 0} Mtpa<br/>
+                            覆盖国家: ${group['覆盖国家数'] || 0} 国`;
+                }
             },
             grid: {
                 left: '3%',
@@ -1560,12 +1638,12 @@
             },
             yAxis: {
                 type: 'category',
-                data: topGroups.slice(0, 10).map(g => g['资方集团/主体'].split('（')[0]).reverse(),
+                data: sortedGroups.map(g => g['资方集团/主体'].split('（')[0]).reverse(),
                 axisLabel: { fontSize: 10 }
             },
             series: [{
                 type: 'bar',
-                data: topGroups.slice(0, 10).map(g => g['设计总产能（Mtpa）'] || 0).reverse(),
+                data: sortedGroups.map(g => g['设计总产能（Mtpa）'] || 0).reverse(),
                 itemStyle: {
                     color: new echarts.graphic.LinearGradient(0, 0, 1, 0, [
                         { offset: 0, color: '#1e40af' },
@@ -1585,17 +1663,31 @@
     }
     
     function initGroupCountriesChart() {
-        const chart = echarts.init(document.getElementById('group-countries-chart'));
+        const chartDom = document.getElementById('group-countries-chart');
+        if (!chartDom || !DATA.groups?.['十大']?.length) {
+            console.warn('集团数据不可用');
+            return;
+        }
+        
+        const chart = echarts.init(chartDom);
         const topGroups = DATA.groups['十大'] || [];
+        
+        // 排序取前8
+        const sortedGroups = [...topGroups].sort((a, b) => (b['覆盖国家数'] || 0) - (a['覆盖国家数'] || 0)).slice(0, 8);
         
         const option = {
             tooltip: {
                 trigger: 'item',
-                formatter: '{b}: {c} 国家'
+                formatter: function(params) {
+                    const group = sortedGroups[params.dataIndex];
+                    return `<b>${group['资方集团/主体'].split('（')[0]}</b><br/>
+                            覆盖国家: ${group['覆盖国家数'] || 0} 国<br/>
+                            覆盖国家: ${group['覆盖国家'] || '-'}`;
+                }
             },
             series: [{
                 type: 'treemap',
-                data: topGroups.slice(0, 8).map((g, i) => ({
+                data: sortedGroups.map((g, i) => ({
                     name: g['资方集团/主体'].split('（')[0],
                     value: g['覆盖国家数'] || 1,
                     itemStyle: {
@@ -1618,21 +1710,34 @@
     }
     
     function initKenyaTimeseriesChart() {
-        const chart = echarts.init(document.getElementById('kenya-timeseries-chart'));
+        const chartDom = document.getElementById('kenya-timeseries-chart');
+        if (!chartDom || !DATA.kenyaTimeseries?.length) {
+            console.warn('Kenya时间序列数据不可用');
+            return;
+        }
+        
+        const chart = echarts.init(chartDom);
         const years = DATA.kenyaTimeseries.map(d => d['年份']);
         
         const option = {
             tooltip: {
-                trigger: 'axis'
+                trigger: 'axis',
+                formatter: function(params) {
+                    let result = params[0].name + '<br/>';
+                    params.forEach(p => {
+                        result += p.marker + ' ' + p.seriesName + ': ' + p.value + '<br/>';
+                    });
+                    return result;
+                }
             },
             legend: {
-                data: ['产能', '产量', '消费量'],
+                data: ['产能', '产量', '消费量', '人均消费'],
                 bottom: 0
             },
             grid: {
                 left: '3%',
                 right: '4%',
-                bottom: '15%',
+                bottom: '20%',
                 containLabel: true
             },
             xAxis: {
@@ -1647,21 +1752,21 @@
                 {
                     name: '产能',
                     type: 'line',
-                    data: DATA.kenyaTimeseries.map(d => d['水泥总产能 (Mtpa)']),
+                    data: DATA.kenyaTimeseries.map(d => d['水泥总产能 (Mtpa)'] || 0),
                     smooth: true,
                     itemStyle: { color: '#3b82f6' }
                 },
                 {
                     name: '产量',
                     type: 'line',
-                    data: DATA.kenyaTimeseries.map(d => d['水泥产量 (Mt)']),
+                    data: DATA.kenyaTimeseries.map(d => d['水泥产量 (Mt)'] || 0),
                     smooth: true,
                     itemStyle: { color: '#22c55e' }
                 },
                 {
                     name: '消费量',
                     type: 'line',
-                    data: DATA.kenyaTimeseries.map(d => d['水泥消费量 (Mt)']),
+                    data: DATA.kenyaTimeseries.map(d => d['水泥消费量 (Mt)'] || 0),
                     smooth: true,
                     itemStyle: { color: '#f59e0b' }
                 }
@@ -1677,28 +1782,48 @@
     }
     
     function initPlantTypeChart() {
-        const chart = echarts.init(document.getElementById('plant-type-chart'));
+        const chartDom = document.getElementById('plant-type-chart');
+        if (!chartDom || !DATA.plants?.length) {
+            console.warn('工厂数据不可用');
+            return;
+        }
+        
+        const chart = echarts.init(chartDom);
         
         const types = {};
         DATA.plants.forEach(p => {
-            const type = p.type || '未知';
+            const type = (p.type || '未知').trim();
             types[type] = (types[type] || 0) + 1;
         });
         
+        const typeColors = {
+            '熟料厂': '#3b82f6',
+            '粉磨站': '#22c55e',
+            '综合厂': '#8b5cf6',
+            '未知': '#6b7280'
+        };
+        
         const option = {
             tooltip: {
-                trigger: 'item'
+                trigger: 'item',
+                formatter: '{b}: {c} 家 ({d}%)'
+            },
+            legend: {
+                orient: 'vertical',
+                right: '10%',
+                top: 'center'
             },
             series: [{
                 type: 'pie',
                 radius: '60%',
+                center: ['40%', '50%'],
                 data: Object.entries(types).map(([name, value], i) => ({
                     name,
                     value,
-                    itemStyle: { color: ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444'][i % 4] }
+                    itemStyle: { color: typeColors[name] || ['#3b82f6', '#22c55e', '#f59e0b', '#ef4444'][i % 4] }
                 })),
                 label: {
-                    formatter: '{b}: {c} ({d}%)'
+                    formatter: '{b}: {c}'
                 }
             }]
         };
@@ -1714,19 +1839,30 @@
     // ==================== GROUPS GRID ====================
     function initGroupsGrid() {
         const grid = document.getElementById('groups-grid');
-        const topGroups = DATA.groups['十大'] || [];
+        if (!grid) return;
+        
+        const topGroups = DATA.groups?.['十大'] || [];
+        if (!topGroups.length) {
+            grid.innerHTML = '<p class="text-gray-500 text-center py-8">暂无集团数据</p>';
+            return;
+        }
         
         grid.innerHTML = topGroups.slice(0, 6).map((g, i) => {
-            const name = g['资方集团/主体'];
+            const name = g['资方集团/主体'] || '未知集团';
             const capacity = g['设计总产能（Mtpa）'] || 0;
             const countries = g['覆盖国家数'] || 0;
+            const opCapacity = g['运营产能（Mtpa）'] || 0;
             
             return `
-                <div class="bg-blue-50 rounded-lg p-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 gpu-accelerated" style="animation-delay: ${i * 100}ms">
+                <div class="bg-blue-50 rounded-lg p-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 gpu-accelerated cursor-pointer" style="animation-delay: ${i * 100}ms" onclick="showGroupDetail('${name.split('（')[0]}')">
                     <h4 class="font-semibold text-blue-900 mb-2 truncate">${name.split('（')[0]}</h4>
                     <div class="flex justify-between text-sm">
-                        <span class="text-gray-600">产能:</span>
+                        <span class="text-gray-600">设计产能:</span>
                         <span class="font-medium">${capacity} Mtpa</span>
+                    </div>
+                    <div class="flex justify-between text-sm mt-1">
+                        <span class="text-gray-600">运营产能:</span>
+                        <span class="font-medium">${opCapacity} Mtpa</span>
                     </div>
                     <div class="flex justify-between text-sm mt-1">
                         <span class="text-gray-600">覆盖:</span>
@@ -1737,20 +1873,31 @@
         }).join('');
     }
     
+    function showGroupDetail(groupName) {
+        // 可以扩展为显示集团详情
+        alert('集团详情: ' + groupName);
+    }
+    
     // ==================== CITY CLUSTERS ====================
     function initCityClusters() {
         const grid = document.getElementById('city-clusters-grid');
-        const clusters = DATA.cityClusters.slice(0, 8);
+        if (!grid) return;
+        
+        const clusters = DATA.cityClusters?.slice(0, 8) || [];
+        if (!clusters.length) {
+            grid.innerHTML = '<p class="text-gray-500 text-center py-8 col-span-4">暂无城市集群数据</p>';
+            return;
+        }
         
         grid.innerHTML = clusters.map((c, i) => `
             <div class="bg-gradient-to-br from-gray-50 to-gray-100 rounded-lg p-4 hover:shadow-lg transition-all duration-300 hover:-translate-y-1 gpu-accelerated" style="animation-delay: ${i * 80}ms">
                 <div class="flex items-center gap-2 mb-2">
-                    <span class="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">${c.rank}</span>
-                    <h4 class="font-semibold text-sm">${c.name}</h4>
+                    <span class="w-6 h-6 bg-blue-600 text-white rounded-full flex items-center justify-center text-xs font-bold">${c.rank || i + 1}</span>
+                    <h4 class="font-semibold text-sm">${c.name || '未知'}</h4>
                 </div>
-                <p class="text-xs text-gray-600 mb-2">${c.country}</p>
-                <p class="text-xs text-gray-500">人口: ${c.population_m}</p>
-                <p class="text-xs text-gray-500 mt-1">${c.regional_position}</p>
+                <p class="text-xs text-gray-600 mb-2">${c.country || '-'}</p>
+                <p class="text-xs text-gray-500">人口: ${c.population_m || '-'}</p>
+                <p class="text-xs text-gray-500 mt-1">${c.regional_position || '-'}</p>
             </div>
         `).join('');
     }
@@ -1758,14 +1905,20 @@
     // ==================== LIMESTONE TABLE ====================
     function initLimestoneTable() {
         const tbody = document.querySelector('#limestone-table tbody');
-        const limestones = DATA.limestoneEastAfrica.slice(0, 10);
+        if (!tbody) return;
+        
+        const limestones = DATA.limestoneEastAfrica?.slice(0, 10) || [];
+        if (!limestones.length) {
+            tbody.innerHTML = '<tr><td colspan="4" class="text-center text-gray-500 py-4">暂无石灰石数据</td></tr>';
+            return;
+        }
         
         tbody.innerHTML = limestones.map(l => `
             <tr>
                 <td>${l['国家'] || '-'}</td>
-                <td>${l['主要石灰石区域_矿带'] || '-'}</td>
+                <td>${l['主要石灰石区域_矿带'] || l['主要石灰石矿带'] || '-'}</td>
                 <td>${l['典型矿点_水泥厂关联'] ? l['典型矿点_水泥厂关联'].split('，')[0] : '-'}</td>
-                <td class="text-sm text-gray-600">${l['对水泥产业的意义'] ? l['对水泥产业的意义'].substring(0, 50) + '...' : '-'}</td>
+                <td class="text-sm text-gray-600">${l['对水泥产业的意义'] || l['战略意义'] || '-'}</td>
             </tr>
         `).join('');
     }
@@ -1773,18 +1926,27 @@
     // ==================== REGION TABLE ====================
     function initRegionTable() {
         const tbody = document.querySelector('#region-table tbody');
-        const regions = DATA.regionSummary.filter(r => r.region !== '全非合计');
+        if (!tbody) return;
+        
+        const regions = DATA.regionSummary?.filter(r => r.region !== '全非合计') || [];
+        if (!regions.length) {
+            tbody.innerHTML = '<tr><td colspan="8" class="text-center text-gray-500 py-4">暂无区域数据</td></tr>';
+            return;
+        }
         
         tbody.innerHTML = regions.map(r => {
-            const selfSufficiency = r.demand_mtpa > 0 ? Math.round((r.capacity_mtpa / r.demand_mtpa) * 100) : 0;
+            // capacity_mtpa 实际单位是万吨，需要转换显示
+            const capacityMtpa = (r.capacity_mtpa || 0) / 100;
+            const demandMtpa = (r.demand_mtpa || 0) / 100; // demand_mtpa 也是万吨
+            const selfSufficiency = demandMtpa > 0 ? Math.round((capacityMtpa / demandMtpa) * 100) : 0;
             return `
                 <tr>
                     <td class="font-medium">${r.region}</td>
                     <td>${r.countries}</td>
                     <td>${(r.population_b || 0).toFixed(2)}</td>
-                    <td>${r.demand_mtpa}</td>
-                    <td class="font-semibold text-blue-600">${r.capacity_mtpa}</td>
-                    <td>${r.operating_plants}</td>
+                    <td>${demandMtpa.toFixed(2)}</td>
+                    <td class="font-semibold text-blue-600">${capacityMtpa.toFixed(2)}</td>
+                    <td>${r.operating_plants || 0}</td>
                     <td>${r.per_capita_kg || '-'}</td>
                     <td>
                         <span class="${selfSufficiency >= 100 ? 'text-green-600' : 'text-yellow-600'} font-medium">
