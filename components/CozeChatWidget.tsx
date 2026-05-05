@@ -1,19 +1,12 @@
 "use client";
-import { useEffect, useState, useRef } from "react";
+import { useState, useEffect } from "react";
 
-const PROJECT_ID = "7629504335063334947";
-const COZE_TOKEN = "pat_yoU1PIM9h9xDhTE8Vz0Ge7BejjzgmjwoPCdV2Hb6E4kUrC9Jk7ZplQuYHkl4ifDR";
-const SDK_URL = "https://lf-cdn.coze.cn/obj/unpkg/latest/coze/web-sdk/dist/js-umd/index.min.js";
+const IFRAME_URL = "https://code.coze.cn/web-sdk/7629504335063334947";
 
-// 右下角浮动按钮 + 对话框
 export default function CozeChatWidget() {
   const [isOpen, setIsOpen] = useState(false);
-  const [sdkReady, setSdkReady] = useState(false);
-  const containerRef = useRef<HTMLDivElement>(null);
-  const sdkLoadedRef = useRef(false);
-  const initRef = useRef(false);
 
-  // 监听首页AI Consultant按钮点击
+  // Listen for homepage AI Consultant button click
   useEffect(() => {
     const handleClick = (e: MouseEvent) => {
       const target = e.target as HTMLElement;
@@ -25,41 +18,6 @@ export default function CozeChatWidget() {
     document.addEventListener("click", handleClick);
     return () => document.removeEventListener("click", handleClick);
   }, []);
-
-  // 加载SDK
-  useEffect(() => {
-    if (sdkLoadedRef.current) return;
-    sdkLoadedRef.current = true;
-
-    const script = document.createElement("script");
-    script.src = SDK_URL;
-    script.async = true;
-    script.onload = () => setSdkReady(true);
-    script.onerror = () => console.error("Failed to load Coze Web SDK");
-    document.head.appendChild(script);
-  }, []);
-
-  // 打开对话框时初始化
-  useEffect(() => {
-    if (!isOpen || !sdkReady || !containerRef.current || initRef.current) return;
-    initRef.current = true;
-
-    try {
-      // @ts-ignore - cozeWebSDK is loaded from CDN
-      const sdk = window.cozeWebSDK;
-      if (sdk && sdk.init) {
-        sdk.init({
-          token: COZE_TOKEN,
-          projectId: PROJECT_ID,
-          container: containerRef.current,
-          style: "width: 100%; height: 100%;",
-          refreshToken: async () => COZE_TOKEN,
-        });
-      }
-    } catch (e) {
-      console.error("Failed to init Coze SDK:", e);
-    }
-  }, [isOpen, sdkReady]);
 
   return (
     <>
@@ -93,24 +51,14 @@ export default function CozeChatWidget() {
               </svg>
             </button>
           </div>
-          <div ref={containerRef} style={{ width: "100%", height: "calc(100% - 44px)" }} />
+          <iframe
+            src={IFRAME_URL}
+            style={{ width: "100%", height: "calc(100% - 44px)", border: "none" }}
+            title="Standard House AI Assistant"
+            allow="microphone; camera"
+          />
         </div>
       )}
     </>
   );
-}
-
-// 声明全局类型
-declare global {
-  interface Window {
-    cozeWebSDK: {
-      init: (config: {
-        token: string;
-        projectId: string;
-        container: HTMLElement;
-        style?: string;
-        refreshToken?: () => Promise<string>;
-      }) => void;
-    };
-  }
 }
