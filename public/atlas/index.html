@@ -14,12 +14,14 @@
     <style>
         * { box-sizing: border-box; }
         body { font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif; padding-top: 80px; }
-        #map-container { position: relative; z-index: 1; }
+        #map-container { position: relative; z-index: 1; height: 500px; }
+        @media (min-width: 768px) { #map-container { height: 600px; } }
         .leaflet-container { z-index: 1 !important; }
         .leaflet-pane { z-index: 1 !important; }
         .leaflet-top, .leaflet-bottom { z-index: 2 !important; }
         .leaflet-popup { z-index: 10 !important; }
         .leaflet-control { z-index: 2 !important; }
+        #map { width: 100%; height: 100%; position: relative !important; }
         .leaflet-popup-content-wrapper { border-radius: 8px; }
         .marker-cluster-small { background-color: rgba(181, 226, 140, 0.6); }
         .marker-cluster-small div { background-color: rgba(110, 204, 57, 0.6); }
@@ -105,15 +107,15 @@
                 <h2 class="text-2xl font-bold text-gray-900 mb-4">交互式工厂地图</h2>
                 
                 <!-- Search and Filters -->
-                <div class="bg-white rounded-xl shadow-sm p-4 mb-4" style="position: relative; z-index: 10;">
-                    <div class="flex flex-wrap gap-4">
+                <div class="bg-white rounded-xl shadow-sm p-3 md:p-4 mb-4" style="position: relative; z-index: 10;">
+                    <div class="flex flex-col md:flex-row gap-3 md:gap-4">
                         <!-- Search -->
                         <div class="flex-1 min-w-[200px]">
                             <input type="text" id="search-input" placeholder="搜索工厂名/国家/所有者..." 
                                    class="w-full px-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-blue-500 focus:border-blue-500">
                         </div>
                         <!-- Region Filter -->
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-start md:items-center gap-2 flex-wrap">
                             <span class="text-sm text-gray-500">区域:</span>
                             <div id="filter-region" class="flex flex-wrap gap-1">
                                 <button onclick="setFilter('region', '全部')" class="filter-btn px-3 py-1 text-sm rounded-full bg-blue-500 text-white">全部</button>
@@ -125,9 +127,9 @@
                             </div>
                         </div>
                     </div>
-                    <div class="flex flex-wrap gap-4 mt-4">
+                    <div class="flex flex-col md:flex-row gap-3 md:gap-4 mt-3 md:mt-4">
                         <!-- Type Filter -->
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-start md:items-center gap-2 flex-wrap">
                             <span class="text-sm text-gray-500">类型:</span>
                             <div id="filter-type" class="flex flex-wrap gap-1">
                                 <button onclick="setFilter('type', '全部')" class="filter-btn px-3 py-1 text-sm rounded-full bg-blue-500 text-white">全部</button>
@@ -137,7 +139,7 @@
                             </div>
                         </div>
                         <!-- Status Filter -->
-                        <div class="flex items-center gap-2">
+                        <div class="flex items-start md:items-center gap-2 flex-wrap">
                             <span class="text-sm text-gray-500">状态:</span>
                             <div id="filter-status" class="flex flex-wrap gap-1">
                                 <button onclick="setFilter('status', '全部')" class="filter-btn px-3 py-1 text-sm rounded-full bg-blue-500 text-white">全部</button>
@@ -148,7 +150,7 @@
                             </div>
                         </div>
                         <!-- Quick Region Buttons -->
-                        <div class="flex items-center gap-2 ml-auto">
+                        <div class="flex items-center gap-2 md:ml-auto">
                             <span class="text-sm text-gray-500">快速定位:</span>
                             <button onclick="flyToRegion('东非')" class="px-3 py-1 text-sm bg-green-100 text-green-700 rounded hover:bg-green-200">东非</button>
                             <button onclick="flyToRegion('西非')" class="px-3 py-1 text-sm bg-blue-100 text-blue-700 rounded hover:bg-blue-200">西非</button>
@@ -185,7 +187,7 @@
                 </div>
 
                 <!-- Map Container -->
-                <div id="map-container" class="bg-white rounded-xl shadow-sm overflow-hidden" style="height: 600px; position: relative; z-index: 1;">
+                <div id="map-container" class="bg-white rounded-xl shadow-sm overflow-hidden" style="position: relative; z-index: 1;">
                     <div id="map" class="w-full h-full"></div>
                 </div>
             </div>
@@ -808,7 +810,7 @@
                     '<span class="text-xs text-gray-500">' + escapeHtml(cluster.country) + '</span>' +
                 '</div>' +
                 '<p class="text-sm text-gray-600 mb-2">' + formatNumber(cluster.population_m) + '万人口</p>' +
-                '<div class="flex items-center gap-2">' +
+                '<div class="flex items-start md:items-center gap-2 flex-wrap">' +
                     '<span class="text-xs bg-blue-100 text-blue-700 px-2 py-0.5 rounded">' + escapeHtml(cluster.demand_structure) + '</span>' +
                 '</div>' +
                 '<p class="text-xs text-gray-500 mt-2">' + escapeHtml(cluster.regional_position) + '</p>';
