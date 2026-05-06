@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
 
-const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyC3cXDQYEPiERKwoDNcRDy__PtSiN3PiSw';
+const GEMINI_API_KEY = process.env.GEMINI_API_KEY || 'AIzaSyAz-cq4aTnOAIQ3weQVZXG1Kpq66s9tYw4';
 const GEMINI_BASE = 'https://generativelanguage.googleapis.com';
 
 export async function GET(request: NextRequest, { params }: { params: { path: string[] } }) {
