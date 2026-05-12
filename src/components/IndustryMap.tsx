@@ -317,9 +317,138 @@ const countryData: Record<string, CountryData> = {
       { name: 'Kaya', position: [3.5833, 31.7167], connectedCountry: '苏丹', type: 'land' },
     ],
   },
+  burundi: {
+    center: [-3.374, 29.919],
+    zoom: 9,
+    cities: [
+      { name: '布琼布拉', nameEn: 'Bujumbura', position: [-3.3822, 29.3614], population: '120万', industries: ['logistics', 'building', 'manufacturing'], description: '前首都，最大城市，坦噶尼喀湖港口', slug: 'bujumbura' },
+      { name: '基特加', nameEn: 'Gitega', position: [-3.4286, 29.9292], population: '15万', industries: ['government', 'agriculture'], description: '政治首都，政府机构所在地', slug: 'gitega' },
+      { name: '恩戈齐', nameEn: 'Ngozi', position: [-2.9053, 29.8311], population: '10万', industries: ['agriculture', 'manufacturing'], description: '北部经济中心，咖啡产区', slug: 'ngozi' },
+      { name: '穆松加蒂', nameEn: 'Musongati', position: [-3.85, 29.93], population: '5万', industries: ['mining'], description: '镍矿开采区，大型镍矿项目', slug: 'musongati' },
+      { name: '鲁蒙盖', nameEn: 'Rumonge', position: [-3.9775, 29.4386], population: '8万', industries: ['agriculture', 'logistics'], description: '南部湖港，棕榈油产区', slug: 'rumonge' },
+    ],
+    projects: [
+      { name: 'Musongati镍矿', position: [-3.85, 29.93], info: '大型镍矿项目，储量约300万吨', industries: ['mining'], status: 'planned', slug: null },
+      { name: '布琼布拉港扩建', position: [-3.3822, 29.3614], info: '坦噶尼喀湖港口现代化改造', industries: ['logistics'], status: 'construction', slug: null },
+    ],
+    corridors: [
+      { name: '中央走廊(到达累斯萨拉姆)', positions: [[-3.38, 29.36], [-3.5, 29.0], [-4.0, 29.5], [-5.0, 29.8], [-6.8, 29.6], [-8.0, 31.0], [-8.9, 33.0]], type: 'railway', color: '#3b82f6' },
+    ],
+    industrialZones: [
+      { name: '布琼布拉工业区', positions: [[-3.35, 29.30], [-3.38, 29.32], [-3.41, 29.35], [-3.38, 29.33]], industries: ['manufacturing', 'logistics'], description: '首都圈轻工业和物流集散' },
+    ],
+    borderPorts: [
+      { name: 'Gatumba', position: [-3.47, 29.22], connectedCountry: '刚果金', type: 'land' },
+      { name: 'Kobero', position: [-2.65, 30.20], connectedCountry: '卢旺达', type: 'land' },
+      { name: 'Kabanga', position: [-3.05, 30.55], connectedCountry: '坦桑尼亚', type: 'land' },
+    ],
+  },
+  djibouti: {
+    center: [11.588, 42.896],
+    zoom: 9,
+    cities: [
+      { name: '吉布提市', nameEn: 'Djibouti City', position: [11.5884, 43.1456], population: '60万', industries: ['logistics', 'manufacturing', 'fintech'], description: '首都，红海入口，亚吉铁路终点', slug: 'djibouti-city' },
+      { name: '阿里萨比埃', nameEn: 'Ali Sabieh', position: [11.1558, 42.7122], population: '5万', industries: ['logistics', 'mining'], description: '南部边境城市，埃塞-吉布提走廊', slug: 'ali-sabieh' },
+      { name: '塔朱拉', nameEn: 'Tadjoura', position: [11.7861, 42.8814], population: '3万', industries: ['mining', 'agriculture'], description: '盐业产区，渔业基地', slug: 'tadjoura' },
+      { name: '奥博克', nameEn: 'Obock', position: [11.9689, 43.2897], population: '2万', industries: ['logistics'], description: '北部港口，对岸也门', slug: 'obock' },
+    ],
+    projects: [
+      { name: '多拉莱港', position: [11.57, 43.18], info: '非洲最大集装箱码头之一，中资参建', industries: ['logistics'], status: 'operating', slug: null },
+      { name: '吉布提自贸区', position: [11.52, 43.22], info: '招商局参与，占地48km²', industries: ['manufacturing', 'logistics'], status: 'operating', slug: null },
+      { name: '亚吉铁路终点站', position: [11.55, 43.20], info: '亚吉铁路吉布提段，中国承建', industries: ['logistics', 'infrastructure'], status: 'operating', slug: null },
+    ],
+    corridors: [
+      { name: '亚吉铁路走廊', positions: [[9.02, 38.75], [9.60, 41.86], [10.65, 42.00], [11.10, 42.50], [11.59, 43.15]], type: 'railway', color: '#ef4444' },
+    ],
+    industrialZones: [
+      { name: '吉布提自贸区', positions: [[11.50, 43.18], [11.52, 43.22], [11.54, 43.20], [11.51, 43.19]], industries: ['manufacturing', 'logistics'], description: '招商局主导，东非物流枢纽' },
+    ],
+    borderPorts: [
+      { name: 'Galafi', position: [11.55, 42.40], connectedCountry: '埃塞俄比亚', type: 'land' },
+      { name: 'Loyada', position: [11.47, 43.26], connectedCountry: '索马里', type: 'land' },
+    ],
+  },
+  somalia: {
+    center: [5.015, 46.199],
+    zoom: 6,
+    cities: [
+      { name: '摩加迪沙', nameEn: 'Mogadishu', position: [2.0469, 45.3181], population: '250万', industries: ['logistics', 'building', 'manufacturing'], description: '首都，最大港口，重建中', slug: 'mogadishu' },
+      { name: '哈尔格萨', nameEn: 'Hargeisa', position: [9.5627, 44.0650], population: '100万', industries: ['agriculture', 'fintech', 'logistics'], description: '索马里兰首府，相对稳定', slug: 'hargeisa' },
+      { name: '基斯马尤', nameEn: 'Kismayo', position: [-0.3500, 42.5500], population: '30万', industries: ['agriculture', 'logistics'], description: '南部港口，农业和渔业中心', slug: 'kismayo' },
+      { name: '博萨索', nameEn: 'Bosaso', position: [11.2755, 49.1797], population: '70万', industries: ['logistics', 'agriculture'], description: '邦特兰商业中心，红海港口', slug: 'bosaso' },
+      { name: '加罗韦', nameEn: 'Garowe', position: [8.3808, 48.4828], population: '15万', industries: ['government'], description: '邦特兰行政中心', slug: 'garowe' },
+    ],
+    projects: [
+      { name: '摩加迪沙港重建', position: [2.0469, 45.3181], info: '土耳其合作港口现代化', industries: ['logistics'], status: 'construction', slug: null },
+      { name: '博萨索港扩建', position: [11.28, 49.18], info: '阿联酋投资港口升级', industries: ['logistics'], status: 'operating', slug: null },
+    ],
+    corridors: [
+      { name: '畜牧贸易通道(到阿拉伯)', positions: [[9.56, 44.07], [11.28, 49.18], [12.0, 50.0], [14.0, 48.0]], type: 'trade', color: '#f59e0b' },
+    ],
+    industrialZones: [
+      { name: '摩加迪沙重建区', positions: [[2.02, 45.28], [2.04, 45.30], [2.06, 45.32], [2.04, 45.31]], industries: ['building', 'manufacturing'], description: '首都重建核心区' },
+    ],
+    borderPorts: [
+      { name: 'Bulo Hawo', position: [3.55, 42.38], connectedCountry: '肯尼亚', type: 'land' },
+      { name: 'Beledhawo', position: [4.20, 42.70], connectedCountry: '埃塞俄比亚', type: 'land' },
+    ],
+  },
+  eritrea: {
+    center: [15.179, 39.782],
+    zoom: 7,
+    cities: [
+      { name: '阿斯马拉', nameEn: 'Asmara', position: [15.3229, 38.9250], population: '80万', industries: ['building', 'manufacturing', 'agriculture'], description: '首都，海拔2400m，世遗城市', slug: 'asmara' },
+      { name: '马萨瓦', nameEn: 'Massawa', position: [15.6086, 39.4744], population: '5万', industries: ['logistics', 'mining'], description: '红海主港，自由港', slug: 'massawa' },
+      { name: '阿萨布', nameEn: 'Assab', position: [13.0097, 42.7247], population: '3万', industries: ['logistics', 'energy'], description: '南部红海港，炼油基地', slug: 'assab' },
+      { name: '德克姆哈雷', nameEn: 'Dekemhare', position: [15.0703, 39.0456], population: '4万', industries: ['manufacturing', 'agriculture'], description: '工业卫星城，农业加工', slug: 'dekemhare' },
+    ],
+    projects: [
+      { name: 'Bisha铜锌矿', position: [15.55, 37.05], info: '主力矿业项目，铜锌金伴生', industries: ['mining'], status: 'operating', slug: null },
+      { name: '马萨瓦港升级', position: [15.61, 39.47], info: '港口设施现代化改造', industries: ['logistics'], status: 'planned', slug: null },
+    ],
+    corridors: [
+      { name: '阿斯马拉-马萨瓦公路', positions: [[15.32, 38.93], [15.45, 39.10], [15.55, 39.30], [15.61, 39.47]], type: 'highway', color: '#22c55e' },
+    ],
+    industrialZones: [
+      { name: '马萨瓦自由港区', positions: [[15.58, 39.42], [15.60, 39.45], [15.63, 39.48], [15.61, 39.47]], industries: ['logistics', 'manufacturing'], description: '红海自由港贸易区' },
+    ],
+    borderPorts: [
+      { name: 'Zalambessa', position: [14.55, 39.50], connectedCountry: '埃塞俄比亚', type: 'land' },
+      { name: 'Om Hajar', position: [16.05, 37.25], connectedCountry: '苏丹', type: 'land' },
+    ],
+  },
+  'dr-congo': {
+    center: [-2.500, 23.500],
+    zoom: 5,
+    cities: [
+      { name: '金沙萨', nameEn: 'Kinshasa', position: [-4.4419, 15.2663], population: '1700万', industries: ['building', 'manufacturing', 'logistics'], description: '首都，刚果河畔，最大消费市场', slug: 'kinshasa' },
+      { name: '卢本巴希', nameEn: 'Lubumbashi', position: [-11.6609, 27.4794], population: '200万', industries: ['mining', 'manufacturing'], description: '铜矿之都，南部经济中心', slug: 'lubumbashi' },
+      { name: '科卢韦齐', nameEn: 'Kolwezi', position: [-10.7141, 25.4667], population: '60万', industries: ['mining'], description: '钴矿核心产区，全球钴储量70%', slug: 'kolwezi' },
+      { name: '戈马', nameEn: 'Goma', position: [-1.6522, 29.2222], population: '100万', industries: ['agriculture', 'mining'], description: '东部冲突区，基伍湖畔', slug: 'goma' },
+      { name: '马塔迪', nameEn: 'Matadi', position: [-5.8167, 13.4667], population: '30万', industries: ['logistics'], description: '刚果河出海口，唯一海运港', slug: 'matadi' },
+      { name: '利卡西', nameEn: 'Likasi', position: [-11.0000, 26.7333], population: '40万', industries: ['mining', 'manufacturing'], description: '铜钴冶炼中心', slug: 'likasi' },
+      { name: '基桑加尼', nameEn: 'Kisangani', position: [0.5153, 25.6000], population: '100万', industries: ['agriculture', 'logistics'], description: '内陆河港，刚果河中游', slug: 'kisangani' },
+    ],
+    projects: [
+      { name: 'Inga水电(三期)', position: [-5.96, 14.26], info: '全球最大水电潜力，44000MW', industries: ['energy'], status: 'planned', slug: null },
+      { name: 'TFM铜钴矿', position: [-10.60, 25.80], info: '中资洛阳钼业，全球最大钴矿之一', industries: ['mining'], status: 'operating', slug: null },
+      { name: 'KFM铜钴矿', position: [-10.50, 25.65], info: '中资洛阳钼业，毗邻TFM', industries: ['mining'], status: 'operating', slug: null },
+    ],
+    corridors: [
+      { name: '刚果河航道', positions: [[0.52, 25.60], [-1.0, 24.0], [-2.5, 22.0], [-3.5, 18.0], [-4.44, 15.27], [-5.82, 13.47]], type: 'waterway', color: '#3b82f6' },
+      { name: '铜钴出口走廊', positions: [[-10.71, 25.47], [-11.00, 26.73], [-11.66, 27.48], [-12.50, 28.00], [-13.50, 28.50], [-15.40, 28.30]], type: 'railway', color: '#ef4444' },
+    ],
+    industrialZones: [
+      { name: '加丹加铜钴带', positions: [[-10.71, 25.47], [-11.00, 26.73], [-11.66, 27.48], [-10.90, 26.10]], industries: ['mining'], description: '全球钴储量70%，铜矿核心区' },
+    ],
+    borderPorts: [
+      { name: 'Kasumbalesa', position: [-12.18, 27.88], connectedCountry: '赞比亚', type: 'land' },
+      { name: 'Beach Muanda', position: [-5.92, 12.42], connectedCountry: '刚果布', type: 'land' },
+    ],
+  },
 };
 
-type Country = 'ethiopia' | 'uganda' | 'kenya' | 'tanzania' | 'rwanda' | 'south-sudan';
+type Country = 'ethiopia' | 'uganda' | 'kenya' | 'tanzania' | 'rwanda' | 'south-sudan' | 'burundi' | 'djibouti' | 'somalia' | 'eritrea' | 'dr-congo';
 
 interface IndustryMapProps {
   country: Country;
