@@ -115,7 +115,7 @@ export const sectionQuickQuestions: Record<string, string[]> = {
     '帮我选一个适合制造业投资的国家',
     '哪个国家劳动力成本最低？',
     '哪个国家政策最友好？',
-    '帮我对比五国风险评分'
+    '帮我对比十一国风险评分'
   ]
 };
 

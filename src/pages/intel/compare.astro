@@ -2,7 +2,7 @@
 import IntelLayout from '../../layouts/IntelLayout.astro';
 import RiskRadarChart from '../../components/charts/RiskRadarChart.tsx';
 
-// 五国核心数据（基于 intel-kb 真实数据）
+// 十一国核心数据（基于 intel-kb 真实数据）
 const countries = [
   {
     id: 'uganda',
@@ -394,10 +394,10 @@ const riskDimensions = [
   <section class="pt-28 pb-12 px-6">
     <div class="max-w-7xl mx-auto">
       <h1 class="text-4xl md:text-5xl font-bold mb-4">
-        <span class="gradient-text">东非五国投资对比</span>
+        <span class="gradient-text">东非十一国投资对比</span>
       </h1>
       <p class="text-xl text-slate-400 max-w-3xl">
-        基于414份情报数据，从宏观经济、投资成本、行业机会、风险维度全面对比五国投资环境
+        基于626份情报数据，从宏观经济、投资成本、行业机会、风险维度全面对比十一国投资环境
       </p>
     </div>
   </section>
@@ -429,7 +429,7 @@ const riskDimensions = [
   <section class="px-6 mb-12">
     <div class="max-w-7xl mx-auto">
       <h2 class="text-2xl font-bold mb-6">
-        <span class="gradient-text">🎯 五国投资风险雷达图</span>
+        <span class="gradient-text">🎯 十一国投资风险雷达图</span>
       </h2>
       <div class="chart-container">
         <RiskRadarChart client:only="react" />

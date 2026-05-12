@@ -185,10 +185,10 @@ const data = countryData[country] || countryData.ethiopia;
         </a>
       </div>
 
-      {/* ===== 新增：五国对比雷达图 ===== */}
+      {/* ===== 新增：十一国对比雷达图 ===== */}
       <section class="mb-6">
         <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
-          <span class="mr-2">🎯</span> 五国投资风险雷达对比
+          <span class="mr-2">🎯</span> 十一国投资风险雷达对比
         </h2>
         <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
           <RiskRadarChart client:only="react" />
@@ -217,10 +217,10 @@ const data = countryData[country] || countryData.ethiopia;
         </div>
       )}
 
-      {/* ===== 新增：五国成本对比图 ===== */}
+      {/* ===== 新增：十一国成本对比图 ===== */}
       <section class="mb-6">
         <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
-          <span class="mr-2">💸</span> 五国投资成本对比
+          <span class="mr-2">💸</span> 十一国投资成本对比
         </h2>
         <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
           <CostComparisonChart client:only="react" />

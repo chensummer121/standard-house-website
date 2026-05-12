@@ -64,6 +64,78 @@ const countries = [
     color: 'from-rose-500 to-pink-600',
     highlights: ['增速最快', '最安全国家', '数字化领先']
   },
+  { 
+    name: '南苏丹', 
+    flag: '🇸🇸', 
+    href: '/invest/south-sudan', 
+    gdp: '$4.7B', 
+    growth: '-26%', 
+    risk: 'D',
+    opportunity: 3,
+    population: '1545万',
+    color: 'from-green-700 to-green-900',
+    highlights: ['石油储量', '基建重建', '高风险高回报']
+  },
+  { 
+    name: '布隆迪', 
+    flag: '🇧🇮', 
+    href: '/invest/burundi', 
+    gdp: '$3.6B', 
+    growth: '2.7%', 
+    risk: 'D',
+    opportunity: 2,
+    population: '1400万',
+    color: 'from-red-500 to-red-700',
+    highlights: ['咖啡出口', '锡矿潜力', 'EAC新成员']
+  },
+  { 
+    name: '吉布提', 
+    flag: '🇩🇯', 
+    href: '/invest/djibouti', 
+    gdp: '$4.1B', 
+    growth: '5.0%', 
+    risk: 'B',
+    opportunity: 3,
+    population: '117万',
+    color: 'from-sky-400 to-cyan-600',
+    highlights: ['红海枢纽', '多国基地', '自由区经济']
+  },
+  { 
+    name: '索马里', 
+    flag: '🇸🇴', 
+    href: '/invest/somalia', 
+    gdp: '$12B', 
+    growth: '3.1%', 
+    risk: 'D-',
+    opportunity: 3,
+    population: '1850万',
+    color: 'from-slate-400 to-slate-600',
+    highlights: ['电信创新', '牲畜出口', '索马里兰港口']
+  },
+  { 
+    name: '厄立特里亚', 
+    flag: '🇪🇷', 
+    href: '/invest/eritrea', 
+    gdp: '$2.9B', 
+    growth: '2.8%', 
+    risk: 'D',
+    opportunity: 2,
+    population: '370万',
+    color: 'from-teal-700 to-teal-900',
+    highlights: ['钾盐矿', '红海港口', '封闭市场']
+  },
+  { 
+    name: '刚果(金)', 
+    flag: '🇨🇩', 
+    href: '/invest/dr-congo', 
+    gdp: '$72.5B', 
+    growth: '6.2%', 
+    risk: 'D+',
+    opportunity: 5,
+    population: '1.03亿',
+    color: 'from-emerald-600 to-emerald-800',
+    highlights: ['铜钴全球第一', 'Inga水电潜力', 'ESG风险高']
+  },
 ];
 
 function renderStars(count: number): string {
@@ -71,7 +143,7 @@ function renderStars(count: number): string {
 }
 ---
 
-<BaseLayout title="东非五国投资情报中心 - STANDERRA Intelligence" pageContext="intelligence">
+<BaseLayout title="东非十一国投资情报中心 - STANDERRA Intelligence" pageContext="intelligence">
   <style>
     .gradient-text {
       background: linear-gradient(135deg, #38bdf8, #0ea5e9);
@@ -144,19 +216,19 @@ function renderStars(count: number): string {
   <section class="pt-28 pb-12 px-6 bg-gradient-to-b from-slate-900/80 to-transparent">
     <div class="max-w-7xl mx-auto">
       <h1 class="text-4xl md:text-5xl font-bold mb-4">
-        <span class="gradient-text">东非五国投资情报中心</span>
+        <span class="gradient-text">东非十一国投资情报中心</span>
       </h1>
       <p class="text-xl text-slate-400 max-w-2xl">
-        国家级投资决策支持系统，深度覆盖埃塞俄比亚、乌干达、肯尼亚、坦桑尼亚、卢旺达五国市场
+        国家级投资决策支持系统，深度覆盖埃塞俄比亚、乌干达、肯尼亚、坦桑尼亚、卢旺达十一国市场
       </p>
     </div>
   </section>
 
-  <!-- 五国风险雷达图 -->
+  <!-- 十一国风险雷达图 -->
   <section class="py-12 px-6">
     <div class="max-w-7xl mx-auto">
       <h2 class="text-2xl font-bold mb-6">
-        <span class="gradient-text">🎯 五国风险雷达对比</span>
+        <span class="gradient-text">🎯 十一国风险雷达对比</span>
       </h2>
       <div class="rounded-2xl p-6" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(148, 163, 184, 0.1);">
         <RiskRadarChart client:only="react" />
@@ -164,7 +236,7 @@ function renderStars(count: number): string {
     </div>
   </section>
 
-  <!-- 5国卡片 -->
+  <!-- 11国卡片 -->
   <section class="py-12 px-6">
     <div class="max-w-7xl mx-auto">
       <h2 class="text-2xl font-bold mb-6">快速入口</h2>
@@ -226,7 +298,7 @@ function renderStars(count: number): string {
   <section class="py-12 px-6">
     <div class="max-w-7xl mx-auto">
       <h2 class="text-2xl font-bold mb-6">
-        <span class="gradient-text">五国投资指标对比</span>
+        <span class="gradient-text">十一国投资指标对比</span>
       </h2>
       
       <div class="rounded-2xl overflow-hidden border border-slate-700/50">

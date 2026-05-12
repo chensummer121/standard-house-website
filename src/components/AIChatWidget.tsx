@@ -21,8 +21,8 @@ type ChatMode = 'default' | 'country' | 'cost' | 'risk' | 'approval';
 const modeInstructions: Record<ChatMode, string> = {
   default: '',
   country: '帮我选国家：基于预算、行业、风险偏好推荐最优投资目的地',
-  cost: '帮我算成本：计算在东非建厂的综合成本并做五国对比',
-  risk: '看风险：获取东非五国投资风险的量化评估',
+  cost: '帮我算成本：计算在东非建厂的综合成本并做十一国对比',
+  risk: '看风险：获取东非十一国投资风险的量化评估',
   approval: '问审批：了解在目标国家建厂需要经过哪些审批流程'
 };
 
@@ -39,7 +39,7 @@ const quickQuestionsMap: Record<string, { mode: ChatMode; questions: string[] }>
 
 const dedicatedModes = [
   { mode: 'country' as ChatMode, icon: '🌍', label: '选国家', desc: '基于预算/行业/风险推荐' },
-  { mode: 'cost' as ChatMode, icon: '💰', label: '算成本', desc: '建厂成本五国对比' },
+  { mode: 'cost' as ChatMode, icon: '💰', label: '算成本', desc: '建厂成本十一国对比' },
   { mode: 'risk' as ChatMode, icon: '⚠️', label: '看风险', desc: '量化风险评分' },
   { mode: 'approval' as ChatMode, icon: '📋', label: '问审批', desc: '建厂审批流程' },
 ];

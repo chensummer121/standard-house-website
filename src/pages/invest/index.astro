@@ -9,12 +9,17 @@ const countries = [
   { code: 'tanzania', name: '坦桑尼亚', flag: '🇹🇿', description: '东非最大国家，天然气储量58 TCF。达累斯萨拉姆港正与蒙巴萨港激烈争夺区域枢纽地位。' },
   { code: 'rwanda', name: '卢旺达', flag: '🇷🇼', description: '非洲最安全的国家，ICT产业FDI达4.1亿美元。小国大治理，8.9%GDP增速领跑东非。' },
   { code: 'south-sudan', name: '南苏丹', flag: '🇸🇸', description: '全球最年轻国家，石油依赖型经济。内战创伤仍在但和平进程推进。基础设施极度匮乏=巨大重建市场。' },
+  { code: 'burundi', name: '布隆迪', flag: '🇧🇮', description: '大湖地区内陆国，EAC新成员。咖啡出口为主，锡矿潜力大。胡图族主导，与卢旺达关系紧张。' },
+  { code: 'djibouti', name: '吉布提', flag: '🇩🇯', description: '红海咽喉，全球军事基地密度最高国家。港口经济为核心，对中国债务依赖50%。非洲之角物流枢纽。' },
+  { code: 'somalia', name: '索马里', flag: '🇸🇴', description: '非洲最长海岸线，电信行业非洲最低资费。索马里兰实质独立，Berbera港具战略价值。HIPC减债后重启融资。' },
+  { code: 'eritrea', name: '厄立特里亚', flag: '🇪🇷', description: '红海沿岸封闭国家，Colluli钾盐矿2026年投产。全民兵役制，侨民2%税。军队控制经济命脉。' },
+  { code: 'dr-congo', name: '刚果(金)', flag: '🇨🇩', description: '非洲面积第二大国家，铜钴储量全球第一。1.03亿人口红利巨大，但东部冲突、ESG风险突出。SICOMINES等项目受审查。' },
 ];
 
 const stats = [
-  { label: '已上线国家', value: '6', suffix: '个' },
+  { label: '已上线国家', value: '11', suffix: '个' },
   { label: '行业覆盖', value: '20+', suffix: '个' },
-  { label: '投资决策支持', value: '15', suffix: '篇' },
+  { label: '投资情报', value: '626', suffix: '份' },
 ];
 ---
 
@@ -87,10 +92,10 @@ const stats = [
           <p class="text-gray-500">覆盖东非五大核心经济体</p>
         </div>
         <button 
-          onclick="window.__openAIChat && window.__openAIChat('帮我对比东非五国的投资环境，从政策稳定性、劳动力成本、市场潜力三个维度分析')"
+          onclick="window.__openAIChat && window.__openAIChat('帮我对比东非十一国的投资环境，从政策稳定性、劳动力成本、市场潜力三个维度分析')"
           class="ai-inline-button"
         >
-          🤖 AI帮我对比五国
+          🤖 AI帮我对比十一国
         </button>
       </div>
       <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">

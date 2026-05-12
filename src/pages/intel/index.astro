@@ -111,6 +111,86 @@ const countries = [
     bestFor: '石油服务/基建重建/农业',
     href: '/invest/south-sudan',
   },
+  {
+    name: '布隆迪',
+    flag: '🇧🇮',
+    color: '#b91c1c',
+    gdp: '36',
+    gdpUnit: '亿美元',
+    gdpGrowth: '2.7%',
+    pop: '1,400万',
+    urban: '14%',
+    bizRank: 169,
+    elecRate: '11%',
+    riskScore: 8.2,
+    riskLabel: '高风险',
+    bestFor: '咖啡/锡矿/轻工',
+    href: '/invest/burundi',
+  },
+  {
+    name: '吉布提',
+    flag: '🇩🇯',
+    color: '#0ea5e9',
+    gdp: '41',
+    gdpUnit: '亿美元',
+    gdpGrowth: '5.0%',
+    pop: '117万',
+    urban: '78%',
+    bizRank: 99,
+    elecRate: '62%',
+    riskScore: 6.0,
+    riskLabel: '中高风险',
+    bestFor: '港口物流/自由区/军事服务',
+    href: '/invest/djibouti',
+  },
+  {
+    name: '索马里',
+    flag: '🇸🇴',
+    color: '#6b7280',
+    gdp: '120',
+    gdpUnit: '亿美元',
+    gdpGrowth: '3.1%',
+    pop: '1,850万',
+    urban: '46%',
+    bizRank: 190,
+    elecRate: '35%',
+    riskScore: 9.5,
+    riskLabel: '极高风险',
+    bestFor: '电信/牲畜/港口(索马里兰)',
+    href: '/invest/somalia',
+  },
+  {
+    name: '厄立特里亚',
+    flag: '🇪🇷',
+    color: '#7c2d12',
+    gdp: '29',
+    gdpUnit: '亿美元',
+    gdpGrowth: '2.8%',
+    pop: '370万',
+    urban: '28%',
+    bizRank: 189,
+    elecRate: '52%',
+    riskScore: 8.8,
+    riskLabel: '高风险',
+    bestFor: '钾盐矿/金铜矿/港口',
+    href: '/invest/eritrea',
+  },
+  {
+    name: '刚果(金)',
+    flag: '🇨🇩',
+    color: '#15803d',
+    gdp: '725',
+    gdpUnit: '亿美元',
+    gdpGrowth: '6.2%',
+    pop: '1.03亿',
+    urban: '46%',
+    bizRank: 177,
+    elecRate: '19%',
+    riskScore: 8.5,
+    riskLabel: '高风险',
+    bestFor: '铜钴矿/水电/农业',
+    href: '/invest/dr-congo',
+  },
 ];
 
 // 四入口卡片
@@ -127,8 +207,8 @@ const entryCards = [
   {
     icon: '💰',
     title: '算成本',
-    subtitle: '建厂成本\n五国对比',
-    desc: '获取在东非五国建厂的综合成本估算，含土地、人工、能源、材料',
+    subtitle: '建厂成本\n十一国对比',
+    desc: '获取在东非十一国建厂的综合成本估算，含土地、人工、能源、材料',
     cta: '开始计算',
     href: '/intel/pricing',
     accent: '#F59E0B',
@@ -173,10 +253,10 @@ const aiQuickQuestions = [
 
 // 数据底座统计
 const stats = [
-  { value: '5', label: '覆盖国家', suffix: '国' },
-  { value: '414', label: '投资情报', suffix: '份' },
+  { value: '11', label: '覆盖国家', suffix: '国' },
+  { value: '626', label: '投资情报', suffix: '份' },
   { value: '29', label: '方案包', suffix: '个' },
-  { value: '5', label: '风险维度', suffix: '维' },
+  { value: '7', label: '关系维度', suffix: '维' },
 ];
 
 function getRiskColor(score: number): string {
@@ -318,7 +398,7 @@ function getRiskBg(score: number): string {
     
     <div class="max-w-7xl mx-auto text-center relative z-10">
       <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2);">
-        <span class="text-sky-400 text-sm font-medium">🗺️ 覆盖东非五国</span>
+        <span class="text-sky-400 text-sm font-medium">🗺️ 覆盖东非十一国</span>
         <span class="text-slate-500 text-sm">|</span>
         <span class="text-slate-400 text-sm">覆盖 乌干达 · 埃塞俄比亚 · 肯尼亚 · 坦桑尼亚 · 卢旺达</span>
       </div>
@@ -377,13 +457,13 @@ function getRiskBg(score: number): string {
     </div>
   </section>
 
-  <!-- ====== 五国速览面板 ====== -->
+  <!-- ====== 十一国速览面板 ====== -->
   <section class="py-16 px-6">
     <div class="max-w-7xl mx-auto">
       <div class="flex items-center justify-between mb-8">
         <div>
           <h2 class="text-3xl font-bold mb-2">
-            <span class="gradient-text">五国数据速览</span>
+            <span class="gradient-text">十一国数据速览</span>
           </h2>
           <p class="text-slate-400 text-sm">核心指标对比，数据来源：World Bank / IMF / 各央行（2024）</p>
         </div>
@@ -508,7 +588,7 @@ function getRiskBg(score: number): string {
           <span class="gradient-text">AI投资顾问</span>
         </h2>
         <p class="text-slate-400 mb-8 max-w-xl mx-auto leading-relaxed">
-          不确定选哪个国家？不知道成本几何？AI顾问基于五国结构化数据，实时为您分析并给出建议。覆盖政策、市场、风险、审批全维度。
+          不确定选哪个国家？不知道成本几何？AI顾问基于十一国结构化数据，实时为您分析并给出建议。覆盖政策、市场、风险、审批全维度。
         </p>
 
         <!-- 快捷问题按钮 -->
@@ -535,7 +615,7 @@ function getRiskBg(score: number): string {
           立即向AI顾问提问
         </a>
 
-        <p class="text-slate-600 text-xs mt-4">基于 STANDERRA 五国结构化知识库 · 实时推理</p>
+        <p class="text-slate-600 text-xs mt-4">基于 STANDERRA 十一国结构化知识库 · 实时推理</p>
       </div>
     </div>
   </section>
