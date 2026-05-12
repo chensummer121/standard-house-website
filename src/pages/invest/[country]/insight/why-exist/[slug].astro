@@ -1,0 +1,71 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Sidebar from '@components/Sidebar.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const countries = ['ethiopia', 'uganda', 'kenya', 'tanzania', 'rwanda', 'south-sudan'];
+  const paths = [];
+  
+  for (const c of countries) {
+    const docs = await getCollection('countries', ({ id }) => 
+      id.startsWith(`${c}/insight/why-exist/`)
+    );
+    for (const doc of docs) {
+      paths.push({
+        params: { country: c, slug: doc.id.split('/').pop() },
+        props: { doc },
+      });
+    }
+  }
+  return paths;
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+
+const countryNames = { ethiopia: '埃塞俄比亚', uganda: '乌干达', kenya: '肯尼亚', tanzania: '坦桑尼亚', rwanda: '卢旺达' };
+const sectionNames = { 'why-exist': '国家凭什么存在', 'money-flow': '钱从哪来到哪去', 'data-panels': '底层数据', 'social-safety': '社会怎么兜底', 'power-structure': '谁在管这个国家', 'structural-change': '结构性变化' };
+const sectionMatch = currentPath.match(/\/insight\/([^\/]+)/);
+const currentSection = sectionMatch ? sectionNames[sectionMatch[1]] || sectionMatch[1] : '国家透视';
+
+const pageTitle = doc.data.title + " - Standerra";
+---
+
+<BaseLayout title={pageTitle}>
+  <Header country={country} />
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    <main class="flex-1 p-8 max-w-4xl">
+      <Breadcrumb items={[{ name: countryNames[country] || country, href: `/invest/${country}` }, { name: '国家透视', href: `/invest/${country}/insight` }, { name: currentSection, href: `/invest/${country}/insight/${sectionMatch?.[1]}` }, { name: doc.data.title }]} />
+      <article style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem;">
+        <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+          <h1 class="text-3xl font-bold" style="color: var(--text-primary);">{doc.data.title}</h1>
+        </header>
+        <div class="prose prose-lg max-w-none">
+          <Content />
+        </div>
+      </article>
+    </main>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .prose h1 { font-size: 2rem; font-weight: 700; margin: 2rem 0 1rem; }
+  .prose h2 { font-size: 1.5rem; font-weight: 600; margin: 1.5rem 0 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+  .prose h3 { font-size: 1.25rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
+  .prose p { margin: 0.75rem 0; line-height: 1.8; color: var(--text-secondary); }
+  .prose ul, .prose ol { margin: 1rem 0; padding-left: 1.5rem; }
+  .prose li { margin: 0.5rem 0; line-height: 1.7; }
+  .prose strong { font-weight: 600; color: var(--text-primary); }
+  .prose blockquote { border-left: 4px solid var(--accent-green); padding-left: 1rem; margin: 1.5rem 0; background: var(--bg-secondary); padding: 1rem; border-radius: 0 8px 8px 0; }
+  .prose table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+  .prose th, .prose td { border: 1px solid var(--border-color); padding: 0.75rem; text-align: left; }
+  .prose th { background: var(--bg-secondary); font-weight: 600; }
+  .prose tr:nth-child(even) { background: rgba(68, 138, 255, 0.05); }
+  .prose hr { border: none; border-top: 1px solid var(--border-color); margin: 2rem 0; }
+</style>

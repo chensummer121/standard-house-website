@@ -1,0 +1,26 @@
+---
+interface BreadcrumbItem {
+  name: string;
+  href?: string;
+}
+
+interface Props {
+  items: BreadcrumbItem[];
+}
+
+const { items } = Astro.props;
+---
+
+<nav class="flex items-center space-x-2 text-sm mb-6">
+  <a href="/intel/" class="transition-colors hover:opacity-80" style="color: var(--text-secondary);">情报首页</a>
+  {items.map((item, index) => (
+    <>
+      <span class="text-gray-600" style="color: var(--border-color);">/</span>
+      {item.href ? (
+        <a href={item.href} class="transition-colors hover:opacity-80" style="color: var(--text-secondary);">{item.name}</a>
+      ) : (
+        <span style="color: var(--text-primary);">{item.name}</span>
+      )}
+    </>
+  ))}
+</nav>

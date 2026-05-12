@@ -1,0 +1,110 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Header from '../../../../components/Header.astro';
+import Sidebar from '../../../../components/Sidebar.astro';
+import Breadcrumb from '../../../../components/Breadcrumb.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { country: 'ethiopia' } },
+    { params: { country: 'uganda' } },
+    { params: { country: 'kenya' } },
+    { params: { country: 'tanzania' } },
+    { params: { country: 'rwanda' } },
+    { params: { country: 'south-sudan' } },
+  ];
+}
+
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+
+// Country-specific decision section data
+const countryNames = {
+  ethiopia: '埃塞俄比亚',
+  uganda: '乌干达',
+  kenya: '肯尼亚'
+};
+
+const items = [
+  {
+    title: '一页纸决策',
+    desc: `30秒了解要不要进入${countryNames[country]}市场`,
+    icon: '📄',
+    href: `/invest/${country}/decision`,
+    color: '#ff9100'
+  },
+  {
+    title: '行业速查卡',
+    desc: country === 'ethiopia' ? '15个重点行业的快速评估卡片' : '主要行业的快速评估卡片',
+    icon: '💳',
+    href: `/invest/${country}/decision/quick-cards`,
+    color: '#448aff'
+  },
+  {
+    title: '避雷清单',
+    desc: `${countryNames[country]}投资的常见陷阱与应对策略`,
+    icon: '⚠️',
+    href: `/invest/${country}/decision/red-flags`,
+    color: '#ff5252'
+  },
+  {
+    title: '政策窗口',
+    desc: '当前政策红利期与投资激励措施',
+    icon: '🪟',
+    href: `/invest/${country}/decision/policy-window`,
+    color: '#00e676'
+  },
+  {
+    title: '风险情景推演',
+    desc: '政治、经济、社会风险的情景分析',
+    icon: '🎭',
+    href: `/invest/${country}/decision/risk-scenarios`,
+    color: '#ffd740'
+  },
+];
+---
+
+<BaseLayout title={`投资决策 - ${countryNames[country]}`}>
+  <Header country={country} />
+  
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    
+    <main class="flex-1 p-6 max-w-5xl">
+      <Breadcrumb items={[{ name: countryNames[country], href: `/invest/${country}` }, { name: '投资决策' }]} />
+      
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold mb-2">💰 投资决策</h1>
+        <p class="text-sm" style="color: var(--text-secondary)">快速评估，快速决策</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        {items.map(item => (
+          <a 
+            href={item.href} 
+            class="group block p-6 rounded-xl transition-all hover:scale-[1.02] hover:-translate-y-1"
+            style="background: var(--bg-card); border: 1px solid var(--border-color);"
+          >
+            <div class="flex items-start space-x-4">
+              <div 
+                class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
+                style={`background: ${item.color}20;`}
+              >
+                {item.icon}
+              </div>
+              <div class="flex-1">
+                <h2 class="text-lg font-bold mb-1 group-hover:underline" style="color: var(--text-primary);">
+                  {item.title}
+                </h2>
+                <p class="text-sm" style="color: var(--text-secondary);">{item.desc}</p>
+              </div>
+              <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent-blue);">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+    </main>
+  </div>
+</BaseLayout>

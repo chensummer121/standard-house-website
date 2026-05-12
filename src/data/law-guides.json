@@ -1,0 +1,522 @@
+{
+  "ethiopia": {
+    "investment-access": {
+      "title": "外商投资准入实操指南",
+      "overview": "埃塞俄比亚外商投资准入流程已大幅简化，采用EIC一站式服务窗口，但实际办理仍需30-90天。建议提前准备完整文件，避免因往返补充材料延误。",
+      "timeline": {
+        "official": "30-60天",
+        "actual": "60-120天",
+        "note": "官方时间指文件齐全的情况，实际常因补充材料、审批积压延长至2-4个月"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "EIC投资许可预审批",
+          "description": "向埃塞俄比亚投资委员会(EIC)提交投资申请，获取外资准入资格",
+          "duration": "官方5-10个工作日，实际2-4周",
+          "requiredDocuments": [
+            "投资计划书（阿姆哈拉语或英语）",
+            "母公司注册文件（母国公证+埃塞使馆双认证）",
+            "董事会决议",
+            "资金来源证明"
+          ],
+          "tips": [
+            "商业计划书需包含本地化培训计划",
+            "外籍员工比例需说明必要性"
+          ],
+          "pitfalls": [
+            "⚠️ 文件翻译认证耗时：建议在母国提前完成认证，平均延误2-3周"
+          ]
+        }
+      ],
+      "checklist": {
+        "required": [
+          {
+            "id": "ia-1",
+            "text": "投资计划书（阿姆哈拉语或英语）",
+            "category": "投资许可"
+          },
+          {
+            "id": "ia-2",
+            "text": "母公司注册文件（母国公证+埃塞使馆认证）",
+            "category": "投资许可"
+          },
+          {
+            "id": "ia-3",
+            "text": "董事会投资决议",
+            "category": "投资许可"
+          }
+        ],
+        "optional": []
+      }
+    }
+  },
+  "uganda": {
+    "investment-access": {
+      "title": "乌干达外商投资准入实操指南",
+      "overview": "乌干达投资管理局(UIA)提供一站式服务，外资准入相对友好。最低投资额要求为10万美元。石油产业链是政府优先发展领域。",
+      "timeline": {
+        "official": "14-30天",
+        "actual": "30-60天",
+        "note": "文件齐全情况下可加速，但实际审批常因补充材料延长"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "向UIA提交投资申请",
+          "description": "向乌干达投资管理局提交投资注册申请",
+          "duration": "官方5-10个工作日",
+          "requiredDocuments": [
+            "投资申请表",
+            "商业计划书",
+            "公司注册文件",
+            "资金证明"
+          ],
+          "tips": [
+            "选择目标行业时参考UIA优先清单",
+            "石油和制造业享受额外激励"
+          ],
+          "pitfalls": [
+            "⚠️ 外籍董事需提供无犯罪记录证明"
+          ]
+        },
+        {
+          "step": 2,
+          "title": "公司注册",
+          "description": "通过乌干达公司注册处(RSS)注册公司",
+          "duration": "3-7个工作日",
+          "requiredDocuments": [
+            "公司章程",
+            "公司注册申请表格",
+            "注册费用"
+          ],
+          "tips": [
+            "可与UIA注册同步进行"
+          ],
+          "pitfalls": []
+        }
+      ],
+      "checklist": {
+        "required": [
+          {
+            "id": "ug-ia-1",
+            "text": "投资注册证书（UIA）",
+            "category": "投资许可"
+          },
+          {
+            "id": "ug-ia-2",
+            "text": "公司注册证书（RSS）",
+            "category": "公司注册"
+          },
+          {
+            "id": "ug-ia-3",
+            "text": "工作许可（如需外籍员工）",
+            "category": "人事合规"
+          },
+          {
+            "id": "ug-ia-4",
+            "text": "税务登记（TIN）",
+            "category": "税务登记"
+          }
+        ],
+        "optional": []
+      }
+    }
+  },
+  "kenya": {
+    "investment-access": {
+      "title": "肯尼亚外商投资准入实操指南",
+      "overview": "肯尼亚投资管理局(KIA)提供一站式服务。营商环境在东非最完善，但外籍员工工作许可审批较严格。最低投资额要求为10万美元（部分行业）。",
+      "timeline": {
+        "official": "14-30天",
+        "actual": "30-90天",
+        "note": "工作许可审批时间较长，可能需要3-6个月"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "向KIA提交投资申请",
+          "description": "向肯尼亚投资管理局提交投资注册",
+          "duration": "官方5-10个工作日",
+          "requiredDocuments": [
+            "投资申请表",
+            "商业计划书",
+            "公司注册文件",
+            "资金证明"
+          ],
+          "tips": [
+            "EPZ企业享有额外优惠",
+            "科技企业可申请特殊激励"
+          ],
+          "pitfalls": [
+            "⚠️ 部分行业有本地股权要求"
+          ]
+        },
+        {
+          "step": 2,
+          "title": "公司注册",
+          "description": "通过公司注册处(Registrar of Companies)注册",
+          "duration": "7-14个工作日",
+          "requiredDocuments": [
+            "公司章程大纲(MOA)",
+            "公司章程细则(AOA)",
+            "注册表格",
+            "注册费用"
+          ],
+          "tips": [
+            "外国人可100%持股（除特定行业）"
+          ],
+          "pitfalls": []
+        },
+        {
+          "step": 3,
+          "title": "工作许可",
+          "description": "向移民局申请工作许可",
+          "duration": "3-6个月",
+          "requiredDocuments": [
+            "工作许可申请表",
+            "护照复印件",
+            "公司注册文件",
+            "学历证明"
+          ],
+          "tips": [
+            "关键职位才建议申请工作许可",
+            "优先培训本地员工减少依赖"
+          ],
+          "pitfalls": [
+            "⚠️ 配额有限，建议提前申请"
+          ]
+        }
+      ],
+      "checklist": {
+        "required": [
+          {
+            "id": "ke-ia-1",
+            "text": "投资注册证书（KIA）",
+            "category": "投资许可"
+          },
+          {
+            "id": "ke-ia-2",
+            "text": "公司注册证书",
+            "category": "公司注册"
+          },
+          {
+            "id": "ke-ia-3",
+            "text": "PIN税号",
+            "category": "税务登记"
+          },
+          {
+            "id": "ke-ia-4",
+            "text": "NHIF医保登记",
+            "category": "社保登记"
+          },
+          {
+            "id": "ke-ia-5",
+            "text": "NSSF社保登记",
+            "category": "社保登记"
+          },
+          {
+            "id": "ke-ia-6",
+            "text": "工作许可（如需外籍员工）",
+            "category": "人事合规"
+          }
+        ],
+        "optional": []
+      }
+    }
+  },
+  "chartConfig": {
+    "colors": [
+      "#3b82f6",
+      "#f59e0b",
+      "#10b981",
+      "#ef4444",
+      "#8b5cf6"
+    ],
+    "backgroundColor": "transparent",
+    "textColor": "#e8e8e8",
+    "subTextColor": "#a0a0b0",
+    "borderColor": "#2a3a5c"
+  },
+  "tanzania": {
+    "investment-access": {
+      "title": "坦桑尼亚外商投资准入实操指南",
+      "overview": "坦桑尼亚投资中心(TIC)负责统筹外商投资，2022年新投资法简化了流程。采矿业和天然气是战略优先领域，农业加工和旅游业欢迎外资。土地获取是最大挑战。",
+      "timeline": {
+        "official": "30-60天",
+        "actual": "60-120天",
+        "note": "土地租赁审批耗时较长，矿权和特许经营权需单独审批，整体流程可能超过3个月"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "TIC投资注册",
+          "description": "向坦桑尼亚投资中心(TIC)提交投资注册申请，获取投资证书",
+          "duration": "官方14-30个工作日",
+          "requiredDocuments": [
+            "投资申请表",
+            "商业计划书",
+            "母公司注册文件（公证+认证）",
+            "资金来源证明",
+            "护照复印件"
+          ],
+          "tips": [
+            "TIC提供一站式服务，可同时申请工作许可和居留证",
+            "战略行业（采矿、能源）有额外审批流程"
+          ],
+          "pitfalls": [
+            "⚠️ 外资最低投资额要求为50万美元（制造业/农业）或20万美元（服务业）"
+          ]
+        },
+        {
+          "step": 2,
+          "title": "公司注册",
+          "description": "通过坦桑尼亚商业注册与认证局(BRRA)注册公司",
+          "duration": "3-5个工作日",
+          "requiredDocuments": [
+            "公司章程",
+            "公司注册申请表",
+            "注册费用"
+          ],
+          "tips": [
+            "可与TIC注册并行办理",
+            "外资企业通常注册为私人有限公司或外资公司"
+          ],
+          "pitfalls": []
+        },
+        {
+          "step": 3,
+          "title": "税务登记",
+          "description": "向坦桑尼亚税务局(TRA)申请税务识别号(TIN)",
+          "duration": "1-3个工作日",
+          "requiredDocuments": [
+            "公司注册证书",
+            "董事身份证明",
+            "公司地址证明"
+          ],
+          "tips": [
+            "TIN是开设银行账户的前提条件"
+          ],
+          "pitfalls": []
+        },
+        {
+          "step": 4,
+          "title": "土地获取",
+          "description": "通过土地租赁获得土地使用权（外资不能拥有土地）",
+          "duration": "3-6个月",
+          "requiredDocuments": [
+            "投资证书",
+            "项目可行性报告",
+            "环境影响评估(EA)批准",
+            "社区协商证明"
+          ],
+          "tips": [
+            "农业用地租赁上限为99年",
+            "工业区/经济特区可加速审批"
+          ],
+          "pitfalls": [
+            "⚠️ 土地纠纷风险高，建议使用政府认可的土地",
+            "⚠️ 涉及原住民社区的土地需额外协商"
+          ]
+        },
+        {
+          "step": 5,
+          "title": "行业特定许可",
+          "description": "根据投资行业申请特定许可证",
+          "duration": "30-90天",
+          "requiredDocuments": [
+            "行业特定申请表格",
+            "技术资质证明",
+            "环境影响评估报告"
+          ],
+          "tips": [
+            "采矿业需向矿产部申请勘探/开采许可证",
+            "电信业需向TCRA申请许可证"
+          ],
+          "pitfalls": [
+            "⚠️ 采矿许可证竞争激烈，审批周期不确定"
+          ]
+        }
+      ],
+      "checklist": {
+        "required": [
+          {
+            "id": "tz-ia-1",
+            "text": "TIC投资注册证书",
+            "category": "投资许可"
+          },
+          {
+            "id": "tz-ia-2",
+            "text": "公司注册证书（BRRA）",
+            "category": "公司注册"
+          },
+          {
+            "id": "tz-ia-3",
+            "text": "税务识别号(TIN)",
+            "category": "税务登记"
+          },
+          {
+            "id": "tz-ia-4",
+            "text": "土地租赁协议",
+            "category": "土地合规"
+          },
+          {
+            "id": "tz-ia-5",
+            "text": "行业特定许可证（如适用）",
+            "category": "行业许可"
+          }
+        ],
+        "optional": [
+          {
+            "id": "tz-ia-6",
+            "text": "工作许可",
+            "category": "人事合规"
+          },
+          {
+            "id": "tz-ia-7",
+            "text": "居留证",
+            "category": "人事合规"
+          }
+        ]
+      }
+    }
+  },
+  "rwanda": {
+    "investment-access": {
+      "title": "卢旺达外商投资准入实操指南",
+      "overview": "卢旺达是东非最便利的商业环境之一，营商便利度非洲第一。卢旺达发展署(RDB)提供一站式服务，投资流程高度数字化。最低投资额要求较低，ICT和旅游业是优先发展领域。",
+      "timeline": {
+        "official": "7-14天",
+        "actual": "14-30天",
+        "note": "基础注册流程快速，但土地获取和行业许可可能延长至1个月以上"
+      },
+      "steps": [
+        {
+          "step": 1,
+          "title": "RDB投资注册",
+          "description": "向卢旺达发展署(RDB)提交投资申请，获取投资注册证书",
+          "duration": "官方3-7个工作日",
+          "requiredDocuments": [
+            "投资申请表",
+            "商业计划书",
+            "公司注册文件（如已在卢旺达注册）",
+            "资金证明"
+          ],
+          "tips": [
+            "可通过RDB网上平台提交申请",
+            "低于15万美元的投资可享受简化流程",
+            "战略投资者有专属服务通道"
+          ],
+          "pitfalls": [
+            "⚠️ 超过50万美元投资可申请RDB优先服务"
+          ]
+        },
+        {
+          "step": 2,
+          "title": "公司注册",
+          "description": "通过RDB一站式窗口完成公司注册",
+          "duration": "1-3个工作日",
+          "requiredDocuments": [
+            "公司章程",
+            "股东信息",
+            "注册地址证明",
+            "注册费用"
+          ],
+          "tips": [
+            "RDB提供公司注册、税号、社保一站式服务",
+            "可同步申请增值税(VAT)注册"
+          ],
+          "pitfalls": []
+        },
+        {
+          "step": 3,
+          "title": "税务登记",
+          "description": "完成税务登记，获取纳税人识别号(TIN)",
+          "duration": "1个工作日（与公司注册同步）",
+          "requiredDocuments": [
+            "公司注册证书",
+            "董事身份证明"
+          ],
+          "tips": [
+            "RDB一站式窗口自动办理",
+            "年营业额超过2000万卢郎需注册VAT"
+          ],
+          "pitfalls": []
+        },
+        {
+          "step": 4,
+          "title": "土地与房产",
+          "description": "获取土地使用权或房产所有权",
+          "duration": "2-4周",
+          "requiredDocuments": [
+            "土地购买/租赁协议",
+            "项目计划书",
+            "环境影响评估（如需要）",
+            "RDB无异议证明"
+          ],
+          "tips": [
+            "外资可购买房产（公寓等），土地只能租赁（最长99年）",
+            "经济特区(Kigali Special Economic Zone)土地获取更快"
+          ],
+          "pitfalls": [
+            "⚠️ 基加利城区土地价格较高",
+            "⚠️ 土地纠纷较少，但仍需尽职调查"
+          ]
+        },
+        {
+          "step": 5,
+          "title": "行业特定许可",
+          "description": "根据行业申请特定许可证",
+          "duration": "14-30天",
+          "requiredDocuments": [
+            "行业资质证明",
+            "技术方案",
+            "环境影响评估"
+          ],
+          "tips": [
+            "ICT行业向RDB/ICT局申请",
+            "旅游业向卢旺达旅游局申请",
+            "制造业通常只需基础注册"
+          ],
+          "pitfalls": []
+        }
+      ],
+      "checklist": {
+        "required": [
+          {
+            "id": "rw-ia-1",
+            "text": "RDB投资注册证书",
+            "category": "投资许可"
+          },
+          {
+            "id": "rw-ia-2",
+            "text": "公司注册证书",
+            "category": "公司注册"
+          },
+          {
+            "id": "rw-ia-3",
+            "text": "税务登记(TIN/VAT)",
+            "category": "税务登记"
+          },
+          {
+            "id": "rw-ia-4",
+            "text": "土地/房产证明",
+            "category": "土地合规"
+          }
+        ],
+        "optional": [
+          {
+            "id": "rw-ia-5",
+            "text": "工作许可",
+            "category": "人事合规"
+          },
+          {
+            "id": "rw-ia-6",
+            "text": "行业特定许可证",
+            "category": "行业许可"
+          }
+        ]
+      }
+    }
+  }
+}

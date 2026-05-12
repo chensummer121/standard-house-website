@@ -1,0 +1,275 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Sidebar from '@components/Sidebar.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import EthiopiaMap from '@components/EthiopiaMap';
+import KpiCard from '@components/charts/KpiCard';
+import IndustryScatterChart from '@components/charts/IndustryScatterChart';
+import DebtPieChart from '@components/charts/DebtPieChart';
+import ExchangeRateChart from '@components/charts/ExchangeRateChart';
+import GdpTrendChart from '@components/charts/GdpTrendChart';
+
+export function getStaticPaths() {
+  return [
+    { params: { country: 'ethiopia' } },
+    { params: { country: 'uganda' } },
+    { params: { country: 'kenya' } },
+    { params: { country: 'tanzania' } },
+    { params: { country: 'rwanda' } },
+    { params: { country: 'south-sudan' } },
+  ];
+}
+
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+
+// Country-specific data - English version
+const countryData = {
+  ethiopia: {
+    name: 'Ethiopia',
+    flag: '🇪🇹',
+    fullName: 'Federal Democratic Republic of Ethiopia',
+    description: 'Africa\'s second-most populous nation and East Africa\'s largest economy. Currently undergoing exchange rate liberalization reform with gradual relaxation of foreign exchange controls. Known as the "Water Tower of Africa" with abundant hydro and geothermal resources, but infrastructure development still requires significant investment.',
+    kpis: [
+      { title: 'GDP (2024)', value: '$155B', trend: 'up', trendValue: '6.5%', color: '#448aff', icon: '💰' },
+      { title: 'Population (2024)', value: '126M', trend: 'up', trendValue: '2.5%', color: '#00e676', icon: '👥' },
+      { title: 'External Debt/GDP', value: '50.4%', trend: 'down', trendValue: '-3.2%', color: '#ff9100', icon: '🏦' },
+      { title: 'Exchange Rate (USD)', value: '136', unit: 'Birr', trend: 'down', trendValue: '+138%', color: '#ff5252', icon: '💱' },
+    ],
+    latestNews: [
+      { date: '2025-07', title: 'GERD fully operational, power capacity increased by 30%', tag: 'Infrastructure' },
+      { date: '2025-06', title: 'Forex market reform progresses, official and parallel market rates converge', tag: 'Finance' },
+      { date: '2025-05', title: 'Coffee exports hit record high, reaching $2.65 billion', tag: 'Trade' },
+    ]
+  },
+  uganda: {
+    name: 'Uganda',
+    flag: '🇺🇬',
+    fullName: 'Republic of Uganda',
+    description: 'East African Community member with commercial oil production on the horizon. Home to the world\'s youngest population structure (median age 15.7 years) with low labor costs. EAC membership provides access to a 500 million population market.',
+    kpis: [
+      { title: 'GDP (2024)', value: '$45B', trend: 'up', trendValue: '5.8%', color: '#448aff', icon: '💰' },
+      { title: 'Population (2024)', value: '47M', trend: 'up', trendValue: '3.0%', color: '#00e676', icon: '👥' },
+      { title: 'Oil Reserves', value: '6.5B', unit: 'barrels', trend: 'up', trendValue: '2025 production', color: '#ff9100', icon: '🛢️' },
+      { title: 'Median Age', value: '15.7', unit: 'years', trend: 'neutral', trendValue: 'World\'s youngest', color: '#ff5252', icon: '👨‍👩‍👧' },
+    ],
+    latestNews: [
+      { date: '2025-08', title: 'EACOP pipeline construction accelerates, expected operation in 2025', tag: 'Energy' },
+      { date: '2025-07', title: 'Oil commercialization nears as TotalEnergies advances project', tag: 'Energy' },
+      { date: '2025-06', title: 'Coffee exports stable, maintaining position as Africa\'s largest Robusta producer', tag: 'Trade' },
+    ]
+  },
+  kenya: {
+    name: 'Kenya',
+    flag: '🇰🇪',
+    fullName: 'Republic of Kenya',
+    description: 'East Africa\'s largest economy and regional business and financial hub. Mombasa port serves the entire East African market. Nairobi is known as the "Silicon Savannah" with a mature and leading Fintech ecosystem.',
+    kpis: [
+      { title: 'GDP (2024)', value: '$110B', trend: 'up', trendValue: '5.6%', color: '#448aff', icon: '💰' },
+      { title: 'Population (2024)', value: '55M', trend: 'up', trendValue: '2.5%', color: '#00e676', icon: '👥' },
+      { title: 'Remittances', value: '$4B', trend: 'up', trendValue: '+8%', color: '#ff9100', icon: '🏦' },
+      { title: 'Urbanization Rate', value: '30%', trend: 'up', trendValue: '+2%', color: '#ff5252', icon: '🏙️' },
+    ],
+    latestNews: [
+      { date: '2025-08', title: 'Digital economy booms with record Fintech funding', tag: 'Technology' },
+      { date: '2025-07', title: 'Renewable energy projects approved, geothermal power leads Africa', tag: 'Energy' },
+      { date: '2025-06', title: 'EAC integration deepens with trade facilitation measures implemented', tag: 'Trade' },
+    ]
+  }
+};
+
+const data = countryData[country] || countryData.ethiopia;
+---
+
+<BaseLayout title={`${data.name} Investment Database - Standerra`}>
+  <Header country={country} />
+  
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    
+    <main class="flex-1 p-6 max-w-7xl overflow-x-hidden">
+      <Breadcrumb items={[{ name: data.name, href: `/invest/en/${country}` }]} />
+      
+      {/* Country Header */}
+      <div class="mb-6">
+        <div class="flex items-center space-x-4 mb-4">
+          <span class="text-5xl">{data.flag}</span>
+          <div>
+            <h1 class="text-3xl font-bold">{data.name}</h1>
+            <p class="text-sm" style="color: var(--text-secondary)">{data.fullName}</p>
+          </div>
+        </div>
+        <p class="text-base" style="color: var(--text-secondary); line-height: 1.8">
+          {data.description}
+        </p>
+      </div>
+
+      {/* KPI Cards */}
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {data.kpis.map((kpi) => (
+          <KpiCard 
+            client:only="react"
+            title={kpi.title}
+            value={kpi.value}
+            unit={kpi.unit}
+            trend={kpi.trend}
+            trendValue={kpi.trendValue}
+            color={kpi.color}
+            icon={kpi.icon}
+          />
+        ))}
+      </div>
+
+      {/* Dual Entry Cards */}
+      <div class="grid md:grid-cols-2 gap-4 mb-6">
+        <a href={`/invest/en/${country}/decision`} class="group block p-6 rounded-2xl transition-all hover:scale-[1.02]" style="background: linear-gradient(135deg, var(--accent-orange), #ff5252);">
+          <div class="text-4xl mb-3">💰</div>
+          <h3 class="text-xl font-bold mb-2 text-white">Make a Decision</h3>
+          <p class="text-white/80 text-sm">Get conclusions in 30 seconds. Fast evaluation of market entry</p>
+          <div class="mt-4 flex items-center text-white/90 text-sm group-hover:translate-x-2 transition-transform">
+            Enter Decision Tools <span class="ml-2">→</span>
+          </div>
+        </a>
+        
+        <a href={`/invest/en/${country}/insight`} class="group block p-6 rounded-2xl transition-all hover:scale-[1.02]" style="background: linear-gradient(135deg, var(--accent-blue), var(--bg-card-hover));">
+          <div class="text-4xl mb-3">🔍</div>
+          <h3 class="text-xl font-bold mb-2 text-white">Do Research</h3>
+          <p class="text-white/80 text-sm">Deeply understand the underlying logic of this country's operations</p>
+          <div class="mt-4 flex items-center text-white/90 text-sm group-hover:translate-x-2 transition-transform">
+            Browse Reports <span class="ml-2">→</span>
+          </div>
+        </a>
+      </div>
+
+      {/* Third Row: Charts (Only Ethiopia has complete chart data) */}
+      {country === 'ethiopia' && (
+        <div class="grid lg:grid-cols-2 gap-4 mb-6">
+          <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+            <IndustryScatterChart client:only="react" />
+          </div>
+          <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+            <DebtPieChart client:only="react" />
+          </div>
+        </div>
+      )}
+
+      {/* Fourth Row: Map + Macro Trends (Only Ethiopia has complete charts) */}
+      <div class="grid lg:grid-cols-2 gap-4 mb-6">
+        {country === 'ethiopia' ? (
+          <>
+            <section>
+              <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+                <span class="mr-2">🗺️</span> Industry & City Map
+              </h2>
+              <EthiopiaMap client:load height="400px" />
+            </section>
+            <section>
+              <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+                <span class="mr-2">📈</span> Macro Economic Trends
+              </h2>
+              <div class="rounded-xl p-4 mb-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                <ExchangeRateChart client:only="react" />
+              </div>
+              <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                <GdpTrendChart client:only="react" />
+              </div>
+            </section>
+          </>
+        ) : (
+          <>
+            <section>
+              <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+                <span class="mr-2">🌍</span> {data.name} Investment Overview
+              </h2>
+              <div class="rounded-xl p-6" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <span style="color: var(--text-secondary)">Sovereign Credit Rating</span>
+                    <span class="px-2 py-1 rounded" style="background: var(--bg-secondary); color: var(--accent-orange);">Pending</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span style="color: var(--text-secondary)">EAC Member</span>
+                    <span class="px-2 py-1 rounded" style="background: rgba(0,230,118,0.2); color: #00e676;">✓ Yes</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span style="color: var(--text-secondary)">Official Language</span>
+                    <span style="color: var(--text-primary)">{country === 'uganda' ? 'English + Swahili' : country === 'kenya' ? 'English + Swahili' : 'Amharic'}</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span style="color: var(--text-secondary)">Currency</span>
+                    <span style="color: var(--text-primary)">{country === 'uganda' ? 'UGX (Uganda Shilling)' : country === 'kenya' ? 'KES (Kenya Shilling)' : 'ETB (Ethiopian Birr)'}</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+                <span class="mr-2">🏭</span> Priority Investment Industries
+              </h2>
+              <div class="rounded-xl p-6" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                <div class="space-y-3">
+                  {country === 'uganda' ? (
+                    <>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">🛢️</span>
+                        <span style="color: var(--text-primary)">Oil & Gas</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">☕</span>
+                        <span style="color: var(--text-primary)">Coffee Export Processing</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">💳</span>
+                        <span style="color: var(--text-primary)">Fintech</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">🏖️</span>
+                        <span style="color: var(--text-primary)">Tourism</span>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">💳</span>
+                        <span style="color: var(--text-primary)">Fintech</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">🏠</span>
+                        <span style="color: var(--text-primary)">Real Estate</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">⚡</span>
+                        <span style="color: var(--text-primary)">Renewable Energy</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">💼</span>
+                        <span style="color: var(--text-primary)">BPO Services</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+      </div>
+
+      {/* Latest Updates */}
+      <section>
+        <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+          <span class="mr-2">⚡</span> Key Updates Today
+        </h2>
+        <div class="space-y-3">
+          {data.latestNews.map((news) => (
+            <div class="flex items-center space-x-4 p-4 rounded-lg transition-all hover:translate-x-2" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+              <span class="text-xs px-2 py-1 rounded whitespace-nowrap" style="background: var(--bg-secondary); color: var(--text-secondary);">{news.date}</span>
+              <span class="text-xs px-2 py-1 rounded" style="background: rgba(255,145,0,0.2); color: var(--accent-orange);">{news.tag}</span>
+              <p class="flex-1" style="color: var(--text-primary);">{news.title}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>

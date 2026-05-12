@@ -1,0 +1,212 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>STANDERRA Intelligence 架构草图</title>
+<style>
+* { box-sizing: border-box; margin: 0; padding: 0; }
+body { background: #0f172a; color: #e2e8f0; font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif; padding: 40px 20px; }
+.container { max-width: 1400px; margin: 0 auto; }
+h1 { text-align: center; font-size: 28px; margin-bottom: 8px; background: linear-gradient(135deg, #38bdf8, #0ea5e9); -webkit-background-clip: text; -webkit-text-fill-color: transparent; }
+.subtitle { text-align: center; font-size: 14px; color: #94a3b8; margin-bottom: 40px; }
+.layer { margin-bottom: 24px; position: relative; }
+.layer-label { position: absolute; left: 0; top: 50%; transform: translateY(-50%); writing-mode: vertical-rl; text-orientation: mixed; font-size: 13px; font-weight: 600; color: #64748b; letter-spacing: 2px; padding: 8px 4px; }
+.layer-box { border-radius: 16px; padding: 20px; margin-left: 40px; }
+.layer-users { background: rgba(218,232,252,0.08); border: 1px solid rgba(108,142,191,0.3); }
+.layer-pages { background: rgba(213,232,212,0.08); border: 1px solid rgba(130,179,102,0.3); }
+.layer-funcs { background: rgba(255,242,204,0.08); border: 1px solid rgba(214,182,86,0.3); }
+.layer-data { background: rgba(225,213,231,0.08); border: 1px solid rgba(150,115,166,0.3); }
+.layer-infra { background: rgba(245,245,245,0.05); border: 1px dashed rgba(102,102,102,0.3); }
+.layer-title { font-size: 16px; font-weight: 700; margin-bottom: 16px; display: flex; align-items: center; gap: 8px; }
+.layer-title .dot { width: 10px; height: 10px; border-radius: 50%; }
+.dot-blue { background: #6c8ebf; }
+.dot-green { background: #82b366; }
+.dot-yellow { background: #d6b656; }
+.dot-purple { background: #9673a6; }
+.dot-gray { background: #666; }
+.containers { display: flex; gap: 16px; flex-wrap: wrap; }
+.cont-3 .cont { flex: 1; min-width: 280px; }
+.cont-4 .cont { flex: 1; min-width: 220px; }
+.cont-5 .cont { flex: 1; min-width: 140px; }
+.cont { background: rgba(15,23,42,0.6); border: 1px solid rgba(100,116,139,0.2); border-radius: 12px; padding: 16px; }
+.cont-title { font-size: 14px; font-weight: 600; margin-bottom: 12px; padding-bottom: 8px; border-bottom: 1px solid rgba(100,116,139,0.2); }
+.node { background: rgba(30,41,59,0.8); border: 1px solid rgba(100,116,139,0.3); border-radius: 8px; padding: 10px 12px; margin-bottom: 8px; font-size: 13px; transition: all 0.2s; }
+.node:hover { border-color: #38bdf8; transform: translateY(-2px); }
+.node:last-child { margin-bottom: 0; }
+.node-route { font-size: 11px; color: #64748b; margin-top: 4px; }
+.node-badge { display: inline-block; font-size: 10px; padding: 2px 6px; border-radius: 4px; margin-left: 6px; font-weight: 500; }
+.badge-blue { background: rgba(59,130,246,0.2); color: #60a5fa; }
+.badge-gold { background: rgba(245,158,11,0.2); color: #f59e0b; }
+.badge-green { background: rgba(16,185,129,0.2); color: #10b981; }
+.badge-purple { background: rgba(139,92,246,0.2); color: #a78bfa; }
+.arrow { text-align: center; padding: 6px 0; }
+.arrow-line { color: #475569; font-size: 20px; }
+.arrow-label { font-size: 11px; color: #64748b; }
+.full-row { display: flex; gap: 12px; flex-wrap: wrap; }
+.full-row .node { flex: 1; min-width: 150px; text-align: center; }
+.legend { display: flex; gap: 20px; justify-content: center; margin-top: 32px; flex-wrap: wrap; }
+.legend-item { display: flex; align-items: center; gap: 6px; font-size: 12px; color: #94a3b8; }
+.legend-dot { width: 8px; height: 8px; border-radius: 50%; }
+@media (max-width: 768px) {
+  .layer-label { display: none; }
+  .layer-box { margin-left: 0; }
+  .cont { min-width: 100% !important; }
+  .full-row .node { min-width: 100px; }
+}
+</style>
+</head>
+<body>
+<div class="container">
+  <h1>STANDERRA Intelligence 架构草图</h1>
+  <p class="subtitle">5层架构 · 89个节点 · 数据驱动的东非投资决策平台</p>
+
+  <!-- 第1层：用户接入层 -->
+  <div class="layer">
+    <div class="layer-label">用户接入</div>
+    <div class="layer-box layer-users">
+      <div class="layer-title"><span class="dot dot-blue"></span> 用户接入层</div>
+      <div class="full-row cont-4">
+        <div class="node">🏠 侨民投资者<br><span style="font-size:11px;color:#94a3b8">海外非裔 · 美金投资 · 远程决策</span></div>
+        <div class="node">👤 本地投资者<br><span style="font-size:11px;color:#94a3b8">东非本土 · 首购/改善型</span></div>
+        <div class="node">🏢 企业/机构<br><span style="font-size:11px;color:#94a3b8">开发商/政府/酒店/金融</span></div>
+        <div class="node">📊 专业用户<br><span style="font-size:11px;color:#94a3b8">分析师/咨询顾问/媒体</span></div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow"><span class="arrow-line">▼</span><br><span class="arrow-label">访问页面</span></div>
+
+  <!-- 第2层：前端页面层 -->
+  <div class="layer">
+    <div class="layer-label">前端页面</div>
+    <div class="layer-box layer-pages">
+      <div class="layer-title"><span class="dot dot-green"></span> 前端页面层</div>
+      <div class="containers cont-4">
+        <div class="cont">
+          <div class="cont-title" style="color:#82b366">📡 情报中心</div>
+          <div class="node">5国总览页<div class="node-route">/intelligence</div></div>
+          <div class="node">国家概览仪表板<div class="node-route">/intelligence/[country]/overview</div></div>
+          <div class="node">投资决策页<div class="node-route">/intelligence/[country]/decision</div></div>
+          <div class="node">深度洞察页<div class="node-route">/intelligence/[country]/insight</div></div>
+          <div class="node">产业赛道页<div class="node-route">/intelligence/[country]/industry</div></div>
+          <div class="node">投资工具页<div class="node-route">/intelligence/[country]/toolkit</div></div>
+        </div>
+        <div class="cont">
+          <div class="cont-title" style="color:#82b366">💼 方案包市场</div>
+          <div class="node">方案包列表<div class="node-route">/opportunities</div></div>
+          <div class="node">方案包详情<div class="node-route">/opportunities/[slug]</div></div>
+          <div class="node">产业链分类筛选<span class="node-badge badge-gold">6类</span></div>
+        </div>
+        <div class="cont">
+          <div class="cont-title" style="color:#82b366">🤖 AI智库</div>
+          <div class="node">智库分析师对话<div class="node-route">/ai</div></div>
+          <div class="node">侨民顾问对话</div>
+        </div>
+        <div class="cont">
+          <div class="cont-title" style="color:#82b366">⚙️ 服务平台</div>
+          <div class="node">订阅定价页<div class="node-route">/pricing</div></div>
+          <div class="node">关于平台<div class="node-route">/about</div></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow"><span class="arrow-line">▼</span><br><span class="arrow-label">调用功能</span></div>
+
+  <!-- 第3层：核心功能层 -->
+  <div class="layer">
+    <div class="layer-label">核心功能</div>
+    <div class="layer-box layer-funcs">
+      <div class="layer-title"><span class="dot dot-yellow"></span> 核心功能层</div>
+      <div class="containers cont-3">
+        <div class="cont">
+          <div class="cont-title" style="color:#d6b656">🧠 AI智能体</div>
+          <div class="node">智库分析师引擎<span class="node-badge badge-purple">DeepSeek-V3</span></div>
+          <div class="node">侨民顾问引擎</div>
+          <div class="node">知识库查询<span class="node-badge badge-blue">29方案包+414MD</span></div>
+        </div>
+        <div class="cont">
+          <div class="cont-title" style="color:#d6b656">📈 数据可视化</div>
+          <div class="node">5国KPI对比仪表板</div>
+          <div class="node">国家概览仪表板</div>
+          <div class="node">产业对比图表</div>
+          <div class="node">数据面板</div>
+        </div>
+        <div class="cont">
+          <div class="cont-title" style="color:#d6b656">🔧 交互功能</div>
+          <div class="node">方案包筛选器<span class="node-badge badge-gold">6维度</span></div>
+          <div class="node">投资回报计算器</div>
+          <div class="node">进度追踪系统</div>
+          <div class="node">订阅管理系统</div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow"><span class="arrow-line">┈ ▼ ┈</span><br><span class="arrow-label">读取数据</span></div>
+
+  <!-- 第4层：数据内容层 -->
+  <div class="layer">
+    <div class="layer-label">数据内容</div>
+    <div class="layer-box layer-data">
+      <div class="layer-title"><span class="dot dot-purple"></span> 数据内容层</div>
+      <div class="containers cont-3">
+        <div class="cont">
+          <div class="cont-title" style="color:#9673a6">🌍 国家数据库 <span class="node-badge badge-purple">414文件</span></div>
+          <div class="node">🇪🇹 埃塞俄比亚 (99)<br><span style="font-size:11px;color:#94a3b8">decision·insight·industry·toolkit</span></div>
+          <div class="node">🇺🇬 乌干达 (84)<br><span style="font-size:11px;color:#94a3b8">decision·insight·industry·toolkit</span></div>
+          <div class="node">🇰🇪 肯尼亚 (84)<br><span style="font-size:11px;color:#94a3b8">decision·insight·industry·toolkit</span></div>
+          <div class="node">🇹🇿 坦桑尼亚 (69)<br><span style="font-size:11px;color:#94a3b8">decision·insight·industry·toolkit</span></div>
+          <div class="node">🇷🇼 卢旺达 (78)<br><span style="font-size:11px;color:#94a3b8">decision·insight·industry·toolkit</span></div>
+        </div>
+        <div class="cont">
+          <div class="cont-title" style="color:#9673a6">📦 方案包库 <span class="node-badge badge-gold">29个</span></div>
+          <div class="node">基础建材 <span class="node-badge badge-blue">8个</span></div>
+          <div class="node">保温防水 <span class="node-badge badge-blue">4个</span></div>
+          <div class="node">精装闭环 <span class="node-badge badge-blue">6个</span></div>
+          <div class="node">能源供水 <span class="node-badge badge-blue">4个</span></div>
+          <div class="node">供应链 <span class="node-badge badge-blue">2个</span></div>
+          <div class="node">服务 <span class="node-badge badge-blue">2个</span></div>
+        </div>
+        <div class="cont">
+          <div class="cont-title" style="color:#9673a6">📚 AI知识库</div>
+          <div class="node">智库分析师人设</div>
+          <div class="node">投资分析框架<span class="node-badge badge-purple">CLSR</span></div>
+          <div class="node">行业深搜报告<span class="node-badge badge-purple">6份</span></div>
+          <div class="node">方案包知识<span class="node-badge badge-gold">29份</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <div class="arrow"><span class="arrow-line">┈ ▼ ┈</span><br><span class="arrow-label">依赖基建</span></div>
+
+  <!-- 第5层：技术基建层 -->
+  <div class="layer">
+    <div class="layer-label">技术基建</div>
+    <div class="layer-box layer-infra">
+      <div class="layer-title"><span class="dot dot-gray"></span> 技术基建层</div>
+      <div class="full-row">
+        <div class="node" style="text-align:center">⚡ Astro 5 + React + Tailwind</div>
+        <div class="node" style="text-align:center">☁️ Vercel Serverless</div>
+        <div class="node" style="text-align:center">🧠 硅基流动 DeepSeek-V3</div>
+        <div class="node" style="text-align:center">📄 Content Collections (414 MD)</div>
+        <div class="node" style="text-align:center">🌐 Cloudflare CDN</div>
+      </div>
+    </div>
+  </div>
+
+  <!-- 图例 -->
+  <div class="legend">
+    <div class="legend-item"><span class="legend-dot" style="background:#6c8ebf"></span> 用户接入</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#82b366"></span> 前端页面</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#d6b656"></span> 核心功能</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#9673a6"></span> 数据内容</div>
+    <div class="legend-item"><span class="legend-dot" style="background:#666"></span> 技术基建</div>
+    <div class="legend-item">▼ 实线 = 直接调用</div>
+    <div class="legend-item">┈▼┈ 虚线 = 数据依赖</div>
+  </div>
+</div>
+</body>
+</html>

@@ -1,0 +1,343 @@
+---
+import AIProviderLayout from '../components/AIProviderLayout.tsx';
+import AIChatWidget from '../components/AIChatWidget.tsx';
+
+interface Props {
+  title: string;
+  description?: string;
+  pageContext?: string;
+}
+
+const { title, description = '国家级投资情报系统', pageContext = '' } = Astro.props;
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="/auto-chart.js" defer></script>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#1E3A5F" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="STANDERRA" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+  </head>
+  <body class="invest-dashboard">
+    <!-- AI Provider Layout wraps all content -->
+    <div id="ai-layout-root">
+      <slot />
+    </div>
+    
+    <!-- AI Chat Widget (outside layout to be always visible) -->
+    <AIChatWidget client:only="react" pageContext={pageContext} />
+    
+    <!-- PWA Install Banner -->
+    <div id="pwa-install-banner" style="display:none; position:fixed; bottom:20px; left:50%; transform:translateX(-50%); background:linear-gradient(135deg,#F59E0B,#D97706); color:#0f172a; padding:12px 24px; border-radius:50px; font-weight:600; cursor:pointer; z-index:9999; box-shadow:0 4px 20px rgba(245,158,11,0.4);">
+      📲 添加STANDERRA到桌面，随时查看东非情报
+    </div>
+    
+    <script>
+      // 初始化AI上下文
+      (function initAIContext() {
+        const path = window.location.pathname;
+        const pageContext = document.body.dataset.pageContext || '';
+        
+        // 存储页面上下文到window
+        (window as any).__standerraContext = {
+          pagePath: path,
+          pageContext: pageContext
+        };
+        
+        // 派发事件通知AI组件
+        window.dispatchEvent(new CustomEvent('standerraPageChange', {
+          detail: { path, pageContext }
+        }));
+      })();
+      
+      // PWA Install
+      if ('serviceWorker' in navigator) {
+        window.addEventListener('load', () => {
+          navigator.serviceWorker.register('/sw.js')
+            .then((reg) => console.log('SW registered:', reg.scope))
+            .catch((err) => console.log('SW registration failed:', err));
+        });
+      }
+      let deferredPrompt;
+      window.addEventListener('beforeinstallprompt', (e) => {
+        e.preventDefault();
+        deferredPrompt = e;
+        const banner = document.getElementById('pwa-install-banner');
+        if (banner) banner.style.display = 'block';
+      });
+      document.getElementById('pwa-install-banner')?.addEventListener('click', async () => {
+        if (deferredPrompt) {
+          deferredPrompt.prompt();
+          const { outcome } = await deferredPrompt.userChoice;
+          console.log('Install outcome:', outcome);
+          deferredPrompt = null;
+          const banner = document.getElementById('pwa-install-banner');
+          if (banner) banner.style.display = 'none';
+        }
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    /* Power BI Dark Theme Colors */
+    --bg-primary: #1b1b2f;
+    --bg-secondary: #162447;
+    --bg-card: #1f4068;
+    --bg-card-hover: #2a5298;
+    --text-primary: #e8e8e8;
+    --text-secondary: #a0a0b0;
+    --accent-green: #00e676;
+    --accent-red: #ff5252;
+    --accent-yellow: #ffd740;
+    --accent-blue: #448aff;
+    --accent-orange: #ff9100;
+    --border-color: #2a3a5c;
+    
+    /* Legacy color names for compatibility */
+    --color-primary: var(--bg-card);
+    --color-secondary: var(--accent-orange);
+    --color-dark: var(--bg-primary);
+  }
+  
+  body.invest-dashboard {
+    font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Sans SC', 'Inter', system-ui, sans-serif;
+    color: var(--text-primary);
+  }
+  
+  /* Scrollbar Styles - Dark Theme */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-blue);
+  }
+  
+  /* Leaflet Dark Theme */
+  .leaflet-container {
+    background: #0d1117 !important;
+  }
+  
+  .leaflet-popup-content-wrapper {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+  }
+  
+  .leaflet-popup-tip {
+    background: var(--bg-card) !important;
+  }
+  
+  .leaflet-popup-close-button {
+    color: var(--text-secondary) !important;
+  }
+  
+  .leaflet-control-zoom a {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+  }
+  
+  .leaflet-control-zoom a:hover {
+    background: var(--bg-card-hover) !important;
+  }
+  
+  .leaflet-control-attribution {
+    background: rgba(22, 36, 71, 0.8) !important;
+    color: var(--text-secondary) !important;
+  }
+  
+  .leaflet-control-attribution a {
+    color: var(--accent-blue) !important;
+  }
+  
+  /* Link Styles */
+  a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  a:hover {
+    color: var(--accent-orange);
+  }
+  
+  /* Card Base Style */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent-blue);
+    box-shadow: 0 4px 20px rgba(68, 138, 255, 0.15);
+  }
+  
+  /* KPI Card Style */
+  .kpi-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-orange));
+  }
+  
+  /* Gradient Button */
+  .btn-gradient {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-orange) 100%);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(68, 138, 255, 0.3);
+  }
+  
+  /* Dashboard Grid */
+  .dashboard-grid {
+    display: grid;
+    gap: 20px;
+  }
+  
+  /* Table Styles */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  th {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  
+  tr:hover td {
+    background: rgba(68, 138, 255, 0.05);
+  }
+  
+  /* Prose Content Styles */
+  .prose {
+    color: var(--text-primary);
+  }
+  
+  .prose h1, .prose h2, .prose h3, .prose h4 {
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+  }
+  
+  .prose p {
+    line-height: 1.8;
+    color: var(--text-secondary);
+  }
+  
+  .prose blockquote {
+    border-left: 4px solid var(--accent-green);
+    background: var(--bg-secondary);
+    padding: 16px 20px;
+    margin: 16px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  
+  .prose blockquote p {
+    color: var(--text-primary);
+    margin: 0;
+  }
+  
+  .prose code {
+    background: var(--bg-secondary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  
+  .prose pre {
+    background: var(--bg-secondary);
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+  
+  .prose img {
+    border-radius: 8px;
+    max-width: 100%;
+  }
+  
+  /* AI Components Global Styles */
+  .ai-insight-wrapper {
+    display: inline-block;
+    position: relative;
+  }
+  
+  .ai-quick-ask {
+    display: flex;
+    flex-direction: column;
+    gap: 12px;
+  }
+  
+  @keyframes aiPulse {
+    0%, 100% { box-shadow: 0 0 0 0 rgba(245, 158, 11, 0.4); }
+    50% { box-shadow: 0 0 0 8px rgba(245, 158, 11, 0); }
+  }
+  
+  .ai-pulse {
+    animation: aiPulse 2s infinite;
+  }
+</style>

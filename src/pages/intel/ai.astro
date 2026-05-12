@@ -1,0 +1,251 @@
+---
+import BaseLayout from '../../layouts/IntelLayout.astro';
+import AIChatWidget from '../../components/AIChatWidget.tsx';
+import CountryComparisonTool from '../../components/CountryComparisonTool.tsx';
+import InvestmentSimulator from '../../components/InvestmentSimulator.tsx';
+
+const quickQuestions = [
+  '东非哪个国家最适合制造业投资？',
+  '肯尼亚的债务危机对投资有什么影响？',
+  '乌干达石油商业化进展如何？',
+  '卢旺达ICT产业有什么机会？',
+  '埃塞俄比亚工业园区有哪些？',
+  '坦桑尼亚基础设施建设规划',
+];
+
+const recentChats = [
+  { title: '埃塞俄比亚税收优惠政策', time: '今天 14:30' },
+  { title: '肯尼亚房地产投资回报分析', time: '今天 11:20' },
+  { title: '卢旺达公司注册流程', time: '昨天 16:45' },
+];
+
+const aiUseCases = [
+  {
+    icon: '🎯',
+    title: '快速投资评估',
+    description: '输入您的投资需求，AI在30秒内生成五国对比分析报告',
+    example: '"我想在东非投资500万美元建厂，哪个国家最适合？"'
+  },
+  {
+    icon: '📊',
+    title: '行业机会分析',
+    description: '深度分析特定行业在五国的发展潜力、风险和回报',
+    example: '"肯尼亚ICT行业现状如何？有哪些投资机会？"'
+  },
+  {
+    icon: '⚠️',
+    title: '风险预警',
+    description: '实时监控政策变化和市场风险，第一时间推送预警',
+    example: '"埃塞俄比亚外汇政策最近有什么变化？"'
+  },
+  {
+    icon: '📋',
+    title: '合规指南',
+    description: '解答各国公司注册、税务、劳动法等合规问题',
+    example: '"在卢旺达注册公司需要哪些文件和流程？"'
+  },
+];
+---
+
+<BaseLayout title="AI投资分析师 - STANDERRA Intelligence" pageContext="ai">
+  <style>
+    .gradient-text {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .btn-gold {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      transition: all 0.3s ease;
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #FBBF24, #F59E0B);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .btn-pill {
+      border-radius: 9999px;
+    }
+    
+    .ai-box {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+    
+    .sidebar-card {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    
+    .use-case-card {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      transition: all 0.3s ease;
+    }
+    .use-case-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .example-prompt {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      font-family: monospace;
+    }
+  </style>
+
+  <!-- 页面头部 -->
+  <section class="pt-24 pb-6 px-6 bg-gradient-to-b from-slate-900/80 to-transparent">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-3xl md:text-4xl font-bold mb-2">
+        <span class="gradient-text">AI投资分析师</span>
+      </h1>
+      <p class="text-slate-400">
+        基于414份情报训练，随时解答您的投资疑问
+      </p>
+    </div>
+  </section>
+
+  <!-- AI用例展示 -->
+  <section class="px-6 py-8">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-xl font-bold mb-6 text-white">
+        💡 AI可以帮您做什么？
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4 mb-8">
+        {aiUseCases.map((useCase) => (
+          <div class="use-case-card rounded-xl p-5">
+            <div class="text-3xl mb-3">{useCase.icon}</div>
+            <h3 class="text-lg font-bold text-white mb-2">{useCase.title}</h3>
+            <p class="text-slate-400 text-sm mb-3">{useCase.description}</p>
+            <div class="example-prompt rounded-lg p-2 text-xs text-sky-300">
+              示例：{useCase.example}
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 主内容区 -->
+  <section class="px-6 pb-12">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col lg:flex-row gap-6">
+        <!-- 左侧对话区域 -->
+        <div class="flex-1">
+          <div class="ai-box rounded-2xl overflow-hidden" style="min-height: 500px;">
+            <AIChatWidget client:only="react" pageContext="ai" pagePath="/intel/ai" />
+          </div>
+        </div>
+        
+        <!-- 右侧边栏 -->
+        <div class="lg:w-80 space-y-6">
+          <!-- 快速问题 -->
+          <div class="sidebar-card rounded-xl p-5">
+            <h3 class="text-lg font-bold text-white mb-4">快速问题</h3>
+            <div class="space-y-2">
+              {quickQuestions.map((q) => (
+                <button class="w-full text-left px-4 py-3 rounded-lg bg-slate-700/50 hover:bg-slate-600/50 text-slate-300 text-sm transition-colors border border-slate-600/30 hover:border-sky-500/30">
+                  {q}
+                </button>
+              ))}
+            </div>
+          </div>
+          
+          <!-- 最近对话 -->
+          <div class="sidebar-card rounded-xl p-5">
+            <h3 class="text-lg font-bold text-white mb-4">最近对话</h3>
+            <div class="space-y-3">
+              {recentChats.map((chat) => (
+                <a href="#" class="block px-4 py-3 rounded-lg bg-slate-700/30 hover:bg-slate-700/60 transition-colors">
+                  <p class="text-white text-sm font-medium truncate">{chat.title}</p>
+                  <p class="text-slate-500 text-xs mt-1">{chat.time}</p>
+                </a>
+              ))}
+            </div>
+            <a href="#" class="block mt-4 text-center text-sky-400 hover:text-sky-300 text-sm font-medium">
+              查看全部历史 →
+            </a>
+          </div>
+          
+          <!-- AI能力说明 -->
+          <div class="sidebar-card rounded-xl p-5">
+            <h3 class="text-lg font-bold text-white mb-4">AI能力</h3>
+            <ul class="space-y-3 text-slate-400 text-sm">
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 mt-0.5">✓</span>
+                <span>投资环境分析</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 mt-0.5">✓</span>
+                <span>政策法规解读</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 mt-0.5">✓</span>
+                <span>市场机会评估</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 mt-0.5">✓</span>
+                <span>风险预警提示</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 mt-0.5">✓</span>
+                <span>方案包推荐</span>
+              </li>
+            </ul>
+          </div>
+          
+          <!-- 数据来源 -->
+          <div class="sidebar-card rounded-xl p-5">
+            <h3 class="text-lg font-bold text-white mb-3">数据来源</h3>
+            <p class="text-slate-400 text-sm mb-3">
+              基于以下权威数据源训练：
+            </p>
+            <div class="space-y-2">
+              <div class="flex items-center gap-2 text-xs text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-sky-400"></span>
+                <span>世界银行数据库</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
+                <span>IMF经济展望</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-amber-400"></span>
+                <span>各国统计局</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-violet-400"></span>
+                <span>实地调研数据</span>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 投资工具区 -->
+  <section class="px-6 pb-12">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6">
+        <span class="gradient-text">🛠️ 投资决策工具</span>
+      </h2>
+      
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-6">
+        <!-- 国家对比工具 -->
+        <div class="rounded-2xl p-6" style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(56, 189, 248, 0.2);">
+          <CountryComparisonTool client:only="react" />
+        </div>
+        
+        <!-- 投资模拟器 -->
+        <div class="rounded-2xl p-6" style="background: rgba(30, 41, 59, 0.8); border: 1px solid rgba(245, 158, 11, 0.2);">
+          <InvestmentSimulator client:only="react" />
+        </div>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

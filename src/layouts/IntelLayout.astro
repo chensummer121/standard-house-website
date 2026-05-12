@@ -1,0 +1,432 @@
+---
+import AIChatWidget from '../components/AIChatWidget.tsx';
+
+interface Props {
+  title: string;
+  description?: string;
+}
+
+const { title, description = 'STANDERRA Intelligence - 数据驱动的东非投资决策平台' } = Astro.props;
+const currentPath = Astro.url.pathname;
+
+// Intel导航 - 所有路径以/intel/为前缀
+const navItems = [
+  { name: '情报中心', href: '/intel/intelligence' },
+  { name: '方案包市场', href: '/intel/opportunities' },
+  { name: 'AI智库', href: '/intel/ai' },
+  { name: '加入', href: '/intel/pricing' },
+];
+
+function isActive(href: string): boolean {
+  return currentPath.startsWith(href);
+}
+---
+
+<!doctype html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <title>{title}</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700&family=Noto+Sans+SC:wght@400;500;700&display=swap" rel="stylesheet">
+    <!-- Leaflet CSS -->
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+    <script src="/auto-chart.js" defer></script>
+    <link rel="manifest" href="/manifest.json" />
+    <meta name="theme-color" content="#0f172a" />
+    <meta name="apple-mobile-web-app-capable" content="yes" />
+    <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent" />
+    <meta name="apple-mobile-web-app-title" content="STANDERRA" />
+    <link rel="apple-touch-icon" href="/icons/icon-192x192.png" />
+  </head>
+  <body class="invest-dashboard">
+    <!-- Header -->
+    <header class="fixed top-0 left-0 right-0 z-50" style="background: rgba(15, 23, 42, 0.95); border-bottom: 1px solid #1E3A5F;">
+      <nav class="container-custom">
+        <div class="flex items-center justify-between h-16">
+          <!-- Logo -->
+          <a href="/intel" class="flex items-center gap-3">
+            <div class="w-10 h-10 rounded-lg flex items-center justify-center text-xl" style="background: linear-gradient(135deg, #3b82f6, #F59E0B);">
+              🌍
+            </div>
+            <span class="font-display font-bold text-lg hidden md:inline">
+              <span style="color: #F59E0B;">STANDERRA</span>
+              <span style="color: white;">Intelligence</span>
+            </span>
+          </a>
+
+          <!-- Desktop Navigation -->
+          <div class="hidden lg:flex items-center gap-8">
+            {navItems.map(item => (
+              <a 
+                href={item.href}
+                class={`text-sm font-medium transition-colors ${
+                  isActive(item.href) 
+                    ? 'text-[#F59E0B]' 
+                    : 'text-gray-300 hover:text-white'
+                }`}
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
+
+          <!-- Right Actions -->
+          <div class="flex items-center gap-4">
+            <a 
+              href="/intel/pricing" 
+              class="inline-flex items-center gap-2 px-4 py-2 text-sm font-medium rounded-lg transition-colors"
+              style="background: linear-gradient(135deg, #F59E0B, #d97706); color: white;"
+            >
+              <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+              </svg>
+              加入情报网络
+            </a>
+
+            <!-- Mobile Menu Button -->
+            <button id="mobile-menu-btn" class="lg:hidden p-2 text-gray-300 hover:text-white">
+              <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16" />
+              </svg>
+            </button>
+          </div>
+        </div>
+
+        <!-- Mobile Menu -->
+        <div id="mobile-menu" class="hidden lg:hidden pb-4">
+          <div class="flex flex-col gap-2">
+            {navItems.map(item => (
+              <a 
+                href={item.href}
+                class={`px-3 py-2 text-sm font-medium rounded-lg ${
+                  isActive(item.href) 
+                    ? 'bg-[#F59E0B]/10 text-[#F59E0B]' 
+                    : 'text-gray-300 hover:bg-gray-800'
+                }`}
+              >
+                {item.name}
+              </a>
+            ))}
+          </div>
+        </div>
+      </nav>
+    </header>
+
+    <!-- Main Content -->
+    <main class="min-h-screen pt-16">
+      <slot />
+    </main>
+
+    <!-- Footer -->
+    <footer style="background: #0f172a; color: white;">
+      <div class="container-custom py-16">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+          <!-- Brand -->
+          <div class="lg:col-span-1">
+            <a href="/intel" class="flex items-center gap-3 mb-4">
+              <div class="w-10 h-10 rounded-lg flex items-center justify-center text-xl" style="background: linear-gradient(135deg, #3b82f6, #F59E0B);">
+                🌍
+              </div>
+              <span class="font-display font-bold text-lg">
+                <span style="color: #F59E0B;">STANDERRA</span>
+                <span style="color: white;">Intelligence</span>
+              </span>
+            </a>
+            <p class="text-gray-400 text-sm mb-6">
+              数据驱动的东非投资决策平台。帮助投资者做出明智的非洲投资决策。
+            </p>
+            <div class="flex gap-4">
+              <a href="https://wa.me/256766969867" target="_blank" rel="noopener" class="w-10 h-10 rounded-full bg-gray-800 flex items-center justify-center hover:bg-[#3b82f6] transition-colors">
+                <svg class="w-5 h-5" fill="currentColor" viewBox="0 0 24 24">
+                  <path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+
+          <!-- Explore -->
+          <div>
+            <h3 class="font-semibold text-lg mb-4" style="color: #F59E0B;">核心服务</h3>
+            <ul class="space-y-3">
+              <li><a href="/intel/intelligence" class="text-gray-400 hover:text-white text-sm transition-colors">国家情报</a></li>
+              <li><a href="/intel/opportunities" class="text-gray-400 hover:text-white text-sm transition-colors">方案包市场</a></li>
+              <li><a href="/intel/ai" class="text-gray-400 hover:text-white text-sm transition-colors">AI智库</a></li>
+              <li><a href="/intel/pricing" class="text-gray-400 hover:text-white text-sm transition-colors">订阅</a></li>
+            </ul>
+          </div>
+
+          <!-- Company -->
+          <div>
+            <h3 class="font-semibold text-lg mb-4" style="color: #F59E0B;">关于我们</h3>
+            <ul class="space-y-3">
+              <li><a href="/intel/pricing#about" class="text-gray-400 hover:text-white text-sm transition-colors">公司简介</a></li>
+              <li><a href="/intel/pricing#contact" class="text-gray-400 hover:text-white text-sm transition-colors">联系方式</a></li>
+            </ul>
+          </div>
+
+          <!-- Resources -->
+          <div>
+            <h3 class="font-semibold text-lg mb-4" style="color: #F59E0B;">数据资源</h3>
+            <ul class="space-y-3">
+              <li><a href="/invest/" class="text-gray-400 hover:text-white text-sm transition-colors">投资情报系统</a></li>
+              <li><a href="/cement-map.html" class="text-gray-400 hover:text-white text-sm transition-colors">水泥地图</a></li>
+            </ul>
+          </div>
+        </div>
+
+        <!-- Bottom Bar -->
+        <div class="mt-12 pt-8 border-t border-gray-800 flex flex-col md:flex-row justify-between items-center gap-4">
+          <p class="text-gray-500 text-sm">
+            © {new Date().getFullYear()} STANDERRA Intelligence. All rights reserved.
+          </p>
+          <div class="flex items-center gap-2 text-gray-500 text-sm">
+            <svg class="w-4 h-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z" />
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z" />
+            </svg>
+            <span>东非 · 数据驱动的投资决策平台</span>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Mobile Menu Script -->
+    <script>
+      const menuBtn = document.getElementById('mobile-menu-btn');
+      const mobileMenu = document.getElementById('mobile-menu');
+      
+      menuBtn?.addEventListener('click', () => {
+        mobileMenu?.classList.toggle('hidden');
+      });
+    </script>
+  </body>
+</html>
+
+<style is:global>
+  :root {
+    /* Power BI Dark Theme Colors */
+    --bg-primary: #1b1b2f;
+    --bg-secondary: #162447;
+    --bg-card: #1f4068;
+    --bg-card-hover: #2a5298;
+    --text-primary: #e8e8e8;
+    --text-secondary: #a0a0b0;
+    --accent-green: #00e676;
+    --accent-red: #ff5252;
+    --accent-yellow: #ffd740;
+    --accent-blue: #448aff;
+    --accent-orange: #ff9100;
+    --border-color: #2a3a5c;
+  }
+  
+  body.invest-dashboard {
+    font-family: 'Inter', 'Noto Sans SC', system-ui, sans-serif;
+    background-color: var(--bg-primary);
+    color: var(--text-primary);
+    min-height: 100vh;
+  }
+  
+  h1, h2, h3, h4, h5, h6 {
+    font-family: 'Noto Sans SC', 'Inter', system-ui, sans-serif;
+    color: var(--text-primary);
+  }
+  
+  /* 容器 */
+  .container-custom {
+    max-width: 1280px;
+    margin: 0 auto;
+    padding: 0 1.5rem;
+  }
+  
+  /* 滚动条样式 - 深色主题 */
+  ::-webkit-scrollbar {
+    width: 8px;
+    height: 8px;
+  }
+  
+  ::-webkit-scrollbar-track {
+    background: var(--bg-secondary);
+  }
+  
+  ::-webkit-scrollbar-thumb {
+    background: var(--border-color);
+    border-radius: 4px;
+  }
+  
+  ::-webkit-scrollbar-thumb:hover {
+    background: var(--accent-blue);
+  }
+  
+  /* Leaflet 深色主题适配 */
+  .leaflet-container {
+    background: #0d1117 !important;
+  }
+  
+  .leaflet-popup-content-wrapper {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-radius: 12px !important;
+    box-shadow: 0 4px 20px rgba(0,0,0,0.4) !important;
+  }
+  
+  .leaflet-popup-tip {
+    background: var(--bg-card) !important;
+  }
+  
+  .leaflet-popup-close-button {
+    color: var(--text-secondary) !important;
+  }
+  
+  .leaflet-control-zoom a {
+    background: var(--bg-card) !important;
+    color: var(--text-primary) !important;
+    border-color: var(--border-color) !important;
+  }
+  
+  .leaflet-control-zoom a:hover {
+    background: var(--bg-card-hover) !important;
+  }
+  
+  .leaflet-control-attribution {
+    background: rgba(22, 36, 71, 0.8) !important;
+    color: var(--text-secondary) !important;
+  }
+  
+  .leaflet-control-attribution a {
+    color: var(--accent-blue) !important;
+  }
+  
+  /* 链接样式 */
+  a {
+    color: var(--accent-blue);
+    text-decoration: none;
+    transition: color 0.2s ease;
+  }
+  
+  a:hover {
+    color: var(--accent-orange);
+  }
+  
+  /* 卡片基础样式 */
+  .card {
+    background: var(--bg-card);
+    border: 1px solid var(--border-color);
+    border-radius: 12px;
+    transition: all 0.3s ease;
+  }
+  
+  .card:hover {
+    background: var(--bg-card-hover);
+    border-color: var(--accent-blue);
+    box-shadow: 0 4px 20px rgba(68, 138, 255, 0.15);
+  }
+  
+  /* KPI卡片样式 */
+  .kpi-card {
+    background: linear-gradient(135deg, var(--bg-card) 0%, var(--bg-secondary) 100%);
+    border: 1px solid var(--border-color);
+    border-radius: 16px;
+    padding: 24px;
+    position: relative;
+    overflow: hidden;
+  }
+  
+  .kpi-card::before {
+    content: '';
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 3px;
+    background: linear-gradient(90deg, var(--accent-blue), var(--accent-orange));
+  }
+  
+  /* 渐变按钮 */
+  .btn-gradient {
+    background: linear-gradient(135deg, var(--accent-blue) 0%, var(--accent-orange) 100%);
+    color: white;
+    padding: 12px 24px;
+    border-radius: 8px;
+    font-weight: 600;
+    transition: all 0.3s ease;
+  }
+  
+  .btn-gradient:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 25px rgba(68, 138, 255, 0.3);
+  }
+  
+  /* 表格样式 */
+  table {
+    border-collapse: collapse;
+    width: 100%;
+  }
+  
+  th, td {
+    padding: 12px 16px;
+    text-align: left;
+    border-bottom: 1px solid var(--border-color);
+  }
+  
+  th {
+    background: var(--bg-secondary);
+    color: var(--text-primary);
+    font-weight: 600;
+  }
+  
+  tr:hover td {
+    background: rgba(68, 138, 255, 0.05);
+  }
+  
+  /* Prose 内容样式 */
+  .prose {
+    color: var(--text-primary);
+  }
+  
+  .prose h1, .prose h2, .prose h3, .prose h4 {
+    color: var(--text-primary);
+    border-bottom: 1px solid var(--border-color);
+    padding-bottom: 8px;
+  }
+  
+  .prose p {
+    line-height: 1.8;
+    color: var(--text-secondary);
+  }
+  
+  .prose blockquote {
+    border-left: 4px solid var(--accent-green);
+    background: var(--bg-secondary);
+    padding: 16px 20px;
+    margin: 16px 0;
+    border-radius: 0 8px 8px 0;
+  }
+  
+  .prose blockquote p {
+    color: var(--text-primary);
+    margin: 0;
+  }
+  
+  .prose code {
+    background: var(--bg-secondary);
+    padding: 2px 6px;
+    border-radius: 4px;
+    font-family: 'JetBrains Mono', monospace;
+  }
+  
+  .prose pre {
+    background: var(--bg-secondary);
+    padding: 16px;
+    border-radius: 8px;
+    overflow-x: auto;
+  }
+  
+  .prose img {
+    border-radius: 8px;
+    max-width: 100%;
+  }
+</style>

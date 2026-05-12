@@ -1,0 +1,391 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Sidebar from '../../../components/Sidebar.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import CountryMap from '../../../components/CountryMap';
+import KpiCard from '../../../components/charts/KpiCard';
+import IndustryScatterChart from '../../../components/charts/IndustryScatterChart';
+import DebtPieChart from '../../../components/charts/DebtPieChart';
+import ExchangeRateChart from '../../../components/charts/ExchangeRateChart';
+import GdpTrendChart from '../../../components/charts/GdpTrendChart';
+import RiskRadarChart from '../../../components/charts/RiskRadarChart';
+import CostComparisonChart from '../../../components/charts/CostComparisonChart';
+import IndustryHeatmap from '../../../components/charts/IndustryHeatmap';
+import ApprovalTimeline from '../../../components/ApprovalTimeline';
+
+export function getStaticPaths() {
+  return [
+    { params: { country: 'ethiopia' } },
+    { params: { country: 'uganda' } },
+    { params: { country: 'kenya' } },
+    { params: { country: 'tanzania' } },
+    { params: { country: 'rwanda' } },
+    { params: { country: 'south-sudan' } },
+  ];
+}
+
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+
+// Country-specific data
+const countryData = {
+  ethiopia: {
+    name: '埃塞俄比亚',
+    flag: '🇪🇹',
+    fullName: 'Federal Democratic Republic of Ethiopia',
+    description: '非洲人口第二大国，东非最大经济体。正处于汇率自由化改革期，外汇管制逐步放宽。作为"非洲水塔"，拥有丰富水力和地热资源，但基础设施建设仍需大量投入。',
+    kpis: [
+      { title: 'GDP (2024)', value: '$150B', trend: 'up', trendValue: '7.3%', color: '#448aff', icon: '💰' },
+      { title: '人口 (2024)', value: '1.32亿', trend: 'up', trendValue: '2.5%', color: '#00e676', icon: '👥' },
+      { title: '外债/GDP', value: '50.4%', trend: 'down', trendValue: '-3.2%', color: '#ff9100', icon: '🏦' },
+      { title: '汇率 (USD)', value: '128', unit: 'Birr', trend: 'down', trendValue: '+121%', color: '#ff5252', icon: '💱' },
+    ],
+    latestNews: [
+      { date: '2025-07', title: '复兴大坝全面运营，电力产能提升30%', tag: '基础设施' },
+      { date: '2025-06', title: '外汇市场改革推进，官方汇率与黑市汇率收窄', tag: '金融' },
+      { date: '2025-05', title: '咖啡出口创历史新高，达26.5亿美元', tag: '贸易' },
+    ]
+  },
+  uganda: {
+    name: '乌干达',
+    flag: '🇺🇬',
+    fullName: 'Republic of Uganda',
+    description: '东非共同体成员国，石油即将商业化生产。拥有全球最年轻人口结构（median age 15.7岁），劳动力成本低，EAC成员享受5亿人口市场准入。',
+    kpis: [
+      { title: 'GDP (2024)', value: '$54B', trend: 'up', trendValue: '6.1%', color: '#448aff', icon: '💰' },
+      { title: '人口 (2024)', value: '5000万', trend: 'up', trendValue: '3.0%', color: '#00e676', icon: '👥' },
+      { title: '石油储量', value: '65亿', unit: '桶', trend: 'up', trendValue: '2025投产', color: '#ff9100', icon: '🛢️' },
+      { title: 'Median Age', value: '15.7', unit: '岁', trend: 'neutral', trendValue: '全球最年轻', color: '#ff5252', icon: '👨‍👩‍👧' },
+    ],
+    latestNews: [
+      { date: '2025-08', title: 'EACOP管道建设加速，预计2025年投运', tag: '能源' },
+      { date: '2025-07', title: '石油商业化生产临近，TotalEnergies推进中', tag: '能源' },
+      { date: '2025-06', title: '咖啡出口稳定，保持非洲最大罗布斯塔产国地位', tag: '贸易' },
+    ]
+  },
+  kenya: {
+    name: '肯尼亚',
+    flag: '🇰🇪',
+    fullName: 'Republic of Kenya',
+    description: '东非最大经济体，区域商业与金融中心。蒙巴萨港辐射整个东非市场。内罗毕是"非洲硅谷"，Fintech生态系统成熟领先。',
+    kpis: [
+      { title: 'GDP (2024)', value: '$120B', trend: 'up', trendValue: '4.7%', color: '#448aff', icon: '💰' },
+      { title: '人口 (2024)', value: '5640万', trend: 'up', trendValue: '2.5%', color: '#00e676', icon: '👥' },
+      { title: '侨汇', value: '$50亿', trend: 'up', trendValue: '+8%', color: '#ff9100', icon: '🏦' },
+      { title: '城市化率', value: '30%', trend: 'up', trendValue: '+2%', color: '#ff5252', icon: '🏙️' },
+    ],
+    latestNews: [
+      { date: '2025-08', title: '数字经济蓬勃发展，Fintech融资创新高', tag: '科技' },
+      { date: '2025-07', title: '可再生能源项目获批，地热发电领先非洲', tag: '能源' },
+      { date: '2025-06', title: 'EAC整合深化，贸易便利化措施落地', tag: '贸易' },
+    ]
+  },
+  tanzania: {
+    name: '坦桑尼亚',
+    flag: '🇹🇿',
+    fullName: 'United Republic of Tanzania',
+    description: '东非最大国家，拥有58万亿立方英尺天然气储量和非洲顶级旅游资源。Suluhu总统上台后政策回调，投资窗口正在打开。Magufuli时期激进政策的阴影仍在，但改善趋势明确。',
+    kpis: [
+      { title: 'GDP (2024)', value: '$79B', trend: 'up', trendValue: '5.5%', color: '#448aff', icon: '💰' },
+      { title: '人口 (2024)', value: '6860万', trend: 'up', trendValue: '3.0%', color: '#00e676', icon: '👥' },
+      { title: '天然气储量', value: '58', unit: 'TCF', trend: 'up', trendValue: 'LNG待开发', color: '#ff9100', icon: '🔥' },
+      { title: '旅游收入', value: '$25亿', trend: 'up', trendValue: '+15%', color: '#ff5252', icon: '🦁' },
+    ],
+    latestNews: [
+      { date: '2025-08', title: 'LNG项目最终投资决策临近，Equinor+Shell推进中', tag: '能源' },
+      { date: '2025-07', title: 'Suluhu继续务实回调，矿业政策改善吸引外资回流', tag: '政策' },
+      { date: '2025-06', title: 'Serengeti游客数创新高，旅游业强劲复苏', tag: '旅游' },
+    ]
+  },
+  rwanda: {
+    name: '卢旺达',
+    flag: '🇷🇼',
+    fullName: 'Republic of Rwanda',
+    description: '"非洲新加坡"愿景，ICT驱动经济转型的典范。大屠杀后重建奇迹，卡加梅强政府高效执政。非洲最安全国家，营商环境全球第38位。山区小国，但政策友好、数字基础设施领先。',
+    kpis: [
+      { title: 'GDP (2024)', value: '$14B', trend: 'up', trendValue: '8.9%', color: '#448aff', icon: '💰' },
+      { title: '人口 (2024)', value: '1400万', trend: 'up', trendValue: '2.8%', color: '#00e676', icon: '👥' },
+      { title: 'ICT投资', value: '$4.1亿', unit: 'FDI', trend: 'up', trendValue: '+15%', color: '#ff9100', icon: '💻' },
+      { title: '旅游收入', value: '$6亿', unit: '美元', trend: 'up', trendValue: '+20%', color: '#ff5252', icon: '🦍' },
+    ],
+    latestNews: [
+      { date: '2025-08', title: 'Kigali创新城二期启动，吸引科技企业入驻', tag: 'ICT' },
+      { date: '2025-07', title: '山地大猩猩旅游火爆，permit价格上涨', tag: '旅游' },
+      { date: '2025-06', title: '3T矿产出口增长，战略矿产地位提升', tag: '矿业' },
+    ],
+  },
+};
+
+const data = countryData[country] || countryData.ethiopia;
+---
+
+<BaseLayout title={`${data.name}投资数据库 - Standerra`} pageContext={`${data.name}投资情报 - ${data.description}`}>
+  <Header country={country} />
+  
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    
+    <main class="flex-1 p-6 max-w-7xl overflow-x-hidden">
+      <Breadcrumb items={[{ name: data.name }]} />
+      
+      {/* 国家标题 */}
+      <div class="mb-6">
+        <div class="flex items-center space-x-4 mb-4">
+          <span class="text-5xl">{data.flag}</span>
+          <div>
+            <h1 class="text-3xl font-bold">{data.name}</h1>
+            <p class="text-sm" style="color: var(--text-secondary)">{data.fullName}</p>
+          </div>
+        </div>
+        <p class="text-base" style="color: var(--text-secondary); line-height: 1.8">
+          {data.description}
+        </p>
+      </div>
+
+      {/* KPI 指标卡片 */}
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        {data.kpis.map((kpi) => (
+          <KpiCard 
+            client:only="react"
+            title={kpi.title}
+            value={kpi.value}
+            unit={kpi.unit}
+            trend={kpi.trend}
+            trendValue={kpi.trendValue}
+            color={kpi.color}
+            icon={kpi.icon}
+          />
+        ))}
+      </div>
+
+      {/* 双入口卡片 */}
+      <div class="grid md:grid-cols-2 gap-4 mb-6">
+        <a href={`/invest/${country}/decision`} class="group block p-6 rounded-2xl transition-all hover:scale-[1.02]" style="background: linear-gradient(135deg, var(--accent-orange), #ff5252);">
+          <div class="text-4xl mb-3">💰</div>
+          <h3 class="text-xl font-bold mb-2 text-white">我要做决策</h3>
+          <p class="text-white/80 text-sm">30秒出结论，快速评估值不值得进入</p>
+          <div class="mt-4 flex items-center text-white/90 text-sm group-hover:translate-x-2 transition-transform">
+            进入决策工具 <span class="ml-2">→</span>
+          </div>
+        </a>
+        
+        <a href={`/invest/${country}/insight`} class="group block p-6 rounded-2xl transition-all hover:scale-[1.02]" style="background: linear-gradient(135deg, var(--accent-blue), var(--bg-card-hover));">
+          <div class="text-4xl mb-3">🔍</div>
+          <h3 class="text-xl font-bold mb-2 text-white">我要做研究</h3>
+          <p class="text-white/80 text-sm">深度理解这个国家运转的底层逻辑</p>
+          <div class="mt-4 flex items-center text-white/90 text-sm group-hover:translate-x-2 transition-transform">
+            浏览研究报告 <span class="ml-2">→</span>
+          </div>
+        </a>
+      </div>
+
+      {/* ===== 新增：五国对比雷达图 ===== */}
+      <section class="mb-6">
+        <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+          <span class="mr-2">🎯</span> 五国投资风险雷达对比
+        </h2>
+        <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+          <RiskRadarChart client:only="react" />
+        </div>
+      </section>
+
+      {/* ===== 新增：行业热力图 ===== */}
+      <section class="mb-6">
+        <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+          <span class="mr-2">🔥</span> 行业机会热力图
+        </h2>
+        <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+          <IndustryHeatmap client:only="react" />
+        </div>
+      </section>
+
+      {/* 第三行：行业散点图 + 外债饼图 (仅埃塞俄比亚有完整图表数据) */}
+      {country === 'ethiopia' && (
+        <div class="grid lg:grid-cols-2 gap-4 mb-6">
+          <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+            <IndustryScatterChart client:only="react" />
+          </div>
+          <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+            <DebtPieChart client:only="react" />
+          </div>
+        </div>
+      )}
+
+      {/* ===== 新增：五国成本对比图 ===== */}
+      <section class="mb-6">
+        <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+          <span class="mr-2">💸</span> 五国投资成本对比
+        </h2>
+        <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+          <CostComparisonChart client:only="react" />
+        </div>
+      </section>
+
+      {/* 第四行：地图 + 宏观经济趋势 (仅埃塞俄比亚有完整图表) */}
+      <div class="grid lg:grid-cols-2 gap-4 mb-6">
+        {country === 'ethiopia' ? (
+          <>
+            <section>
+              <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+                <span class="mr-2">🗺️</span> 产业与城市地图
+              </h2>
+              <CountryMap client:load height="400px" country={country} />
+            </section>
+            <section>
+              <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+                <span class="mr-2">📈</span> 宏观经济趋势
+              </h2>
+              <div class="rounded-xl p-4 mb-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                <ExchangeRateChart client:only="react" />
+              </div>
+              <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                <GdpTrendChart client:only="react" />
+              </div>
+            </section>
+          </>
+        ) : (
+          <>
+            <section>
+              <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+                <span class="mr-2">🌍</span> {data.name}投资概览
+              </h2>
+              <div class="rounded-xl p-6" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                <div class="space-y-4">
+                  <div class="flex items-center justify-between">
+                    <span style="color: var(--text-secondary)">主权信用评级</span>
+                    <span class="px-2 py-1 rounded" style="background: var(--bg-secondary); color: var(--accent-orange);">待评估</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span style="color: var(--text-secondary)">EAC成员国</span>
+                    <span class="px-2 py-1 rounded" style="background: rgba(0,230,118,0.2); color: #00e676;">✓ 是</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span style="color: var(--text-secondary)">官方语言</span>
+                    <span style="color: var(--text-primary)">{country === 'uganda' ? '英语 + 斯瓦希里语' : country === 'kenya' ? '英语 + 斯瓦希里语' : country === 'tanzania' ? '斯瓦希里语 + 英语' : country === 'rwanda' ? '英语 + 法语 + 卢旺达语' : '阿姆哈拉语'}</span>
+                  </div>
+                  <div class="flex items-center justify-between">
+                    <span style="color: var(--text-secondary)">货币</span>
+                    <span style="color: var(--text-primary)">{country === 'uganda' ? 'UGX (乌干达先令)' : country === 'kenya' ? 'KES (肯尼亚先令)' : country === 'tanzania' ? 'TZS (坦桑尼亚先令)' : country === 'rwanda' ? 'RWF (卢旺达法郎)' : 'ETB (埃塞俄比亚比尔)'}</span>
+                  </div>
+                </div>
+              </div>
+            </section>
+            <section>
+              <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+                <span class="mr-2">🏭</span> 优先投资行业
+              </h2>
+              <div class="rounded-xl p-6" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+                <div class="space-y-3">
+                  {country === 'uganda' ? (
+                    <>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">🛢️</span>
+                        <span style="color: var(--text-primary)">石油与天然气</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">☕</span>
+                        <span style="color: var(--text-primary)">咖啡出口加工</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">💳</span>
+                        <span style="color: var(--text-primary)">金融科技</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">🏖️</span>
+                        <span style="color: var(--text-primary)">旅游业</span>
+                      </div>
+                    </>
+                  ) : country === 'tanzania' ? (
+                    <>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">🔥</span>
+                        <span style="color: var(--text-primary)">天然气/LNG</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">🥇</span>
+                        <span style="color: var(--text-primary)">黄金矿业</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">🦁</span>
+                        <span style="color: var(--text-primary)">旅游业</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">🥜</span>
+                        <span style="color: var(--text-primary)">农产品加工</span>
+                      </div>
+                    </>
+                  ) : country === 'rwanda' ? (
+                    <>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">💻</span>
+                        <span style="color: var(--text-primary)">ICT与数字经济</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">🦍</span>
+                        <span style="color: var(--text-primary)">生态旅游业</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">⛏️</span>
+                        <span style="color: var(--text-primary)">3T矿产(锡钨钽)</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">☕</span>
+                        <span style="color: var(--text-primary)">精品咖啡茶叶</span>
+                      </div>
+                    </>
+                  ) : (
+                    <>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">💳</span>
+                        <span style="color: var(--text-primary)">金融科技</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">🏠</span>
+                        <span style="color: var(--text-primary)">房地产</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">⚡</span>
+                        <span style="color: var(--text-primary)">可再生能源</span>
+                      </div>
+                      <div class="flex items-center space-x-3">
+                        <span class="text-2xl">💼</span>
+                        <span style="color: var(--text-primary)">服务外包(BPO)</span>
+                      </div>
+                    </>
+                  )}
+                </div>
+              </div>
+            </section>
+          </>
+        )}
+      </div>
+
+      {/* ===== 新增：审批流程时间轴 ===== */}
+      <section class="mb-6">
+        <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+          <span class="mr-2">📋</span> 建厂审批流程指南
+        </h2>
+        <div class="rounded-xl p-6" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+          <ApprovalTimeline client:only="react" />
+        </div>
+      </section>
+
+      {/* 最新动态 */}
+      <section>
+        <h2 class="text-lg font-bold mb-4 flex items-center" style="color: var(--text-primary)">
+          <span class="mr-2">⚡</span> 今日关键变化
+        </h2>
+        <div class="space-y-3">
+          {data.latestNews.map((news) => (
+            <div class="flex items-center space-x-4 p-4 rounded-lg transition-all hover:translate-x-2" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+              <span class="text-xs px-2 py-1 rounded whitespace-nowrap" style="background: var(--bg-secondary); color: var(--text-secondary);">{news.date}</span>
+              <span class="text-xs px-2 py-1 rounded" style="background: rgba(255,145,0,0.2); color: var(--accent-orange);">{news.tag}</span>
+              <p class="flex-1" style="color: var(--text-primary);">{news.title}</p>
+            </div>
+          ))}
+        </div>
+      </section>
+    </main>
+  </div>
+</BaseLayout>

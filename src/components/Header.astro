@@ -1,0 +1,198 @@
+---
+import { getLangFromPath, getCountryName } from '../utils/i18n';
+
+interface Props {
+  country?: string;
+}
+
+const { country } = Astro.props;
+const currentPath = Astro.url.pathname;
+const lang = getLangFromPath(currentPath);
+
+// Country options for selector
+const countries = [
+  { code: 'ethiopia', name: '埃塞俄比亚', nameEn: 'Ethiopia', flag: '🇪🇹', path: '/invest/ethiopia', pathEn: '/invest/en/ethiopia' },
+  { code: 'uganda', name: '乌干达', nameEn: 'Uganda', flag: '🇺🇬', path: '/invest/uganda', pathEn: '/invest/en/uganda' },
+  { code: 'kenya', name: '肯尼亚', nameEn: 'Kenya', flag: '🇰🇪', path: '/invest/kenya', pathEn: '/invest/en/kenya' },
+  { code: 'tanzania', name: '坦桑尼亚', nameEn: 'Tanzania', flag: '🇹🇿', path: '/invest/tanzania', pathEn: '/invest/en/tanzania' },
+  { code: 'rwanda', name: '卢旺达', nameEn: 'Rwanda', flag: '🇷🇼', path: '/invest/rwanda', pathEn: '/invest/en/rwanda' },
+  { code: 'south-sudan', name: '南苏丹', nameEn: 'South Sudan', flag: '🇸🇸', path: '/invest/south-sudan', pathEn: '/invest/en/south-sudan' },
+];
+
+const currentCountry = countries.find(c => c.code === country);
+
+// Get the localized path for current page
+function getLocalizedUrl(targetLang: 'zh' | 'en'): string {
+  if (targetLang === 'en') {
+    // Going to English
+    if (!currentPath.includes('/invest/en/')) {
+      return currentPath.replace('/invest/', '/invest/en/');
+    }
+    return currentPath;
+  } else {
+    // Going to Chinese
+    return currentPath.replace('/invest/en/', '/invest/');
+  }
+}
+
+const enPath = getLocalizedUrl('en');
+const zhPath = getLocalizedUrl('zh');
+---
+
+<header class="sticky top-0 z-50 backdrop-blur-md" style="background: rgba(27,27,47,0.95); border-bottom: 1px solid var(--border-color);">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex items-center justify-between h-14">
+      {/* Logo */}
+      <a href="/intel/" class="flex items-center space-x-3 hover:opacity-80 transition-opacity">
+        <div class="w-9 h-9 rounded-lg flex items-center justify-center text-xl" style="background: linear-gradient(135deg, var(--accent-blue), var(--accent-orange));">
+          🌍
+        </div>
+        <div>
+          <div class="text-base font-bold" style="color: var(--text-primary)">Standerra</div>
+          <div class="text-xs" style="color: var(--text-secondary)">{lang === 'en' ? 'Investment Intelligence' : '投资情报系统'}</div>
+        </div>
+      </a>
+
+      {/* Navigation */}
+      <nav class="hidden md:flex items-center space-x-1">
+        <a href="/intel/" class="px-3 py-2 rounded-lg text-sm transition-colors hover:bg-white/5" style="color: var(--text-secondary)">
+          {lang === 'en' ? 'Intel Home' : '情报首页'}
+        </a>
+        {country && (
+          <>
+            <div class="w-px h-4 mx-2" style="background: var(--border-color)"></div>
+            <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}`} class="px-3 py-2 rounded-lg text-sm transition-colors hover:bg-white/5" style={currentCountry ? 'color: var(--accent-blue)' : 'color: var(--text-secondary)'}>
+              {lang === 'en' ? 'Country Home' : '国家首页'}
+            </a>
+            <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}/decision`} class="px-3 py-2 rounded-lg text-sm transition-colors hover:bg-white/5" style="color: var(--text-secondary)">
+              {lang === 'en' ? 'Investment Decision' : '投资决策'}
+            </a>
+            <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}/insight`} class="px-3 py-2 rounded-lg text-sm transition-colors hover:bg-white/5" style="color: var(--text-secondary)">
+              {lang === 'en' ? 'Country Insight' : '国家透视'}
+            </a>
+            <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}/industry`} class="px-3 py-2 rounded-lg text-sm transition-colors hover:bg-white/5" style="color: var(--text-secondary)">
+              {lang === 'en' ? 'Industry' : '产业纵深'}
+            </a>
+            <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}/toolkit`} class="px-3 py-2 rounded-lg text-sm transition-colors hover:bg-white/5" style="color: var(--text-secondary)">
+              {lang === 'en' ? 'Toolkit' : '实操工具'}
+            </a>
+            <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}/archive`} class="px-3 py-2 rounded-lg text-sm transition-colors hover:bg-white/5" style="color: var(--text-secondary)">
+              {lang === 'en' ? 'Archive' : '原始资料'}
+            </a>
+          </>
+        )}
+      </nav>
+
+      {/* Right side: Language toggle + Search + Country selector */}
+      <div class="flex items-center space-x-2 md:space-x-3">
+        {/* Language toggle */}
+        <a 
+          href={lang === 'en' ? zhPath : enPath}
+          class="flex items-center px-2 py-1 rounded-lg text-xs font-medium transition-colors hover:bg-white/5"
+          style="border: 1px solid var(--border-color); color: var(--text-primary);"
+          title={lang === 'en' ? '切换到中文' : 'Switch to English'}
+        >
+          <span class={lang === 'en' ? 'text-accent-blue' : 'opacity-60'}>中</span>
+          <span class="mx-1 opacity-50">/</span>
+          <span class={lang === 'en' ? 'opacity-60' : 'text-accent-blue'}>EN</span>
+        </a>
+
+        {/* Search button */}
+        <button class="p-2 rounded-lg transition-colors hover:bg-white/5" title={lang === 'en' ? 'Search' : '搜索'}>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--text-secondary)">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"/>
+          </svg>
+        </button>
+        
+        {/* Country selector */}
+        <div class="relative hidden md:block">
+          <select 
+            class="px-3 py-1.5 rounded-lg text-sm border appearance-none cursor-pointer pr-8"
+            style="background: var(--bg-card); border-color: var(--border-color); color: var(--text-primary);"
+            onchange="if(this.value) window.location.href=this.value"
+          >
+            {countries.map(c => (
+              <option 
+                value={lang === 'en' ? c.pathEn : c.path} 
+                selected={c.code === country}
+                disabled={false}
+              >
+                {c.flag} {lang === 'en' ? c.nameEn : c.name}
+              </option>
+            ))}
+          </select>
+          <svg class="absolute right-2 top-1/2 -translate-y-1/2 w-4 h-4 pointer-events-none" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--text-secondary)">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+          </svg>
+        </div>
+
+        {/* Mobile Menu Button */}
+        <button class="md:hidden p-2 rounded-lg hover:bg-white/10" id="mobile-menu-btn">
+          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--text-primary)">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+          </svg>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  {/* Mobile Menu */}
+  <div class="md:hidden hidden" id="mobile-menu" style="border-top: 1px solid var(--border-color);">
+    <div class="px-4 py-3 space-y-1">
+      <a href="/intel/" class="block px-3 py-2 rounded-lg" style="color: var(--text-secondary)">{lang === 'en' ? 'Intel Home' : '情报首页'}</a>
+      <a href="/intel/opportunities" class="block px-3 py-2 rounded-lg" style="color: var(--text-secondary)">{lang === 'en' ? 'Projects' : '项目'}</a>
+      {country && (
+        <>
+          <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}`} class="block px-3 py-2 rounded-lg" style="color: var(--accent-blue)">{lang === 'en' ? 'Country Home' : '国家首页'}</a>
+          <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}/decision`} class="block px-3 py-2 rounded-lg" style="color: var(--text-secondary)">{lang === 'en' ? 'Investment Decision' : '投资决策'}</a>
+          <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}/insight`} class="block px-3 py-2 rounded-lg" style="color: var(--text-secondary)">{lang === 'en' ? 'Country Insight' : '国家透视'}</a>
+          <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}/industry`} class="block px-3 py-2 rounded-lg" style="color: var(--text-secondary)">{lang === 'en' ? 'Industry' : '产业纵深'}</a>
+          <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}/toolkit`} class="block px-3 py-2 rounded-lg" style="color: var(--text-secondary)">{lang === 'en' ? 'Toolkit' : '实操工具'}</a>
+          <a href={`/invest/${lang === 'en' ? 'en/' : ''}${country}/archive`} class="block px-3 py-2 rounded-lg" style="color: var(--text-secondary)">{lang === 'en' ? 'Archive' : '原始资料'}</a>
+        </>
+      )}
+      {/* Language switcher in mobile menu */}
+      <div class="pt-3 mt-3" style="border-top: 1px solid var(--border-color);">
+        <p class="px-3 py-2 text-xs" style="color: var(--text-secondary)">{lang === 'en' ? 'Language' : '语言'}</p>
+        <a 
+          href={lang === 'en' ? zhPath : enPath}
+          class="block px-3 py-2 rounded-lg"
+          style="color: var(--accent-blue);"
+        >
+          {lang === 'en' ? '🇨🇳 切换到中文' : '🇬🇧 Switch to English'}
+        </a>
+      </div>
+      {/* Country quick links */}
+      <div class="pt-3 mt-3" style="border-top: 1px solid var(--border-color);">
+        <p class="px-3 py-2 text-xs" style="color: var(--text-secondary)">{lang === 'en' ? 'Switch Country' : '切换国家'}</p>
+        {countries.map(c => (
+          <a 
+            href={lang === 'en' ? c.pathEn : c.path} 
+            class={`block px-3 py-2 rounded-lg ${c.code === country ? 'bg-white/10' : ''}`}
+            style={c.code === country ? 'color: var(--accent-blue)' : 'color: var(--text-secondary)'}
+          >
+            {c.flag} {lang === 'en' ? c.nameEn : c.name}
+          </a>
+        ))}
+      </div>
+    </div>
+  </div>
+</header>
+
+<script>
+  const btn = document.getElementById('mobile-menu-btn');
+  const menu = document.getElementById('mobile-menu');
+  btn?.addEventListener('click', () => menu?.classList.toggle('hidden'));
+  
+  // Save language preference when switching
+  document.querySelectorAll('a[href*="/invest/en/"]').forEach(link => {
+    link.addEventListener('click', () => {
+      localStorage.setItem('site-lang', 'en');
+    });
+  });
+  document.querySelectorAll('a[href*="/invest/"][href]:not([href*="/invest/en/"])').forEach(link => {
+    link.addEventListener('click', () => {
+      localStorage.setItem('site-lang', 'zh');
+    });
+  });
+</script>

@@ -1,0 +1,102 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Header from '../../../../components/Header.astro';
+import Sidebar from '../../../../components/Sidebar.astro';
+import Breadcrumb from '../../../../components/Breadcrumb.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { country: 'ethiopia' } },
+    { params: { country: 'uganda' } },
+    { params: { country: 'kenya' } },
+    { params: { country: 'tanzania' } },
+    { params: { country: 'rwanda' } },
+    { params: { country: 'south-sudan' } },
+  ];
+}
+
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+
+const countryNames = {
+  ethiopia: '埃塞俄比亚',
+  uganda: '乌干达',
+  kenya: '肯尼亚'
+};
+
+const items = [
+  {
+    title: '法规速查',
+    desc: '投资准入、税务、劳动法等',
+    icon: '⚖️',
+    href: `/invest/${country}/toolkit/laws`,
+    color: '#3b82f6'
+  },
+  {
+    title: '企业与项目',
+    desc: '主要企业、重大项目跟踪',
+    icon: '🏢',
+    href: `/invest/${country}/toolkit/companies`,
+    color: '#10b981'
+  },
+  {
+    title: '城市档案',
+    desc: '主要城市投资环境分析',
+    icon: '🏙️',
+    href: `/invest/${country}/toolkit/cities`,
+    color: '#f59e0b'
+  },
+  {
+    title: '数据面板',
+    desc: '宏观数据、成本要素参考',
+    icon: '📊',
+    href: `/invest/${country}/toolkit/data-dashboards`,
+    color: '#ef4444'
+  },
+];
+---
+
+<BaseLayout title={`实操工具 - ${countryNames[country]}`}>
+  <Header country={country} />
+  
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    
+    <main class="flex-1 p-6 max-w-5xl">
+      <Breadcrumb items={[{ name: countryNames[country], href: `/invest/${country}` }, { name: '实操工具' }]} />
+      
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold mb-2">🛠️ 实操工具</h1>
+        <p class="text-sm" style="color: var(--text-secondary)">投资落地所需的法规、企业、城市和数据工具</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        {items.map(item => (
+          <a 
+            href={item.href} 
+            class="group block p-6 rounded-xl transition-all hover:scale-[1.02] hover:-translate-y-1"
+            style="background: var(--bg-card); border: 1px solid var(--border-color);"
+          >
+            <div class="flex items-start space-x-4">
+              <div 
+                class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
+                style={`background: ${item.color}20;`}
+              >
+                {item.icon}
+              </div>
+              <div class="flex-1">
+                <h2 class="text-lg font-bold mb-1 group-hover:underline" style="color: var(--text-primary);">
+                  {item.title}
+                </h2>
+                <p class="text-sm" style="color: var(--text-secondary);">{item.desc}</p>
+              </div>
+              <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent-blue);">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+    </main>
+  </div>
+</BaseLayout>

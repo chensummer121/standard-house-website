@@ -1,0 +1,143 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Sidebar from '@components/Sidebar.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const countries = ['ethiopia', 'uganda', 'kenya', 'tanzania', 'rwanda', 'south-sudan'];
+  const paths = [];
+  
+  // 首先为每个国家生成不带slug的目录页面
+  for (const c of countries) {
+    paths.push({
+      params: { country: c },
+      props: { isIndex: true },
+    });
+  }
+  
+  // 然后为每个文档生成具体页面
+  for (const c of countries) {
+    const docs = await getCollection('countries', ({ id }) => 
+      id.startsWith(`${c}/archive/`)
+    );
+    
+    for (const doc of docs) {
+      paths.push({
+        params: { country: c, slug: doc.id.split('/').pop() },
+        props: { doc, isIndex: false },
+      });
+    }
+  }
+  
+  return paths;
+}
+
+const { isIndex, doc } = Astro.props;
+const { country, slug } = Astro.params;
+
+// 渲染文档内容（仅在非目录页面）
+let Content = null;
+if (!isIndex && doc) {
+  const { Content: DocContent } = await render(doc);
+  Content = DocContent;
+}
+const currentPath = Astro.url.pathname;
+
+// 获取该国家所有archive文档
+const allDocs = await getCollection('countries', ({ id }) => 
+  id.startsWith(`${country}/archive/`)
+);
+allDocs.sort((a, b) => a.data.title.localeCompare(b.data.title));
+
+const countryNames = {
+  ethiopia: '埃塞俄比亚',
+  uganda: '乌干达',
+  kenya: '肯尼亚',
+  tanzania: '坦桑尼亚',
+  rwanda: '卢旺达'
+};
+
+const pageTitle = isIndex ? `${countryNames[country] || country}原始资料 - Standerra` : `${doc.data.title} - Standerra`;
+---
+
+<BaseLayout title={pageTitle}>
+  <Header country={country} />
+  
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    
+    <main class="flex-1 p-8 max-w-4xl">
+      <Breadcrumb items={[
+        { name: countryNames[country] || country, href: `/invest/${country}` }, 
+        { name: isIndex ? '原始资料' : '原始资料' }
+      ]} />
+      
+      {isIndex ? (
+        // 目录页面
+        <div class="mt-6">
+          <h1 class="text-2xl font-bold mb-6" style="color: var(--text-primary);">
+            📚 {countryNames[country] || country} 原始资料库
+          </h1>
+          <p class="text-gray-400 mb-6">共 {allDocs.length} 份研究报告</p>
+          
+          <div class="grid gap-4">
+            {allDocs.map(doc => (
+              <a 
+                href={`/invest/${country}/archive/${doc.id.split('/').pop()}`}
+                class="block p-6 rounded-lg border transition-all hover:border-blue-500"
+                style="background: var(--bg-card); border-color: var(--border-color);"
+              >
+                <h3 class="text-lg font-semibold mb-2" style="color: var(--text-primary);">
+                  {doc.data.title}
+                </h3>
+                <p class="text-sm" style="color: var(--text-secondary);">
+                  {doc.data.section || '深度报告'}
+                </p>
+              </a>
+            ))}
+          </div>
+        </div>
+      ) : (
+        // 具体文档页面
+        <article class="mt-6" style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem;">
+          <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+            <Breadcrumb items={[
+              { name: countryNames[country], href: `/invest/${country}` }, 
+              { name: '原始资料', href: `/invest/${country}/archive` }, 
+              { name: doc.data.title }
+            ]} />
+            <h1 class="text-2xl font-bold mt-4" style="color: var(--text-primary);">
+              {doc.data.title}
+            </h1>
+            {doc.data.section && (
+              <span class="inline-block mt-2 px-3 py-1 text-sm rounded-full" 
+                style="background: var(--accent-blue); color: white;">
+                {doc.data.section}
+              </span>
+            )}
+          </header>
+          
+          <div class="prose max-w-none" style="color: var(--text-secondary);">
+            <Content />
+          </div>
+        </article>
+      )}
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  .prose h2 { font-size: 1.5rem; font-weight: bold; margin-top: 2rem; margin-bottom: 1rem; color: var(--text-primary); }
+  .prose h3 { font-size: 1.25rem; font-weight: 600; margin-top: 1.5rem; margin-bottom: 0.75rem; color: var(--text-primary); }
+  .prose p { line-height: 1.8; margin-bottom: 1rem; }
+  .prose ul, .prose ol { margin-left: 1.5rem; margin-bottom: 1rem; }
+  .prose li { margin-bottom: 0.5rem; }
+  .prose table { width: 100%; border-collapse: collapse; margin: 1rem 0; }
+  .prose th, .prose td { border: 1px solid var(--border-color); padding: 0.75rem; text-align: left; }
+  .prose th { background: var(--bg-secondary); }
+  .prose a { color: var(--accent-blue); text-decoration: underline; }
+  .prose code { background: var(--bg-secondary); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+  .prose pre { background: var(--bg-secondary); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1rem 0; }
+</style>

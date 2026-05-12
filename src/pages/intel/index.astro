@@ -1,0 +1,565 @@
+---
+import IntelLayout from '../../layouts/IntelLayout.astro';
+import CozeChat from '../../components/CozeChat.tsx';
+
+// 尝试读取 structured-data 中的数据，如果不存在则使用硬编码静态数据
+let countryMatrix = null;
+let riskRadar = null;
+
+try {
+  const { readFileSync } = await import('fs');
+  try {
+    countryMatrix = JSON.parse(readFileSync('/root/intel-kb/structured-data/country-matrix.md', 'utf-8'));
+  } catch(e) {}
+} catch(e) {}
+
+// 硬编码静态数据
+const countries = [
+  {
+    name: '埃塞俄比亚',
+    flag: '🇪🇹',
+    color: '#065f46',
+    gdp: '1,270',
+    gdpUnit: '亿美元',
+    gdpGrowth: '6.8%',
+    pop: '1.3亿',
+    urban: '23%',
+    bizRank: 175,
+    elecRate: '55%',
+    riskScore: 6.7,
+    riskLabel: '高风险',
+    bestFor: '能源/矿产/大基建',
+    href: '/invest/ethiopia',
+  },
+  {
+    name: '乌干达',
+    flag: '🇺🇬',
+    color: '#92400e',
+    gdp: '480',
+    gdpUnit: '亿美元',
+    gdpGrowth: '5.5%',
+    pop: '4,800万',
+    urban: '25%',
+    bizRank: 116,
+    elecRate: '45%',
+    riskScore: 5.9,
+    riskLabel: '中高风险',
+    bestFor: '农业加工/建材/石油',
+    href: '/invest/uganda',
+  },
+  {
+    name: '肯尼亚',
+    flag: '🇰🇪',
+    color: '#1e40af',
+    gdp: '1,170',
+    gdpUnit: '亿美元',
+    gdpGrowth: '4.5%',
+    pop: '5,500万',
+    urban: '30%',
+    bizRank: 52,
+    elecRate: '75%',
+    riskScore: 5.5,
+    riskLabel: '中风险',
+    bestFor: '金融科技/ICT/消费品',
+    href: '/invest/kenya',
+  },
+  {
+    name: '坦桑尼亚',
+    flag: '🇹🇿',
+    color: '#1e3a5f',
+    gdp: '820',
+    gdpUnit: '亿美元',
+    gdpGrowth: '5.2%',
+    pop: '6,800万',
+    urban: '38%',
+    bizRank: 140,
+    elecRate: '50%',
+    riskScore: 4.3,
+    riskLabel: '中低风险',
+    bestFor: '矿业/农业/物流',
+    href: '/invest/tanzania',
+  },
+  {
+    name: '卢旺达',
+    flag: '🇷🇼',
+    color: '#581c87',
+    gdp: '140',
+    gdpUnit: '亿美元',
+    gdpGrowth: '6.5%',
+    pop: '1,400万',
+    urban: '35%',
+    bizRank: 38,
+    elecRate: '60%',
+    riskScore: 4.0,
+    riskLabel: '低风险',
+    bestFor: 'ICT/会议经济/医疗',
+    href: '/invest/rwanda',
+  },
+  {
+    name: '南苏丹',
+    flag: '🇸🇸',
+    color: '#1a472a',
+    gdp: '46.5',
+    gdpUnit: '亿美元',
+    gdpGrowth: '-26%',
+    pop: '1,545万',
+    urban: '20%',
+    bizRank: 185,
+    elecRate: '7%',
+    riskScore: 9.0,
+    riskLabel: '极高风险',
+    bestFor: '石油服务/基建重建/农业',
+    href: '/invest/south-sudan',
+  },
+];
+
+// 四入口卡片
+const entryCards = [
+  {
+    icon: '🔍',
+    title: '选国家',
+    subtitle: '哪个国家\n最适合我？',
+    desc: '基于您的行业、预算、风险偏好，AI智能推荐最优投资目的地',
+    cta: '开始分析',
+    href: '/intel/compare/',
+    accent: '#38bdf8',
+  },
+  {
+    icon: '💰',
+    title: '算成本',
+    subtitle: '建厂成本\n五国对比',
+    desc: '获取在东非五国建厂的综合成本估算，含土地、人工、能源、材料',
+    cta: '开始计算',
+    href: '/intel/pricing',
+    accent: '#F59E0B',
+  },
+  {
+    icon: '⚠️',
+    title: '看风险',
+    subtitle: '风险雷达\n一眼看穿',
+    desc: '政治、汇率、安全、合规、环境五维风险量化评分',
+    cta: '查看详情',
+    href: '/intel/compare/',
+    accent: '#ef4444',
+  },
+  {
+    icon: '📋',
+    title: '问审批',
+    subtitle: '落地流程\n实操指南',
+    desc: '从公司注册到环评许可，了解在目标国家落地的全流程审批',
+    cta: '查看详情',
+    href: '/intel/opportunities',
+    accent: '#10b981',
+  },
+];
+
+// 行业快速入口
+const industries = [
+  { name: '建材', emoji: '🧱', href: '/invest/ethiopia' },
+  { name: '能源电力', emoji: '⚡', href: '/invest/ethiopia' },
+  { name: '农业加工', emoji: '🌾', href: '/invest/uganda' },
+  { name: '金融科技', emoji: '💳', href: '/invest/kenya' },
+  { name: '制造业', emoji: '🏭', href: '/invest/tanzania' },
+  { name: '物流', emoji: '🚚', href: '/invest/tanzania' },
+  { name: 'ICT', emoji: '💻', href: '/invest/rwanda' },
+];
+
+// AI顾问快捷问题
+const aiQuickQuestions = [
+  '帮我选国家',
+  '建材在东非哪个国家最好做',
+  '乌干达建厂要多少钱',
+];
+
+// 数据底座统计
+const stats = [
+  { value: '5', label: '覆盖国家', suffix: '国' },
+  { value: '414', label: '投资情报', suffix: '份' },
+  { value: '29', label: '方案包', suffix: '个' },
+  { value: '5', label: '风险维度', suffix: '维' },
+];
+
+function getRiskColor(score: number): string {
+  if (score <= 4) return '#10b981';
+  if (score <= 5.5) return '#F59E0B';
+  return '#ef4444';
+}
+
+function getRiskBg(score: number): string {
+  if (score <= 4) return 'rgba(16, 185, 129, 0.15)';
+  if (score <= 5.5) return 'rgba(245, 158, 11, 0.15)';
+  return 'rgba(239, 68, 68, 0.15)';
+}
+---
+
+<IntelLayout title="东非投资情报站 - STANDERRA Intelligence">
+  <style>
+    .gradient-text {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .gradient-text-gold {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .hero-grid-bg {
+      background-image: 
+        linear-gradient(rgba(56, 189, 248, 0.03) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(56, 189, 248, 0.03) 1px, transparent 1px);
+      background-size: 40px 40px;
+    }
+
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-6px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 30px rgba(56, 189, 248, 0.08);
+    }
+
+    .btn-gold {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      transition: all 0.3s ease;
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #FBBF24, #F59E0B);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+      transform: translateY(-2px);
+    }
+
+    .btn-pill {
+      border-radius: 9999px;
+    }
+
+    .entry-card {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.12);
+      backdrop-filter: blur(12px);
+      transition: all 0.3s ease;
+    }
+    .entry-card:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+      background: rgba(30, 41, 59, 0.95);
+    }
+    .entry-card:hover .entry-icon {
+      transform: scale(1.1);
+    }
+
+    .entry-icon {
+      transition: transform 0.3s ease;
+    }
+
+    .country-card {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(56, 189, 248, 0.1);
+      backdrop-filter: blur(10px);
+      transition: all 0.3s ease;
+    }
+    .country-card:hover {
+      border-color: rgba(56, 189, 248, 0.35);
+      background: rgba(30, 41, 59, 0.95);
+    }
+
+    .ai-box {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.9), rgba(15, 23, 42, 0.95));
+      border: 1px solid rgba(56, 189, 248, 0.2);
+    }
+
+    .ai-quick-btn {
+      background: rgba(56, 189, 248, 0.1);
+      border: 1px solid rgba(56, 189, 248, 0.2);
+      transition: all 0.2s ease;
+    }
+    .ai-quick-btn:hover {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: rgba(56, 189, 248, 0.5);
+      color: #38bdf8;
+    }
+
+    .industry-chip {
+      background: rgba(30, 41, 59, 0.7);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      transition: all 0.2s ease;
+    }
+    .industry-chip:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      background: rgba(56, 189, 248, 0.1);
+      transform: translateY(-2px);
+    }
+
+    .stat-card {
+      background: linear-gradient(135deg, rgba(30, 41, 59, 0.8), rgba(15, 23, 42, 0.9));
+      border: 1px solid rgba(56, 189, 248, 0.12);
+    }
+
+    .risk-bar {
+      height: 6px;
+      border-radius: 3px;
+      background: rgba(255,255,255,0.1);
+      overflow: hidden;
+    }
+    .risk-fill {
+      height: 100%;
+      border-radius: 3px;
+      transition: width 0.8s ease;
+    }
+  </style>
+
+  <!-- ====== Hero 区域 ====== -->
+  <section class="hero-grid-bg relative pt-28 pb-20 px-6 overflow-hidden">
+    <div class="absolute top-0 left-1/4 w-[500px] h-[500px] bg-sky-500/8 rounded-full blur-3xl pointer-events-none"></div>
+    <div class="absolute bottom-0 right-1/4 w-[500px] h-[500px] bg-blue-500/8 rounded-full blur-3xl pointer-events-none"></div>
+    
+    <div class="max-w-7xl mx-auto text-center relative z-10">
+      <div class="inline-flex items-center gap-2 px-4 py-2 rounded-full mb-8" style="background: rgba(56, 189, 248, 0.1); border: 1px solid rgba(56, 189, 248, 0.2);">
+        <span class="text-sky-400 text-sm font-medium">🗺️ 覆盖东非五国</span>
+        <span class="text-slate-500 text-sm">|</span>
+        <span class="text-slate-400 text-sm">覆盖 乌干达 · 埃塞俄比亚 · 肯尼亚 · 坦桑尼亚 · 卢旺达</span>
+      </div>
+
+      <h1 class="text-5xl md:text-6xl font-bold mb-6">
+        <span class="gradient-text">东非投资情报站</span>
+      </h1>
+      
+      <p class="text-xl md:text-2xl text-slate-300 mb-4 font-medium">
+        为中资出海决策者打造的结构化情报平台
+      </p>
+      <p class="text-base text-slate-500 mb-12 max-w-2xl mx-auto">
+        从宏观政策到落地成本，从风险量化到审批流程——一站式获取可操作的投资情报
+      </p>
+
+      <!-- 数据底座统计 -->
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4 max-w-4xl mx-auto mb-12">
+        {stats.map(stat => (
+          <div class="stat-card rounded-xl p-4 text-center">
+            <div class="text-3xl font-bold text-white mb-1">
+              <span class="text-sky-400">{stat.value}</span><span class="text-slate-400 text-lg">{stat.suffix}</span>
+            </div>
+            <div class="text-slate-500 text-sm">{stat.label}</div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 四大入口卡片 ====== -->
+  <section class="py-16 px-6" style="background: rgba(15, 23, 42, 0.5);">
+    <div class="max-w-7xl mx-auto">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl font-bold mb-3">
+          <span class="gradient-text">选择一个任务，立即开始</span>
+        </h2>
+        <p class="text-slate-400">不读文章，直接做决策</p>
+      </div>
+      
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
+        {entryCards.map(card => (
+          <a href={card.href} class="entry-card rounded-2xl p-6 card-hover block group">
+            <div class="entry-icon text-5xl mb-4">{card.icon}</div>
+            <div class="inline-block px-3 py-1 rounded-full text-xs font-bold mb-3" style={`background: ${card.accent}22; border: 1px solid ${card.accent}44; color: ${card.accent};`}>
+              {card.title}
+            </div>
+            <h3 class="text-xl font-bold text-white mb-2 whitespace-pre-line">{card.subtitle}</h3>
+            <p class="text-slate-400 text-sm mb-5 leading-relaxed">{card.desc}</p>
+            <div class="inline-flex items-center gap-2 font-bold text-sm" style={`color: ${card.accent};`}>
+              <span>{card.cta}</span>
+              <span>→</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 五国速览面板 ====== -->
+  <section class="py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex items-center justify-between mb-8">
+        <div>
+          <h2 class="text-3xl font-bold mb-2">
+            <span class="gradient-text">五国数据速览</span>
+          </h2>
+          <p class="text-slate-400 text-sm">核心指标对比，数据来源：World Bank / IMF / 各央行（2024）</p>
+        </div>
+        <a href="/intel/compare/" class="hidden md:inline-flex items-center gap-2 text-sky-400 hover:text-sky-300 text-sm font-medium transition-colors">
+          查看完整分析 →
+        </a>
+      </div>
+
+      <!-- 桌面端：横向对比表 -->
+      <div class="hidden md:block overflow-x-auto">
+        <table class="w-full text-sm">
+          <thead>
+            <tr style="border-bottom: 2px solid rgba(56, 189, 248, 0.2);">
+              <th class="text-left py-3 px-4 text-slate-400 font-medium w-24">国家</th>
+              <th class="text-center py-3 px-3 text-slate-400 font-medium">GDP</th>
+              <th class="text-center py-3 px-3 text-slate-400 font-medium">增速</th>
+              <th class="text-center py-3 px-3 text-slate-400 font-medium">人口</th>
+              <th class="text-center py-3 px-3 text-slate-400 font-medium">城市化</th>
+              <th class="text-center py-3 px-3 text-slate-400 font-medium">营商排名</th>
+              <th class="text-center py-3 px-3 text-slate-400 font-medium">电气化率</th>
+              <th class="text-center py-3 px-3 text-slate-400 font-medium w-36">风险评分</th>
+              <th class="text-left py-3 px-3 text-slate-400 font-medium">适合行业</th>
+            </tr>
+          </thead>
+          <tbody>
+            {countries.map((c) => {
+              const riskPct = Math.min(c.riskScore / 10 * 100, 100);
+              return (
+                <tr class="border-b border-slate-800/50 hover:bg-slate-800/30 transition-colors" style="border-bottom: 1px solid rgba(30, 41, 59, 0.8);">
+                  <td class="py-4 px-4">
+                    <a href={c.href} class="flex items-center gap-2 hover:opacity-80 transition-opacity">
+                      <span class="text-2xl">{c.flag}</span>
+                      <span class="font-bold text-white">{c.name}</span>
+                    </a>
+                  </td>
+                  <td class="text-center py-4 px-3">
+                    <div class="font-bold text-white">{c.gdp}</div>
+                    <div class="text-slate-500 text-xs">{c.gdpUnit}</div>
+                  </td>
+                  <td class="text-center py-4 px-3">
+                    <span class="text-emerald-400 font-semibold">{c.gdpGrowth}</span>
+                  </td>
+                  <td class="text-center py-4 px-3 text-slate-300">{c.pop}</td>
+                  <td class="text-center py-4 px-3 text-slate-400">{c.urban}</td>
+                  <td class="text-center py-4 px-3">
+                    <span class={`font-bold ${c.bizRank <= 50 ? 'text-emerald-400' : c.bizRank <= 100 ? 'text-amber-400' : 'text-red-400'}`}>
+                      #{c.bizRank}
+                    </span>
+                  </td>
+                  <td class="text-center py-4 px-3 text-slate-400">{c.elecRate}</td>
+                  <td class="py-4 px-3">
+                    <div class="flex items-center gap-3">
+                      <div class="risk-bar flex-1">
+                        <div class="risk-fill" style={`width: ${riskPct}%; background: ${getRiskColor(c.riskScore)};`}></div>
+                      </div>
+                      <span class="font-bold text-sm w-12 text-right" style={`color: ${getRiskColor(c.riskScore)};`}>
+                        {c.riskScore.toFixed(1)}
+                      </span>
+                    </div>
+                    <div class="text-xs mt-1" style={`color: ${getRiskColor(c.riskScore)}; opacity: 0.8;`}>{c.riskLabel}</div>
+                  </td>
+                  <td class="py-4 px-3">
+                    <span class="text-slate-300 text-xs leading-relaxed">{c.bestFor}</span>
+                  </td>
+                </tr>
+              );
+            })}
+          </tbody>
+        </table>
+      </div>
+
+      <!-- 移动端：卡片式 -->
+      <div class="md:hidden grid grid-cols-1 gap-4">
+        {countries.map((c) => (
+          <a href={c.href} class="country-card rounded-xl p-4 card-hover block">
+            <div class="flex items-center gap-3 mb-3">
+              <span class="text-3xl">{c.flag}</span>
+              <div>
+                <div class="font-bold text-white">{c.name}</div>
+                <div class="text-xs text-slate-400">{c.bestFor}</div>
+              </div>
+              <div class="ml-auto text-right">
+                <div class="font-bold text-lg" style={`color: ${getRiskColor(c.riskScore)};`}>{c.riskScore.toFixed(1)}</div>
+                <div class="text-xs" style={`color: ${getRiskColor(c.riskScore)}; opacity: 0.8;`}>{c.riskLabel}</div>
+              </div>
+            </div>
+            <div class="risk-bar">
+              <div class="risk-fill" style={`width: ${Math.min(c.riskScore / 10 * 100, 100)}%; background: ${getRiskColor(c.riskScore)};`}></div>
+            </div>
+            <div class="grid grid-cols-3 gap-2 mt-3 text-center">
+              <div><div class="text-white font-semibold text-sm">{c.gdp}</div><div class="text-slate-500 text-xs">亿美元GDP</div></div>
+              <div><div class="text-emerald-400 font-semibold text-sm">{c.gdpGrowth}</div><div class="text-slate-500 text-xs">增速</div></div>
+              <div><div class="text-white font-semibold text-sm">#{c.bizRank}</div><div class="text-slate-500 text-xs">营商排名</div></div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 行业快速入口 ====== -->
+  <section class="py-12 px-6" style="background: rgba(15, 23, 42, 0.5);">
+    <div class="max-w-7xl mx-auto">
+      <h3 class="text-lg font-bold text-slate-300 mb-6 text-center">按行业快速定位</h3>
+      <div class="flex flex-wrap justify-center gap-3">
+        {industries.map(ind => (
+          <a href={ind.href} class="industry-chip rounded-full px-5 py-3 flex items-center gap-2 text-sm font-medium text-slate-300 hover:text-white">
+            <span>{ind.emoji}</span>
+            <span>{ind.name}</span>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== AI顾问入口 ====== -->
+  <section class="py-16 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="ai-box rounded-2xl p-8 md:p-12 text-center">
+        <div class="text-5xl mb-6">🤖</div>
+        <h2 class="text-2xl md:text-3xl font-bold mb-4 text-white">
+          <span class="gradient-text">AI投资顾问</span>
+        </h2>
+        <p class="text-slate-400 mb-8 max-w-xl mx-auto leading-relaxed">
+          不确定选哪个国家？不知道成本几何？AI顾问基于五国结构化数据，实时为您分析并给出建议。覆盖政策、市场、风险、审批全维度。
+        </p>
+
+        <!-- 快捷问题按钮 -->
+        <div class="flex flex-wrap justify-center gap-3 mb-8">
+          {aiQuickQuestions.map(q => (
+            <button
+              id="ai-consultant-btn"
+              data-question={q}
+              class="ai-quick-btn rounded-full px-5 py-2.5 text-sm font-medium text-slate-300 cursor-pointer"
+            >
+              {q}
+            </button>
+          ))}
+        </div>
+
+        <a
+          href="/intel/ai"
+          id="ai-consultant-btn"
+          class="btn-pill inline-flex items-center gap-3 px-8 py-4 btn-gold text-white font-bold text-lg"
+        >
+          <svg class="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 10h.01M12 10h.01M16 10h.01M9 16H5a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v8a2 2 0 01-2 2h-5l-5 5v-5z" />
+          </svg>
+          立即向AI顾问提问
+        </a>
+
+        <p class="text-slate-600 text-xs mt-4">基于 STANDERRA 五国结构化知识库 · 实时推理</p>
+      </div>
+    </div>
+  </section>
+
+  <!-- ====== 底部导航 ====== -->
+  <section class="py-16 px-6" style="background: rgba(15, 23, 42, 0.5);">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+        <a href="/intel/compare/" class="bg-slate-800/60 rounded-xl p-6 card-hover block border border-slate-700/30">
+          <div class="text-3xl mb-3">📊</div>
+          <h3 class="text-white font-bold text-lg mb-2">国家情报</h3>
+          <p class="text-slate-400 text-sm">深入了解每个国家的政治、经济、营商环境</p>
+        </a>
+        <a href="/intel/opportunities" class="bg-slate-800/60 rounded-xl p-6 card-hover block border border-slate-700/30">
+          <div class="text-3xl mb-3">📦</div>
+          <h3 class="text-white font-bold text-lg mb-2">方案包市场</h3>
+          <p class="text-slate-400 text-sm">从工厂选址到成本测算，可直接使用的方案包</p>
+        </a>
+        <a href="/intel/pricing" class="bg-slate-800/60 rounded-xl p-6 card-hover block border border-slate-700/30">
+          <div class="text-3xl mb-3">💎</div>
+          <h3 class="text-white font-bold text-lg mb-2">订阅方案</h3>
+          <p class="text-slate-400 text-sm">解锁完整情报和深度报告，加入情报网络</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</IntelLayout>

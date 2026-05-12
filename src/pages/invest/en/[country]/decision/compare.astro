@@ -1,0 +1,51 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Sidebar from '@components/Sidebar.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { country: 'ethiopia' } },
+    { params: { country: 'uganda' } },
+    { params: { country: 'kenya' } },
+    { params: { country: 'tanzania' } },
+    { params: { country: 'rwanda' } },
+    { params: { country: 'south-sudan' } },
+  ];
+}
+
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+
+const countryNames = {
+  ethiopia: '埃塞俄比亚',
+  uganda: '乌干达',
+  kenya: '肯尼亚',
+  tanzania: '坦桑尼亚',
+  rwanda: '卢旺达',
+  'south-sudan': '南苏丹'
+};
+---
+
+<BaseLayout title={`行业对比 - ${countryNames[country]}`}>
+  <Header country={country} />
+  
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    
+    <main class="flex-1 p-6 max-w-5xl">
+      <Breadcrumb items={[{ name: countryNames[country], href: `/invest/${country}` }, { name: 'Investment Decision', href: `/invest/${country}/decision` }, { name: '行业对比' }]} />
+      
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold mb-2">📊 行业对比</h1>
+        <p class="text-sm" style="color: var(--text-secondary)">各行业投资吸引力对比分析</p>
+      </div>
+
+      <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; text-align: center;">
+        <p style="color: var(--text-secondary);">行业对比工具开发中，敬请期待...</p>
+        <p class="text-sm mt-2" style="color: var(--text-secondary);">请查看各国家的投资准入和行业速查卡了解详情</p>
+      </div>
+    </main>
+  </div>
+</BaseLayout>

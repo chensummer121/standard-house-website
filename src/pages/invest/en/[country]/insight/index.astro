@@ -1,0 +1,116 @@
+---
+import BaseLayout from '@layouts/BaseLayout.astro';
+import Header from '@components/Header.astro';
+import Sidebar from '@components/Sidebar.astro';
+import Breadcrumb from '@components/Breadcrumb.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { country: 'ethiopia' } },
+    { params: { country: 'uganda' } },
+    { params: { country: 'kenya' } },
+    { params: { country: 'tanzania' } },
+    { params: { country: 'rwanda' } },
+    { params: { country: 'south-sudan' } },
+  ];
+}
+
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+
+const countryNames = {
+  ethiopia: 'Ethiopia',
+  uganda: 'Uganda',
+  kenya: 'Kenya'
+};
+
+const items = [
+  {
+    title: 'Data Panels',
+    desc: 'Real-time dashboards for macro economy, population, and infrastructure',
+    icon: '📊',
+    href: `/invest/en/${country}/insight/data-panels`,
+    color: '#3b82f6'
+  },
+  {
+    title: 'Why This Country Exists',
+    desc: 'Geopolitical strategy, historical positioning, core competitive advantages',
+    icon: '🌍',
+    href: `/invest/en/${country}/insight/why-exist`,
+    color: '#10b981'
+  },
+  {
+    title: 'Power Structure',
+    desc: 'Political structure, power dynamics, key figures',
+    icon: '🏛️',
+    href: `/invest/en/${country}/insight/power-structure`,
+    color: '#f59e0b'
+  },
+  {
+    title: 'Money Flow',
+    desc: 'In-depth analysis of fiscal, trade, and capital flows',
+    icon: '💰',
+    href: `/invest/en/${country}/insight/money-flow`,
+    color: '#ef4444'
+  },
+  {
+    title: 'Social Safety',
+    desc: 'Living conditions, safety net systems, social issues',
+    icon: '👥',
+    href: `/invest/en/${country}/insight/social-safety`,
+    color: '#8b5cf6'
+  },
+  {
+    title: 'Structural Change',
+    desc: 'Major trends and transformations underway',
+    icon: '📈',
+    href: `/invest/en/${country}/insight/structural-change`,
+    color: '#ec4899'
+  },
+];
+---
+
+<BaseLayout title={`Country Insight - ${countryNames[country]}`}>
+  <Header country={country} />
+  
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    
+    <main class="flex-1 p-6 max-w-5xl">
+      <Breadcrumb items={[{ name: countryNames[country], href: `/invest/en/${country}` }, { name: 'Country Insight' }]} />
+      
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold mb-2">🔍 Country Insight</h1>
+        <p class="text-sm" style="color: var(--text-secondary)">Deeply understand the underlying logic of {countryNames[country]}</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        {items.map(item => (
+          <a 
+            href={item.href} 
+            class="group block p-6 rounded-xl transition-all hover:scale-[1.02] hover:-translate-y-1"
+            style="background: var(--bg-card); border: 1px solid var(--border-color);"
+          >
+            <div class="flex items-start space-x-4">
+              <div 
+                class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
+                style={`background: ${item.color}20;`}
+              >
+                {item.icon}
+              </div>
+              <div class="flex-1">
+                <h2 class="text-lg font-bold mb-1 group-hover:underline" style="color: var(--text-primary);">
+                  {item.title}
+                </h2>
+                <p class="text-sm" style="color: var(--text-secondary);">{item.desc}</p>
+              </div>
+              <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent-blue);">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+    </main>
+  </div>
+</BaseLayout>

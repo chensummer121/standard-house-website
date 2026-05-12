@@ -1,0 +1,567 @@
+{
+  "ethiopia": {
+    "industries": [
+      {
+        "id": "coffee",
+        "name": "咖啡",
+        "icon": "☕",
+        "marketSize": 26.5,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+57% YoY",
+        "growthRateValue": 57,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 2,
+          "fxRisk": 3,
+          "policySupport": 4
+        },
+        "keyAdvantage": "全球第五大咖啡产国，RCA>10，垂直整合窗口开放",
+        "keyRisk": "国际价格波动，ECX残余干预",
+        "slug": "coffee"
+      },
+      {
+        "id": "mining",
+        "name": "矿业",
+        "icon": "⛏️",
+        "marketSize": 18.8,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+275% (黄金)",
+        "growthRateValue": 275,
+        "ratings": {
+          "riskLevel": 5,
+          "returnPotential": 3,
+          "entryBarrier": 5,
+          "fxRisk": 4,
+          "policySupport": 2
+        },
+        "keyAdvantage": "黄金/钽/钾盐储量巨大，工业级玩家可博弈",
+        "keyRisk": "许可证政策突变，武装冲突风险高",
+        "slug": "mining"
+      },
+      {
+        "id": "fintech",
+        "name": "金融科技",
+        "icon": "💳",
+        "marketSize": 25000,
+        "marketSizeUnit": "亿ETB交易",
+        "growthRate": "+1238% 用户",
+        "growthRateValue": 1238,
+        "ratings": {
+          "riskLevel": 3,
+          "returnPotential": 5,
+          "entryBarrier": 3,
+          "fxRisk": 3,
+          "policySupport": 4
+        },
+        "keyAdvantage": "1.2亿无征信人口，Telebirr 5480万用户",
+        "keyRisk": "Telebirr生态封闭，监管不确定性",
+        "slug": "fintech"
+      },
+      {
+        "id": "renewable-energy",
+        "name": "新能源/电力",
+        "icon": "⚡",
+        "marketSize": 5.15,
+        "marketSizeUnit": "GW装机",
+        "growthRate": "+18.2%/年",
+        "growthRateValue": 18.2,
+        "ratings": {
+          "riskLevel": 3,
+          "returnPotential": 4,
+          "entryBarrier": 4,
+          "fxRisk": 4,
+          "policySupport": 4
+        },
+        "keyAdvantage": "GERD 5150MW投产，东非电力出口枢纽",
+        "keyRisk": "GERD地缘政治，外汇管制延迟收益",
+        "slug": "renewable-energy"
+      },
+      {
+        "id": "consumer-goods",
+        "name": "消费品",
+        "icon": "🛒",
+        "marketSize": 230,
+        "marketSizeUnit": "亿美元零售",
+        "growthRate": "CAGR 32.9%",
+        "growthRateValue": 32.9,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 2,
+          "fxRisk": 3,
+          "policySupport": 4
+        },
+        "keyAdvantage": "1.2亿人口刚需，外资准入历史性开放",
+        "keyRisk": "通胀高企，传统渠道掌控力弱",
+        "slug": "consumer-goods"
+      }
+    ],
+    "ratingLabels": {
+      "riskLevel": "风险等级",
+      "returnPotential": "回报潜力",
+      "entryBarrier": "进入壁垒",
+      "fxRisk": "外汇风险",
+      "policySupport": "政策支持"
+    }
+  },
+  "uganda": {
+    "industries": [
+      {
+        "id": "oil-gas",
+        "name": "石油与天然气",
+        "icon": "🛢️",
+        "marketSize": 65,
+        "marketSizeUnit": "亿桶探明储量",
+        "growthRate": "2025商业生产",
+        "growthRateValue": 100,
+        "ratings": {
+          "riskLevel": 3,
+          "returnPotential": 5,
+          "entryBarrier": 5,
+          "fxRisk": 3,
+          "policySupport": 5
+        },
+        "keyAdvantage": "TotalEnergies/CNOOC主导，商业化在即，EACOP管道建设",
+        "keyRisk": "政策框架不完善，本地化要求",
+        "slug": "oil-gas"
+      },
+      {
+        "id": "coffee",
+        "name": "咖啡",
+        "icon": "☕",
+        "marketSize": 8.5,
+        "marketSizeUnit": "亿美元出口",
+        "growthRate": "+8% YoY",
+        "growthRateValue": 8,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 2,
+          "fxRisk": 3,
+          "policySupport": 4
+        },
+        "keyAdvantage": "非洲最大罗布斯塔产国，面向EAC市场",
+        "keyRisk": "国际价格波动，气候变化",
+        "slug": "coffee"
+      },
+      {
+        "id": "fintech",
+        "name": "金融科技",
+        "icon": "💳",
+        "marketSize": 15,
+        "marketSizeUnit": "亿美元移动支付",
+        "growthRate": "+25%/年",
+        "growthRateValue": 25,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 3,
+          "fxRisk": 3,
+          "policySupport": 4
+        },
+        "keyAdvantage": "移动支付渗透率提升，无银行人口众多",
+        "keyRisk": "MTN/Airtel双寡头格局",
+        "slug": "fintech"
+      },
+      {
+        "id": "manufacturing",
+        "name": "制造业",
+        "icon": "🏭",
+        "marketSize": 50,
+        "marketSizeUnit": "亿美元",
+        "growthRate": "+5%/年",
+        "growthRateValue": 5,
+        "ratings": {
+          "riskLevel": 3,
+          "returnPotential": 3,
+          "entryBarrier": 3,
+          "fxRisk": 4,
+          "policySupport": 3
+        },
+        "keyAdvantage": "EAC市场准入，年轻劳动力",
+        "keyRisk": "电力成本高，基础设施落后",
+        "slug": "manufacturing"
+      },
+      {
+        "id": "tourism",
+        "name": "旅游业",
+        "icon": "🏖️",
+        "marketSize": 15,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+12%/年",
+        "growthRateValue": 12,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 2,
+          "fxRisk": 2,
+          "policySupport": 4
+        },
+        "keyAdvantage": "野生动物资源，维多利亚湖畔",
+        "keyRisk": "安全顾虑，季节性",
+        "slug": "tourism"
+      }
+    ],
+    "ratingLabels": {
+      "riskLevel": "风险等级",
+      "returnPotential": "回报潜力",
+      "entryBarrier": "进入壁垒",
+      "fxRisk": "外汇风险",
+      "policySupport": "政策支持"
+    }
+  },
+  "kenya": {
+    "industries": [
+      {
+        "id": "fintech",
+        "name": "金融科技",
+        "icon": "💳",
+        "marketSize": 50,
+        "marketSizeUnit": "亿美元",
+        "growthRate": "+30%/年",
+        "growthRateValue": 30,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 5,
+          "entryBarrier": 3,
+          "fxRisk": 3,
+          "policySupport": 5
+        },
+        "keyAdvantage": "M-Pesa生态全球领先，Fintech监管沙盒",
+        "keyRisk": "M-Pesa主导地位，监管收紧",
+        "slug": "fintech"
+      },
+      {
+        "id": "real-estate",
+        "name": "房地产",
+        "icon": "🏠",
+        "marketSize": 30,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+8%/年",
+        "growthRateValue": 8,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 3,
+          "fxRisk": 3,
+          "policySupport": 3
+        },
+        "keyAdvantage": "城市化驱动，租金收益率5-8%",
+        "keyRisk": "建筑成本高，外汇汇出限制",
+        "slug": "real-estate"
+      },
+      {
+        "id": "energy",
+        "name": "能源",
+        "icon": "⚡",
+        "marketSize": 25,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+10%/年",
+        "growthRateValue": 10,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 4,
+          "fxRisk": 2,
+          "policySupport": 5
+        },
+        "keyAdvantage": "地热全球领先，可再生能源政策支持",
+        "keyRisk": "IPP竞争激烈",
+        "slug": "energy"
+      },
+      {
+        "id": "tea",
+        "name": "茶叶",
+        "icon": "🍵",
+        "marketSize": 14,
+        "marketSizeUnit": "亿美元出口",
+        "growthRate": "+5%/年",
+        "growthRateValue": 5,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 3,
+          "entryBarrier": 2,
+          "fxRisk": 3,
+          "policySupport": 4
+        },
+        "keyAdvantage": "全球最大红茶出口国，蒙巴萨拍卖",
+        "keyRisk": "价格波动，气候变化",
+        "slug": "tea"
+      },
+      {
+        "id": "bpo",
+        "name": "服务外包",
+        "icon": "💼",
+        "marketSize": 10,
+        "marketSizeUnit": "亿美元",
+        "growthRate": "+15%/年",
+        "growthRateValue": 15,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 2,
+          "fxRisk": 2,
+          "policySupport": 4
+        },
+        "keyAdvantage": "英语环境，人才储备，成本优势",
+        "keyRisk": "竞争加剧（印度、菲律宾）",
+        "slug": "bpo"
+      }
+    ],
+    "ratingLabels": {
+      "riskLevel": "风险等级",
+      "returnPotential": "回报潜力",
+      "entryBarrier": "进入壁垒",
+      "fxRisk": "外汇风险",
+      "policySupport": "政策支持"
+    }
+  },
+  "chartConfig": {
+    "colors": [
+      "#3b82f6",
+      "#f59e0b",
+      "#10b981",
+      "#ef4444",
+      "#8b5cf6",
+      "#ec4899",
+      "#14b8a6",
+      "#f97316"
+    ],
+    "backgroundColor": "transparent",
+    "textColor": "#e8e8e8",
+    "subTextColor": "#a0a0b0",
+    "borderColor": "#2a3a5c"
+  },
+  "tanzania": {
+    "industries": [
+      {
+        "id": "mining",
+        "name": "采矿业",
+        "icon": "⛏️",
+        "marketSize": 35,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+12%/年",
+        "growthRateValue": 12,
+        "ratings": {
+          "riskLevel": 4,
+          "returnPotential": 4,
+          "entryBarrier": 5,
+          "fxRisk": 3,
+          "policySupport": 4
+        },
+        "keyAdvantage": "金/铜/镍储量丰富，政府战略优先，天然气资源巨大",
+        "keyRisk": "许可证政策不确定性，社区土地纠纷",
+        "slug": "mining"
+      },
+      {
+        "id": "tourism",
+        "name": "旅游业",
+        "icon": "🏔️",
+        "marketSize": 25,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+15%/年",
+        "growthRateValue": 15,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 3,
+          "fxRisk": 3,
+          "policySupport": 4
+        },
+        "keyAdvantage": "塞伦盖蒂/乞力马扎罗世界级资源，中国游客增长快",
+        "keyRisk": "季节性明显，基础设施薄弱",
+        "slug": "tourism"
+      },
+      {
+        "id": "agriculture-processing",
+        "name": "农业加工",
+        "icon": "🌾",
+        "marketSize": 15,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+8%/年",
+        "growthRateValue": 8,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 2,
+          "fxRisk": 3,
+          "policySupport": 4
+        },
+        "keyAdvantage": "7000万公顷可耕地，腰果/棉花/咖啡出口潜力大",
+        "keyRisk": "基础设施差导致损耗高，小农户整合难度大",
+        "slug": "agriculture-processing"
+      },
+      {
+        "id": "natural-gas",
+        "name": "天然气",
+        "icon": "🔥",
+        "marketSize": 50,
+        "marketSizeUnit": "亿美元（探明储量）",
+        "growthRate": "+20%/年",
+        "growthRateValue": 20,
+        "ratings": {
+          "riskLevel": 3,
+          "returnPotential": 5,
+          "entryBarrier": 5,
+          "fxRisk": 2,
+          "policySupport": 5
+        },
+        "keyAdvantage": "印度洋天然气储量巨大，LNG出口项目启动",
+        "keyRisk": "国际买家依赖，大宗项目周期长",
+        "slug": "natural-gas"
+      },
+      {
+        "id": "telecom",
+        "name": "电信",
+        "icon": "📡",
+        "marketSize": 12,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+10%/年",
+        "growthRateValue": 10,
+        "ratings": {
+          "riskLevel": 3,
+          "returnPotential": 4,
+          "entryBarrier": 4,
+          "fxRisk": 3,
+          "policySupport": 3
+        },
+        "keyAdvantage": "6000万人口，移动支付普及率高",
+        "keyRisk": "市场集中度高（Vodacom/Tigo主导），频谱资源有限",
+        "slug": "telecom"
+      }
+    ],
+    "ratingLabels": {
+      "riskLevel": "风险等级",
+      "returnPotential": "回报潜力",
+      "entryBarrier": "进入壁垒",
+      "fxRisk": "外汇风险",
+      "policySupport": "政策支持"
+    }
+  },
+  "rwanda": {
+    "industries": [
+      {
+        "id": "ict",
+        "name": "ICT/数字经济",
+        "icon": "💻",
+        "marketSize": 5,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+25%/年",
+        "growthRateValue": 25,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 5,
+          "entryBarrier": 3,
+          "fxRisk": 2,
+          "policySupport": 5
+        },
+        "keyAdvantage": "非洲数字化转型领导者，Kigali创新城，科技人才储备",
+        "keyRisk": "市场规模较小(1300万人口)，人才竞争激烈",
+        "slug": "ict"
+      },
+      {
+        "id": "tourism",
+        "name": "旅游业",
+        "icon": "🦏",
+        "marketSize": 8,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+18%/年",
+        "growthRateValue": 18,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 3,
+          "fxRisk": 3,
+          "policySupport": 5
+        },
+        "keyAdvantage": "山地大猩猩旅游全球独一份，会议旅游增长快",
+        "keyRisk": "容量限制（gorilla permits限量），季节性",
+        "slug": "tourism"
+      },
+      {
+        "id": "coffee-tea",
+        "name": "咖啡/茶叶",
+        "icon": "☕",
+        "marketSize": 3,
+        "marketSizeUnit": "亿美元/年出口",
+        "growthRate": "+10%/年",
+        "growthRateValue": 10,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 2,
+          "fxRisk": 3,
+          "policySupport": 4
+        },
+        "keyAdvantage": "精品咖啡/茶品牌化潜力大，有机认证优势",
+        "keyRisk": "产量小，对价格波动敏感",
+        "slug": "coffee-tea"
+      },
+      {
+        "id": "logistics",
+        "name": "物流",
+        "icon": "🚚",
+        "marketSize": 6,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+12%/年",
+        "growthRateValue": 12,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 3,
+          "fxRisk": 2,
+          "policySupport": 5
+        },
+        "keyAdvantage": "东非物流枢纽，非洲内部贸易增长快",
+        "keyRisk": "内陆国家运输成本高",
+        "slug": "logistics"
+      },
+      {
+        "id": "fintech",
+        "name": "金融科技",
+        "icon": "💳",
+        "marketSize": 2,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+30%/年",
+        "growthRateValue": 30,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 5,
+          "entryBarrier": 3,
+          "fxRisk": 2,
+          "policySupport": 5
+        },
+        "keyAdvantage": "政府数字化程度高，监管沙盒友好，70%无银行账户人口",
+        "keyRisk": "市场规模有限，竞争加剧",
+        "slug": "fintech"
+      },
+      {
+        "id": "construction",
+        "name": "建筑业",
+        "icon": "🏗️",
+        "marketSize": 7,
+        "marketSizeUnit": "亿美元/年",
+        "growthRate": "+14%/年",
+        "growthRateValue": 14,
+        "ratings": {
+          "riskLevel": 2,
+          "returnPotential": 4,
+          "entryBarrier": 3,
+          "fxRisk": 2,
+          "policySupport": 5
+        },
+        "keyAdvantage": "城市化驱动，Kigali城市建设热潮，保障房需求大",
+        "keyRisk": "建筑材料依赖进口，成本波动",
+        "slug": "construction"
+      }
+    ],
+    "ratingLabels": {
+      "riskLevel": "风险等级",
+      "returnPotential": "回报潜力",
+      "entryBarrier": "进入壁垒",
+      "fxRisk": "外汇风险",
+      "policySupport": "政策支持"
+    }
+  }
+}

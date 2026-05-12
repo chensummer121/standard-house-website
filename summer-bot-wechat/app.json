@@ -1,0 +1,19 @@
+{
+  "pages": [
+    "pages/index/index",
+    "pages/history/history"
+  ],
+  "window": {
+    "navigationBarBackgroundColor": "#0f172a",
+    "navigationBarTextStyle": "light",
+    "navigationBarTitleText": "Summer Bot",
+    "navigationStyle": "custom",
+    "backgroundColor": "#0f172a",
+    "backgroundTextStyle": "dark",
+    "enablePullDownRefresh": false,
+    "onReachBottomDistance": 50
+  },
+  "style": "v2",
+  "sitemapLocation": "sitemap.json",
+  "lazyCodeLoading": "requiredComponents"
+}

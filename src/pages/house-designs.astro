@@ -1,0 +1,236 @@
+---
+import BuildLayout from '../layouts/BuildLayout.astro';
+
+const houseModels = [
+  {
+    id: "model-a",
+    name: "Model A - Economy Single Story",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=800&q=80",
+    bedrooms: 2,
+    bathrooms: 1,
+    area: "65-80",
+    structure: "Prefabricated Steel Frame",
+    timeline: "30 Days",
+    price: "From UGX 200M",
+    badge: "Economy",
+    description: "Perfect starter home with efficient layout. Prefabricated steel structure for quick assembly.",
+    features: [
+      "Open plan living & dining",
+      "2 comfortable bedrooms",
+      "1 modern bathroom",
+      "Steel frame construction",
+      "Complete BOM package",
+    ],
+  },
+  {
+    id: "model-b",
+    name: "Model B - Standard Family Home",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=800&q=80",
+    bedrooms: 3,
+    bathrooms: 2,
+    area: "120-150",
+    structure: "Standard BOM Package",
+    timeline: "45 Days",
+    price: "From UGX 450M",
+    badge: "Popular",
+    description: "Our most popular model. Complete BOM package with 45-day guaranteed delivery.",
+    features: [
+      "Spacious open plan layout",
+      "3 bedrooms with closet space",
+      "2 full bathrooms",
+      "Standard BOM included",
+      "Kitchen & utility area",
+    ],
+  },
+  {
+    id: "model-c",
+    name: "Model C - Premium Villa Series",
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=800&q=80",
+    bedrooms: 4,
+    bathrooms: 3,
+    area: "200-400",
+    structure: "Modular Custom",
+    timeline: "Custom Timeline",
+    price: "Contact for Quote",
+    badge: "Premium",
+    description: "Fully customizable modular design. Expand your living space as your family grows.",
+    features: [
+      "Flexible room configuration",
+      "Premium finishes available",
+      "Multi-level options",
+      "Modular expansion ready",
+      "Full customization support",
+    ],
+  },
+];
+---
+
+<BuildLayout title="House Designs" description="Choose from our curated collection of prefabricated home models. Each model comes with a complete BOM package.">
+  
+  <!-- Header -->
+  <section class="bg-earth-800 text-white py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">Standard Model Library</h1>
+      <p class="text-earth-200 text-lg max-w-2xl">
+        Choose from our curated collection of prefabricated home models. Each model comes with a 
+        complete BOM (Bill of Materials) package — transparent pricing from blueprint to keys.
+      </p>
+    </div>
+  </section>
+
+  <!-- Value Proposition -->
+  <section class="bg-primary/10 py-8">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex flex-wrap justify-center gap-8 md:gap-16 text-center">
+        <div class="flex items-center gap-2">
+          <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20 7l-8-4-8 4m16 0l-8 4m8-4v10l-8 4m0-10L4 7m8 4v10M4 7v10l8 4" />
+          </svg>
+          <span class="font-medium">100% BOM Transparent</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 4a2 2 0 114 0v1a1 1 0 001 1h3a1 1 0 011 1v3a1 1 0 01-1 1h-1a2 2 0 100 4h1a1 1 0 011 1v3a1 1 0 01-1 1h-3a1 1 0 01-1-1v-1a2 2 0 10-4 0v1a1 1 0 01-1 1H7a1 1 0 01-1-1v-3a1 1 0 00-1-1H4a2 2 0 110-4h1a1 1 0 001-1V7a1 1 0 011-1h3a1 1 0 001-1V4z" />
+          </svg>
+          <span class="font-medium">Turnkey Solutions</span>
+        </div>
+        <div class="flex items-center gap-2">
+          <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+          </svg>
+          <span class="font-medium">Guaranteed Timelines</span>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- House Models -->
+  <section class="py-16 md:py-24 bg-earth-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="space-y-16">
+        {houseModels.map((house, index) => (
+          <div 
+            class={`grid grid-cols-1 lg:grid-cols-2 gap-12 items-center ${
+              index % 2 === 1 ? 'lg:grid-flow-col' : ''
+            }`}
+          >
+            <!-- Image -->
+            <div class={`relative ${index % 2 === 1 ? 'lg:order-2' : ''}`}>
+              <div class="relative aspect-[4/3] rounded-2xl overflow-hidden shadow-xl">
+                <img
+                  src={house.image}
+                  alt={house.name}
+                  class="w-full h-full object-cover"
+                />
+                <div class="absolute top-4 left-4">
+                  <span class="px-3 py-1 bg-primary text-white text-sm font-medium rounded-full">
+                    {house.badge}
+                  </span>
+                </div>
+              </div>
+            </div>
+
+            <!-- Content -->
+            <div class={`${index % 2 === 1 ? 'lg:order-1' : ''}`}>
+              <h2 class="text-2xl md:text-3xl font-bold text-earth-800 mb-4">
+                {house.name}
+              </h2>
+              <p class="text-earth-600 mb-6">{house.description}</p>
+
+              <!-- Quick Stats -->
+              <div class="grid grid-cols-3 gap-4 mb-6">
+                <div class="text-center p-3 bg-white rounded-xl shadow-sm">
+                  <svg class="h-6 w-6 mx-auto text-primary mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 12l2-2m0 0l7-7 7 7M5 10v10a1 1 0 001 1h3m10-11l2 2m-2-2v10a1 1 0 01-1 1h-3m-6 0a1 1 0 001-1v-4a1 1 0 011-1h2a1 1 0 011 1v4a1 1 0 001 1m-6 0h6" />
+                  </svg>
+                  <div class="text-xl font-bold text-earth-800">{house.bedrooms}</div>
+                  <div class="text-xs text-earth-500">Bedrooms</div>
+                </div>
+                <div class="text-center p-3 bg-white rounded-xl shadow-sm">
+                  <svg class="h-6 w-6 mx-auto text-primary mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 14v3m4-3v3m4-3v3M3 21h18M3 10h18M3 7l9-4 9 4M4 10h16v11H4V10z" />
+                  </svg>
+                  <div class="text-xl font-bold text-earth-800">{house.bathrooms}</div>
+                  <div class="text-xs text-earth-500">Bathrooms</div>
+                </div>
+                <div class="text-center p-3 bg-white rounded-xl shadow-sm">
+                  <svg class="h-6 w-6 mx-auto text-primary mb-1" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 8V4m0 0h4M4 4l5 5m11-1V4m0 0h-4m4 0l-5 5M4 16v4m0 0h4m-4 0l5-5m11 5l-5-5m5 5v-4m0 4h-4" />
+                  </svg>
+                  <div class="text-xl font-bold text-earth-800">{house.area}m²</div>
+                  <div class="text-xs text-earth-500">Area</div>
+                </div>
+              </div>
+
+              <!-- Specs -->
+              <div class="grid grid-cols-2 gap-3 mb-6">
+                <div class="flex items-center gap-2 text-sm">
+                  <svg class="h-4 w-4 text-sage-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class="text-earth-600">{house.structure}</span>
+                </div>
+                <div class="flex items-center gap-2 text-sm">
+                  <svg class="h-4 w-4 text-sage-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8v4l3 3m6-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                  </svg>
+                  <span class="text-earth-600">{house.timeline}</span>
+                </div>
+              </div>
+
+              <!-- Features -->
+              <ul class="space-y-2 mb-6">
+                {house.features.map((feature) => (
+                  <li class="flex items-center gap-2 text-sm text-earth-600">
+                    <svg class="h-4 w-4 text-primary flex-shrink-0" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                    </svg>
+                    {feature}
+                  </li>
+                ))}
+              </ul>
+
+              <!-- Price & CTA -->
+              <div class="flex flex-wrap items-center gap-4">
+                <div class="text-2xl font-bold text-primary">{house.price}</div>
+                <a 
+                  href="/configurator" 
+                  class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-amber-600 transition-colors"
+                >
+                  Configure This Model
+                  <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+                  </svg>
+                </a>
+              </div>
+            </div>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- CTA -->
+  <section class="py-16 md:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="bg-gradient-to-r from-earth-700 to-sage-800 rounded-3xl p-8 md:p-16 text-white text-center">
+        <h2 class="text-3xl md:text-4xl font-bold mb-4">
+          Can't Find the Perfect Model?
+        </h2>
+        <p class="text-earth-200 mb-8 max-w-2xl mx-auto">
+          Use our AI-powered configurator to customize any model to your needs, or contact 
+          our team for personalized design consultation.
+        </p>
+        <div class="flex flex-wrap justify-center gap-4">
+          <a href="/configurator" class="bg-primary hover:bg-primary/90 text-white font-medium px-8 py-3 rounded-lg transition-colors">
+            Start Custom Configuration
+          </a>
+          <a href="/about#contact" class="bg-white/10 hover:bg-white/20 text-white font-medium px-8 py-3 rounded-lg transition-colors">
+            Contact Us
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BuildLayout>

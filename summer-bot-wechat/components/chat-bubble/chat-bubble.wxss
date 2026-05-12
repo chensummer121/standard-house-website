@@ -1,0 +1,151 @@
+/* components/chat-bubble/chat-bubble.wxss */
+/* Summer Bot 聊天气泡组件样式 */
+
+.bubble-wrapper {
+  display: flex;
+  align-items: flex-end;
+  gap: 16rpx;
+  animation: fadeIn 0.3s ease-out;
+}
+
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(10rpx); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.wrapper-user {
+  flex-direction: row-reverse;
+}
+
+.wrapper-ai {
+  flex-direction: row;
+}
+
+.avatar {
+  width: 64rpx;
+  height: 64rpx;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-shrink: 0;
+}
+
+.avatar-ai {
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+}
+
+.avatar-user {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+}
+
+.avatar-icon {
+  font-size: 32rpx;
+}
+
+.bubble {
+  max-width: 70%;
+  padding: 20rpx 24rpx;
+  position: relative;
+}
+
+.bubble-user {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+  border-radius: 24rpx 24rpx 8rpx 24rpx;
+  box-shadow: 0 4rpx 12rpx rgba(245, 158, 11, 0.2);
+}
+
+.bubble-ai {
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 24rpx 24rpx 24rpx 8rpx;
+}
+
+.bubble-error {
+  border-color: rgba(239, 68, 68, 0.3);
+  background: rgba(239, 68, 68, 0.1);
+}
+
+.message-text {
+  font-size: 28rpx;
+  line-height: 1.6;
+  color: var(--text-primary);
+  word-break: break-word;
+}
+
+.bubble-user .message-text {
+  color: #fff;
+}
+
+.source-tag {
+  margin-bottom: 12rpx;
+}
+
+.tag-public { background: rgba(34, 197, 94, 0.2); color: #22c55e; font-size: 20rpx; padding: 4rpx 12rpx; border-radius: 8rpx; }
+.tag-internal { background: rgba(234, 179, 8, 0.2); color: #eab308; font-size: 20rpx; padding: 4rpx 12rpx; border-radius: 8rpx; }
+.tag-confidential { background: rgba(100, 116, 139, 0.2); color: var(--text-muted); font-size: 20rpx; padding: 4rpx 12rpx; border-radius: 8rpx; }
+
+.loading-content {
+  padding: 8rpx 0;
+}
+
+.loading-dots {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.loading-dots view {
+  width: 12rpx;
+  height: 12rpx;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.loading-dots view:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots view:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.actions {
+  display: flex;
+  justify-content: flex-end;
+  margin-top: 12rpx;
+  gap: 8rpx;
+  opacity: 0;
+  transition: opacity 0.2s ease;
+}
+
+.bubble-ai:active .actions {
+  opacity: 1;
+}
+
+.action-btn {
+  width: 44rpx;
+  height: 44rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  background: rgba(255, 255, 255, 0.1);
+  border-radius: 8rpx;
+  transition: background 0.2s ease;
+}
+
+.action-btn:active {
+  background: rgba(255, 255, 255, 0.2);
+}
+
+.action-icon {
+  font-size: 24rpx;
+}
+
+.list-item {
+  display: flex;
+  align-items: flex-start;
+  gap: 8rpx;
+  margin: 4rpx 0;
+}

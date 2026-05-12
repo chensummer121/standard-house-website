@@ -1,0 +1,362 @@
+---
+import BuildLayout from '../layouts/BuildLayout.astro';
+
+const investmentHighlights = [
+  {
+    title: "Standardized Models",
+    description: "Proven floor plans, BOM packages, and construction timelines. Replicate success across projects.",
+    iconPath: "M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z"
+  },
+  {
+    title: "18% ROI Potential",
+    description: "Consistent returns through prefabricated cost savings and Uganda's growing housing demand.",
+    iconPath: "M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+  },
+  {
+    title: "Fast Turnkey Delivery",
+    description: "45-day delivery on standard models. Generate rental income faster with completed properties.",
+    iconPath: "M13 10V3L4 14h7v7l9-11h-7z"
+  },
+  {
+    title: "PropTech Advantage",
+    description: "Digital-first approach to construction management. Real-time tracking, transparent costs.",
+    iconPath: "M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"
+  }
+];
+
+const investmentPackages = [
+  {
+    name: "Individual Home",
+    minInvestment: "200,000,000",
+    returns: "15-18%",
+    features: ["1 residential property", "Standard BOM package", "Property management", "Annual reports"]
+  },
+  {
+    name: "Multi-Unit Project",
+    minInvestment: "500,000,000",
+    returns: "18-22%",
+    popular: true,
+    features: ["2-4 residential units", "Bulk BOM pricing", "Dedicated manager", "Quarterly reports"]
+  },
+  {
+    name: "Development Partner",
+    minInvestment: "1,500,000,000",
+    returns: "22%+",
+    features: ["5+ unit development", "Custom configuration", "Equity partnership", "Strategic advisory"]
+  }
+];
+---
+
+<BuildLayout title="Investment" description="Join us in revolutionizing construction in East Africa. PropTech investment opportunities in Uganda's housing market.">
+  
+  <!-- Header -->
+  <section class="bg-gradient-to-r from-earth-800 to-sage-800 text-white py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-3xl">
+        <span class="inline-flex items-center gap-2 px-4 py-2 bg-white/10 rounded-full text-sm mb-6">
+          <svg class="h-4 w-4" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 7h8m0 0v8m0-8l-8 8-4-4-6 6" />
+          </svg>
+          Investment Opportunities
+        </span>
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">
+          PropTech Investment in<br />
+          <span class="text-primary">Uganda's Housing Market</span>
+        </h1>
+        <p class="text-lg text-earth-200 mb-8">
+          Join us in revolutionizing construction in East Africa. Founded in China 2012, with over 
+          a decade of architectural expertise, Standard House brings prefabricated technology and 
+          standardized models to Uganda's growing housing market.
+        </p>
+        <a href="#contact" class="inline-flex items-center gap-2 px-6 py-3 bg-primary text-white font-medium rounded-lg hover:bg-amber-600 transition-colors">
+          Start Investing
+          <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+          </svg>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Company Background -->
+  <section class="py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="text-primary font-medium">Our Story</span>
+          <h2 class="text-3xl md:text-4xl font-bold text-earth-800 mt-2 mb-6">From China to Uganda</h2>
+          <div class="space-y-4 text-earth-600">
+            <p>
+              Founded in China in 2012, Standard House began as a small team of passionate architects 
+              dedicated to making quality housing accessible. With over a decade of experience in 
+              prefabricated construction, we've perfected our standardized building system.
+            </p>
+            <p>
+              Today, as STANDERRA HOUSING TECHNOLOGY LTD, we're bringing our proven PropTech model 
+              to Uganda — combining prefabricated construction with digital management systems to 
+              deliver homes faster, cheaper, and with guaranteed quality.
+            </p>
+            <p>
+              Our standardized model approach means predictable costs, consistent quality, and 
+              scalable growth — making us an ideal partner for real estate investment.
+            </p>
+          </div>
+        </div>
+        <div class="grid grid-cols-2 gap-6">
+          {[
+            { value: "2012", label: "Founded" },
+            { value: "12+", label: "Years Experience" },
+            { value: "500+", label: "Homes Built" },
+            { value: "100%", label: "Transparent Pricing" },
+          ].map((stat) => (
+            <div key={stat.label} class="bg-earth-50 rounded-xl p-6 text-center">
+              <div class="text-3xl font-bold text-primary mb-1">{stat.value}</div>
+              <div class="text-earth-600 text-sm">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Investment Highlights -->
+  <section class="py-16 md:py-24 bg-earth-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-16">
+        <span class="text-primary font-medium">Why Invest</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-earth-800 mt-2 mb-4">Standardized, Scalable, Profitable</h2>
+        <p class="text-earth-600">
+          Our PropTech model transforms construction into a replicable, scalable business — 
+          with transparent pricing and predictable returns.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-8">
+        {investmentHighlights.map((item) => (
+          <div class="text-center p-6 bg-white rounded-2xl shadow-sm">
+            <div class="w-16 h-16 mx-auto rounded-2xl bg-gradient-to-br from-primary/20 to-earth-200 flex items-center justify-center mb-4">
+              <svg class="h-8 w-8 text-earth-700" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d={item.iconPath} />
+              </svg>
+            </div>
+            <h3 class="text-xl font-semibold text-earth-800 mb-2">{item.title}</h3>
+            <p class="text-earth-600">{item.description}</p>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Investment Packages -->
+  <section class="py-16 md:py-24 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto mb-12">
+        <span class="text-primary font-medium">Investment Packages</span>
+        <h2 class="text-3xl md:text-4xl font-bold text-earth-800 mt-2 mb-4">Choose Your Investment Tier</h2>
+        <p class="text-earth-600">
+          Select the package that aligns with your investment goals. All packages include our 
+          standardized BOM system and guaranteed construction timelines.
+        </p>
+      </div>
+
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+        {investmentPackages.map((pkg) => (
+          <div class={`p-8 rounded-2xl ${pkg.popular ? 'bg-gradient-to-br from-earth-700 to-sage-800 text-white' : 'bg-earth-50'}`}>
+            {pkg.popular && (
+              <span class="inline-block px-3 py-1 bg-primary text-white text-xs font-medium rounded-full mb-4">Most Popular</span>
+            )}
+            <h3 class="text-2xl font-bold mb-2">{pkg.name}</h3>
+            <div class={`text-3xl font-bold mb-2 ${pkg.popular ? 'text-primary' : 'text-primary'}`}>{pkg.returns} APY</div>
+            <p class={`text-sm mb-6 ${pkg.popular ? 'text-earth-200' : 'text-earth-500'}`}>
+              Min. Investment: UGX {pkg.minInvestment}
+            </p>
+            <ul class="space-y-3 mb-8">
+              {pkg.features.map((feature) => (
+                <li class="flex items-center gap-2 text-sm">
+                  <svg class={`h-4 w-4 ${pkg.popular ? 'text-primary' : 'text-sage-600'}`} fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <span class={pkg.popular ? 'text-earth-200' : 'text-earth-600'}>{feature}</span>
+                </li>
+              ))}
+            </ul>
+            <a 
+              href="#contact" 
+              class={`block w-full text-center px-6 py-3 font-medium rounded-lg transition-colors ${
+                pkg.popular 
+                  ? 'bg-primary text-white hover:bg-amber-600' 
+                  : 'bg-earth-800 text-white hover:bg-earth-700'
+              }`}
+            >
+              Get Started
+            </a>
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- ROI Calculator Info -->
+  <section class="py-16 md:py-24 bg-earth-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+        <div>
+          <span class="text-primary font-medium">Investment Calculator</span>
+          <h2 class="text-3xl md:text-4xl font-bold text-earth-800 mt-2 mb-6">Estimate Your Returns</h2>
+          <p class="text-earth-600 mb-8">
+            Calculate potential returns on your real estate investment. Our standardized model 
+            approach ensures predictable appreciation with 18% annual growth potential.
+          </p>
+
+          <div class="bg-white rounded-2xl p-6 shadow-md">
+            <h3 class="font-semibold text-earth-800 mb-4">Sample ROI Calculation</h3>
+            <div class="space-y-4">
+              <div class="flex justify-between items-center py-3 border-b border-earth-100">
+                <span class="text-earth-600">Initial Investment</span>
+                <span class="font-semibold">UGX 500,000,000</span>
+              </div>
+              <div class="flex justify-between items-center py-3 border-b border-earth-100">
+                <span class="text-earth-600">Annual Return Rate</span>
+                <span class="font-semibold text-primary">18%</span>
+              </div>
+              <div class="flex justify-between items-center py-3 border-b border-earth-100">
+                <span class="text-earth-600">5-Year Projection</span>
+                <span class="font-semibold">UGX 1,142,616,160</span>
+              </div>
+              <div class="flex justify-between items-center py-3">
+                <span class="text-earth-600">Total Gain</span>
+                <span class="font-bold text-primary">+UGX 642,616,160</span>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-gradient-to-br from-earth-700 to-sage-800 rounded-3xl p-8 md:p-12 text-white">
+          <h3 class="text-2xl font-bold mb-6">Start Your Investment Journey</h3>
+          <p class="text-earth-200 mb-8">
+            Contact our investment team to discuss opportunities and get personalized recommendations 
+            based on your financial goals.
+          </p>
+          <div class="space-y-4">
+            <div class="flex items-center gap-3">
+              <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+              </svg>
+              <span>standradhouseug@standard-house.com</span>
+            </div>
+            <div class="flex items-center gap-3">
+              <svg class="h-5 w-5 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+              </svg>
+              <span>+256 766 969 867</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- Contact Form -->
+  <section id="contact" class="py-16 md:py-24 bg-white">
+    <div class="max-w-3xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-12">
+        <h2 class="text-3xl md:text-4xl font-bold text-earth-800 mb-4">Start Your Investment Journey</h2>
+        <p class="text-earth-600">
+          Fill out the form below or contact us directly. Our investment team will respond within 24 hours.
+        </p>
+      </div>
+
+      <div class="bg-white rounded-2xl shadow-lg p-8 border border-earth-100">
+        <div class="flex items-center gap-4 mb-8 pb-6 border-b border-earth-200">
+          <div class="w-12 h-12 rounded-xl bg-primary/10 flex items-center justify-center">
+            <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5a2 2 0 012-2h3.28a1 1 0 01.948.684l1.498 4.493a1 1 0 01-.502 1.21l-2.257 1.13a11.042 11.042 0 005.516 5.516l1.13-2.257a1 1 0 011.21-.502l4.493 1.498a1 1 0 01.684.949V19a2 2 0 01-2 2h-1C9.716 21 3 14.284 3 6V5z" />
+            </svg>
+          </div>
+          <div>
+            <p class="font-semibold text-earth-800">Direct Contact</p>
+            <p class="text-earth-600">+256 766 969 867 (WhatsApp)</p>
+          </div>
+        </div>
+
+        <form class="space-y-6">
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-earth-700 mb-2">
+                Full Name *
+              </label>
+              <input
+                type="text"
+                class="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="Your name"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-earth-700 mb-2">
+                Email Address *
+              </label>
+              <input
+                type="email"
+                class="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="you@example.com"
+              />
+            </div>
+          </div>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-6">
+            <div>
+              <label class="block text-sm font-medium text-earth-700 mb-2">
+                Phone Number *
+              </label>
+              <input
+                type="tel"
+                class="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+                placeholder="+256 XXX XXX XXX"
+              />
+            </div>
+            <div>
+              <label class="block text-sm font-medium text-earth-700 mb-2">
+                Investment Interest
+              </label>
+              <select class="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+                <option>Individual Home Purchase</option>
+                <option>Multi-Unit Project</option>
+                <option>Development Partnership</option>
+                <option>Other Investment Inquiry</option>
+              </select>
+            </div>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-earth-700 mb-2">
+              Investment Budget
+            </label>
+            <select class="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent">
+              <option>UGX 100M - 300M</option>
+              <option>UGX 300M - 500M</option>
+              <option>UGX 500M - 1B</option>
+              <option>UGX 1B+</option>
+            </select>
+          </div>
+          <div>
+            <label class="block text-sm font-medium text-earth-700 mb-2">
+              Message
+            </label>
+            <textarea
+              rows="4"
+              class="w-full px-4 py-3 border border-earth-300 rounded-lg focus:ring-2 focus:ring-primary focus:border-transparent"
+              placeholder="Tell us about your investment goals..."
+            ></textarea>
+          </div>
+          <div class="mt-8 text-center">
+            <button type="submit" class="inline-flex items-center gap-2 text-lg px-10 py-4 bg-primary text-white font-medium rounded-lg hover:bg-amber-600 transition-colors">
+              Submit Investment Inquiry
+              <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+              </svg>
+            </button>
+          </div>
+        </form>
+      </div>
+    </div>
+  </section>
+
+</BuildLayout>

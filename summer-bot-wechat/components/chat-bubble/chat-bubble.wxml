@@ -1,0 +1,49 @@
+<!-- components/chat-bubble/chat-bubble.wxml -->
+<!-- Summer Bot 聊天气泡组件 -->
+
+<view class="bubble-wrapper {{message.role === 'user' ? 'wrapper-user' : 'wrapper-ai'}}">
+  <!-- AI头像 -->
+  <view class="avatar avatar-ai" wx:if="{{message.role === 'assistant'}}">
+    <text class="avatar-icon">🤖</text>
+  </view>
+
+  <!-- 消息气泡 -->
+  <view class="bubble {{getBubbleClass()}}">
+    <!-- 加载状态 -->
+    <view class="loading-content" wx:if="{{message.isLoading}}">
+      <view class="loading-dots">
+        <view></view>
+        <view></view>
+        <view></view>
+      </view>
+    </view>
+
+    <!-- 消息内容 -->
+    <block wx:else>
+      <!-- 用户消息 -->
+      <block wx:if="{{message.role === 'user'}}">
+        <text class="message-text">{{message.content}}</text>
+      </block>
+
+      <!-- AI消息 -->
+      <block wx:if="{{message.role === 'assistant'}}">
+        <view class="source-tag" wx:if="{{message.source}}">
+          <text class="{{getSourceTag(message.source).class}}">{{getSourceTag(message.source).text}}</text>
+        </view>
+        
+        <text class="message-text" selectable="true">{{message.content}}</text>
+        
+        <view class="actions">
+          <view class="action-btn" bindtap="onCopy">
+            <text class="action-icon">📋</text>
+          </view>
+        </view>
+      </block>
+    </block>
+  </view>
+
+  <!-- 用户头像 -->
+  <view class="avatar avatar-user" wx:if="{{message.role === 'user'}}">
+    <text class="avatar-icon">👤</text>
+  </view>
+</view>

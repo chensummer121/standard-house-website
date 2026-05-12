@@ -1,0 +1,897 @@
+---
+import IntelLayout from '../../layouts/IntelLayout.astro';
+import RiskRadarChart from '../../components/charts/RiskRadarChart.tsx';
+
+// 五国核心数据（基于 intel-kb 真实数据）
+const countries = [
+  {
+    id: 'uganda',
+    name: '乌干达',
+    flag: '🇺🇬',
+    color: '#22c55e',
+    gdp: '480',
+    gdpUnit: '亿美元',
+    gdpPerCapita: '$1,100',
+    gdpGrowth: '5.5%',
+    pop: '4,800万',
+    urban: '25%',
+    bizRank: 116,
+    elecRate: '45%',
+    powerPrice: '$0.10/kWh',
+    debtGDP: '40%',
+    riskScore: 5.9,
+    riskLabel: '中高风险',
+    radar: [3, 7, 3, 3, 4],
+    risk: { political: 6.5, fx: 5.0, security: 6.0, compliance: 5.8, environmental: 6.3 },
+    cost: {
+      land: '$15-40/m²',
+      power: '$0.10/kWh',
+      labor: '$80-150/月',
+      logistics: '$2,500-3,500/TEU',
+      building: '$300-500/m²',
+      corpTax: '30%',
+      vat: '18%',
+      importDuty: '12%',
+    },
+    bestFor: '农业加工/建材/石油',
+  },
+  {
+    id: 'ethiopia',
+    name: '埃塞俄比亚',
+    flag: '🇪🇹',
+    color: '#3b82f6',
+    gdp: '1,270',
+    gdpUnit: '亿美元',
+    gdpPerCapita: '$1,100',
+    gdpGrowth: '6.8%',
+    pop: '1.3亿',
+    urban: '23%',
+    bizRank: 175,
+    elecRate: '55%',
+    powerPrice: '$0.04/kWh',
+    debtGDP: '35%',
+    riskScore: 6.7,
+    riskLabel: '高风险',
+    radar: [8, 8, 2, 4, 2],
+    risk: { political: 7.5, fx: 7.0, security: 6.3, compliance: 5.3, environmental: 7.3 },
+    cost: {
+      land: '$5-15/m²',
+      power: '$0.04/kWh',
+      labor: '$60-120/月',
+      logistics: '$1,500-2,500/TEU',
+      building: '$200-400/m²',
+      corpTax: '30%',
+      vat: '15%',
+      importDuty: '10%',
+    },
+    bestFor: '能源/矿产/大基建',
+  },
+  {
+    id: 'kenya',
+    name: '肯尼亚',
+    flag: '🇰🇪',
+    color: '#f59e0b',
+    gdp: '1,170',
+    gdpUnit: '亿美元',
+    gdpPerCapita: '$2,200',
+    gdpGrowth: '4.5%',
+    pop: '5,500万',
+    urban: '30%',
+    bizRank: 52,
+    elecRate: '75%',
+    powerPrice: '$0.13/kWh',
+    debtGDP: '68%',
+    riskScore: 5.5,
+    riskLabel: '中风险',
+    radar: [7, 5, 6, 7, 5],
+    risk: { political: 5.3, fx: 4.0, security: 6.0, compliance: 5.3, environmental: 6.7 },
+    cost: {
+      land: '$30-100/m²',
+      power: '$0.13/kWh',
+      labor: '$150-300/月',
+      logistics: '$800-1,500/TEU',
+      building: '$400-700/m²',
+      corpTax: '30%',
+      vat: '16%',
+      importDuty: '12%',
+    },
+    bestFor: '金融科技/ICT/消费品',
+  },
+  {
+    id: 'tanzania',
+    name: '坦桑尼亚',
+    flag: '🇹🇿',
+    color: '#ef4444',
+    gdp: '820',
+    gdpUnit: '亿美元',
+    gdpPerCapita: '$1,200',
+    gdpGrowth: '5.2%',
+    pop: '6,800万',
+    urban: '38%',
+    bizRank: 140,
+    elecRate: '50%',
+    powerPrice: '$0.08/kWh',
+    debtGDP: '42%',
+    riskScore: 4.3,
+    riskLabel: '中低风险',
+    radar: [5, 6, 3, 4, 6],
+    risk: { political: 4.3, fx: 3.3, security: 4.0, compliance: 4.8, environmental: 5.3 },
+    cost: {
+      land: '$10-30/m²',
+      power: '$0.08/kWh',
+      labor: '$100-200/月',
+      logistics: '$1,000-1,800/TEU',
+      building: '$250-450/m²',
+      corpTax: '30%',
+      vat: '18%',
+      importDuty: '12%',
+    },
+    bestFor: '矿业/农业/物流',
+  },
+  {
+    id: 'rwanda',
+    name: '卢旺达',
+    flag: '🇷🇼',
+    color: '#a855f7',
+    gdp: '140',
+    gdpUnit: '亿美元',
+    gdpPerCapita: '$1,100',
+    gdpGrowth: '6.5%',
+    pop: '1,400万',
+    urban: '35%',
+    bizRank: 38,
+    elecRate: '60%',
+    powerPrice: '$0.10/kWh',
+    debtGDP: '58%',
+    riskScore: 4.0,
+    riskLabel: '低风险',
+    radar: [2, 8, 7, 6, 7],
+    risk: { political: 4.0, fx: 2.8, security: 3.0, compliance: 5.3, environmental: 4.7 },
+    cost: {
+      land: '$20-50/m²',
+      power: '$0.10/kWh',
+      labor: '$120-180/月',
+      logistics: '$1,500-2,000/TEU',
+      building: '$350-500/m²',
+      corpTax: '30%',
+      vat: '18%',
+      importDuty: '12%',
+    },
+    bestFor: 'ICT/精品农业/生态旅游',
+  },
+];
+
+// 行业矩阵
+const industryMatrix = {
+  '制造业': {
+    ethiopia: { score: 9, note: '劳动力成本最低，电力便宜', advice: '首选 | 工业园区可加速审批' },
+    uganda: { score: 7, note: 'EAC成员，关税优惠', advice: '推荐 | 基础设施待完善' },
+    kenya: { score: 6, note: '熟练工人多，市场成熟', advice: '中等 | 成本偏高' },
+    tanzania: { score: 6, note: '资源丰富，政策改善中', advice: '中等 | 官僚主义较重' },
+    rwanda: { score: 5, note: '效率高但市场小', advice: '谨慎 | 适合小规模试产' },
+  },
+  'ICT/科技': {
+    ethiopia: { score: 4, note: '数字基础设施薄弱', advice: '不推荐 | 外汇管制严格' },
+    uganda: { score: 5, note: '移动支付普及率高', advice: '中等 | 人才储备不足' },
+    kenya: { score: 10, note: '非洲硅谷，Fintech生态成熟', advice: '首选 | M-Pesa生态圈' },
+    tanzania: { score: 4, note: '市场分散', advice: '不推荐 | 基础设施差' },
+    rwanda: { score: 9, note: '政府强力推动，效率最高', advice: '强烈推荐 | Kigali创新城' },
+  },
+  '能源/电力': {
+    ethiopia: { score: 10, note: '水力和地热资源丰富', advice: '首选 | 大规模投资机会' },
+    uganda: { score: 7, note: '石油即将商业化', advice: '推荐 | EACOP管道机遇' },
+    kenya: { score: 7, note: '地热发电领先非洲', advice: '推荐 | 绿色能源需求大' },
+    tanzania: { score: 9, note: '天然气储量58 TCF', advice: '首选 | LNG项目待开发' },
+    rwanda: { score: 5, note: '可再生能源项目多', advice: '中等 | 规模较小' },
+  },
+  '矿业/金属': {
+    ethiopia: { score: 8, note: '金、钾盐、钽储量丰富', advice: '推荐 | 但反腐风险高' },
+    uganda: { score: 6, note: '石油储量65亿桶', advice: '中等 | 等待商业化' },
+    kenya: { score: 4, note: '矿产资源一般', advice: '不推荐 | 缺乏规模矿藏' },
+    tanzania: { score: 10, note: '黄金、钻石、铜丰富', advice: '首选 | 政策持续改善' },
+    rwanda: { score: 6, note: '3T矿产(锡钨钽)有优势', advice: '中等 | 储量有限' },
+  },
+  '金融服务': {
+    ethiopia: { score: 2, note: '国有银行主导，外资受限', advice: '不推荐 | 外汇管制' },
+    uganda: { score: 6, note: 'EAC成员，区域布局机会', advice: '中等 | 市场竞争激烈' },
+    kenya: { score: 10, note: 'M-Pesa生态，Fintech领先', advice: '首选 | 移动金融渗透率高' },
+    tanzania: { score: 4, note: '市场分散', advice: '不推荐 | 监管复杂' },
+    rwanda: { score: 7, note: '政府推动金融普惠', advice: '推荐 | 数字化转型机会' },
+  },
+  '旅游业': {
+    ethiopia: { score: 6, note: '历史遗迹独特', advice: '中等 | 基础设施差' },
+    uganda: { score: 7, note: '野生动物丰富', advice: '推荐 | 但知名度不如肯尼亚' },
+    kenya: { score: 9, note: '马赛马拉世界闻名', advice: '强烈推荐 | 旅游基础设施完善' },
+    tanzania: { score: 10, note: '塞伦盖蒂、乞力马扎罗', advice: '首选 | 最强旅游资源' },
+    rwanda: { score: 8, note: '山地大猩猩tour独特', advice: '推荐 | 高端生态旅游' },
+  },
+};
+
+const industries = Object.keys(industryMatrix);
+
+const riskDimensions = [
+  { key: 'political', label: '政治稳定性', icon: '🏛️' },
+  { key: 'fx', label: '汇率稳定性', icon: '💱' },
+  { key: 'security', label: '社会安全', icon: '🛡️' },
+  { key: 'compliance', label: '合规便利度', icon: '📋' },
+  { key: 'environmental', label: '政策稳定性', icon: '🌍' },
+];
+---
+
+<IntelLayout title="国家对比 - STANDERRA Intelligence" pageContext="compare">
+  <style>
+    .gradient-text {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .country-selector {
+      display: flex;
+      gap: 0.5rem;
+      flex-wrap: wrap;
+    }
+    
+    .country-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: rgba(30, 41, 59, 0.5);
+      color: #94a3b8;
+      cursor: pointer;
+      transition: all 0.2s;
+    }
+    .country-btn:hover {
+      background: rgba(30, 41, 59, 0.8);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+    .country-btn.selected {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      color: white;
+    }
+    
+    .tab-nav {
+      display: flex;
+      gap: 0.25rem;
+      background: rgba(30, 41, 59, 0.5);
+      padding: 0.25rem;
+      border-radius: 0.75rem;
+    }
+    .dim-tab {
+      padding: 0.5rem 1.5rem;
+      border-radius: 0.5rem;
+      cursor: pointer;
+      transition: all 0.2s;
+      color: #94a3b8;
+      font-weight: 500;
+      font-size: 0.875rem;
+    }
+    .dim-tab:hover {
+      color: white;
+      background: rgba(255, 255, 255, 0.05);
+    }
+    .dim-tab.active {
+      background: #38bdf8;
+      color: white;
+      box-shadow: 0 4px 12px rgba(56, 189, 248, 0.3);
+    }
+    
+    .tab-panel {
+      display: none;
+    }
+    .tab-panel.active {
+      display: block;
+    }
+    
+    .data-table {
+      width: 100%;
+      border-collapse: collapse;
+    }
+    .data-table th {
+      padding: 1rem 0.75rem;
+      text-align: left;
+      font-weight: 600;
+      color: #94a3b8;
+      border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+      background: rgba(30, 41, 59, 0.9);
+    }
+    .data-table td {
+      padding: 1rem 0.75rem;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      color: #e8e8e8;
+    }
+    .data-table tr:hover td {
+      background: rgba(30, 41, 59, 0.8);
+    }
+    .country-header, .country-cell {
+      text-align: center;
+    }
+    .country-header:first-child, .country-cell:first-child {
+      text-align: left;
+    }
+    
+    .industry-chip {
+      padding: 0.5rem 1rem;
+      border-radius: 9999px;
+      border: 1px solid rgba(148, 163, 184, 0.2);
+      background: transparent;
+      color: #94a3b8;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-size: 0.875rem;
+    }
+    .industry-chip:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      color: white;
+    }
+    .industry-chip.selected {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      color: white;
+    }
+    
+    .table-row {
+      background: rgba(30, 41, 59, 0.5);
+      transition: background 0.2s;
+    }
+    .table-row:hover {
+      background: rgba(30, 41, 59, 0.8);
+    }
+    
+    .risk-bar-container {
+      background: rgba(30, 41, 59, 0.8);
+      border-radius: 4px;
+      overflow: hidden;
+      height: 24px;
+    }
+    .risk-bar-fill {
+      height: 100%;
+      border-radius: 4px;
+      transition: width 0.3s ease;
+    }
+    
+    .radar-polygon {
+      opacity: 0.25;
+      transition: opacity 0.2s;
+    }
+    .radar-polygon:hover {
+      opacity: 0.5;
+    }
+    
+    .cost-item {
+      display: flex;
+      justify-content: space-between;
+      padding: 0.5rem 0;
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    .cost-item:last-child {
+      border-bottom: none;
+    }
+    
+    .best-badge {
+      background: rgba(16, 185, 129, 0.2);
+      color: #10b981;
+      padding: 0.25rem 0.5rem;
+      border-radius: 0.25rem;
+      font-size: 0.75rem;
+      font-weight: 600;
+    }
+    
+    .chart-container {
+      background: rgba(30, 41, 59, 0.6);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+      border-radius: 1rem;
+      padding: 1.5rem;
+    }
+  </style>
+
+  <!-- Hero Section -->
+  <section class="pt-28 pb-12 px-6">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        <span class="gradient-text">东非五国投资对比</span>
+      </h1>
+      <p class="text-xl text-slate-400 max-w-3xl">
+        基于414份情报数据，从宏观经济、投资成本、行业机会、风险维度全面对比五国投资环境
+      </p>
+    </div>
+  </section>
+
+  <!-- 国家选择器 -->
+  <section class="px-6 mb-8">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-col md:flex-row md:items-center justify-between gap-4">
+        <div>
+          <h3 class="text-lg font-semibold mb-2 text-white">选择对比国家</h3>
+          <p class="text-sm text-slate-500">至少选择2个国家，最多5个</p>
+        </div>
+        <div class="country-selector" id="countrySelector">
+          {countries.map((c) => (
+            <button 
+              class={`country-btn ${c.id === 'ethiopia' || c.id === 'kenya' ? 'selected' : ''}`}
+              data-country={c.id}
+            >
+              <span>{c.flag}</span>
+              <span>{c.name}</span>
+            </button>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- 雷达图区域 - 新增ECharts雷达图 -->
+  <section class="px-6 mb-12">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6">
+        <span class="gradient-text">🎯 五国投资风险雷达图</span>
+      </h2>
+      <div class="chart-container">
+        <RiskRadarChart client:only="react" />
+      </div>
+    </div>
+  </section>
+
+  <!-- Tab导航 -->
+  <section class="px-6 mb-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="tab-nav">
+        <button class="dim-tab active" data-dim="综合对比">综合对比</button>
+        <button class="dim-tab" data-dim="行业对比">行业对比</button>
+        <button class="dim-tab" data-dim="风险对比">风险对比</button>
+        <button class="dim-tab" data-dim="成本对比">成本对比</button>
+      </div>
+    </div>
+  </section>
+
+  <!-- Tab内容 -->
+  <section class="px-6 pb-12">
+    <div class="max-w-7xl mx-auto">
+      
+      <!-- 综合对比面板 -->
+      <div id="panel-comprehensive" class="tab-panel active">
+        <div class="overflow-x-auto rounded-xl border border-slate-700/50">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>指标</th>
+                {countries.map((c) => (
+                  <th class="country-header" data-country={c.id}>
+                    <div class="flex items-center justify-center gap-2">
+                      <span class="text-2xl">{c.flag}</span>
+                      <span class="font-bold">{c.name}</span>
+                    </div>
+                  </th>
+                ))}
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <td class="font-medium">GDP总量</td>
+                {countries.map((c) => (
+                  <td class="country-cell" data-country={c.id}>
+                    <span class="text-lg font-bold">{c.gdp}</span>
+                    <span class="text-xs text-slate-400 ml-1">{c.gdpUnit}</span>
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td class="font-medium">GDP增速</td>
+                {countries.map((c) => (
+                  <td class="country-cell" data-country={c.id}>
+                    <span class="text-emerald-400 font-bold">{c.gdpGrowth}</span>
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td class="font-medium">人均GDP</td>
+                {countries.map((c) => (
+                  <td class="country-cell" data-country={c.id}>
+                    <span class="text-slate-300">{c.gdpPerCapita}</span>
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td class="font-medium">人口</td>
+                {countries.map((c) => (
+                  <td class="country-cell" data-country={c.id}>
+                    <span class="text-slate-300">{c.pop}</span>
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td class="font-medium">城市化率</td>
+                {countries.map((c) => (
+                  <td class="country-cell" data-country={c.id}>
+                    <span class="text-slate-300">{c.urban}</span>
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td class="font-medium">营商便利度排名</td>
+                {countries.map((c) => (
+                  <td class="country-cell" data-country={c.id}>
+                    <span class={`font-bold ${c.bizRank <= 60 ? 'text-emerald-400' : c.bizRank <= 120 ? 'text-amber-400' : 'text-red-400'}`}>
+                      #{c.bizRank}
+                    </span>
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td class="font-medium">电力普及率</td>
+                {countries.map((c) => (
+                  <td class="country-cell" data-country={c.id}>
+                    <span class="text-slate-300">{c.elecRate}</span>
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td class="font-medium">电价</td>
+                {countries.map((c) => (
+                  <td class="country-cell" data-country={c.id}>
+                    <span class={`font-bold ${c.powerPrice === '$0.04/kWh' ? 'text-emerald-400' : 'text-slate-300'}`}>
+                      {c.powerPrice}
+                    </span>
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td class="font-medium">外债/GDP</td>
+                {countries.map((c) => (
+                  <td class="country-cell" data-country={c.id}>
+                    <span class={`font-bold ${parseFloat(c.debtGDP) <= 50 ? 'text-emerald-400' : 'text-amber-400'}`}>
+                      {c.debtGDP}
+                    </span>
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td class="font-medium">主权风险评分</td>
+                {countries.map((c) => (
+                  <td class="country-cell" data-country={c.id}>
+                    <span class={`px-2 py-1 rounded font-bold text-sm ${c.riskScore <= 4 ? 'bg-emerald-500/20 text-emerald-400' : c.riskScore <= 5.5 ? 'bg-amber-500/20 text-amber-400' : 'bg-red-500/20 text-red-400'}`}>
+                      {c.riskScore} - {c.riskLabel}
+                    </span>
+                  </td>
+                ))}
+              </tr>
+              <tr>
+                <td class="font-medium">最适合行业</td>
+                {countries.map((c) => (
+                  <td class="country-cell" data-country={c.id}>
+                    <span class="text-sky-400 text-sm">{c.bestFor}</span>
+                  </td>
+                ))}
+              </tr>
+            </tbody>
+          </table>
+        </div>
+        
+        <div class="mt-6 text-center text-slate-500 text-sm">
+          数据来源：世界银行Doing Business、IMF、惠誉评级（2024年）
+        </div>
+      </div>
+
+      <!-- 行业对比面板 -->
+      <div id="panel-industry" class="tab-panel">
+        <div class="flex flex-wrap gap-2 mb-6">
+          {industries.map((ind) => (
+            <button 
+              class={`industry-chip ${ind === '制造业' ? 'selected' : ''}`}
+              data-industry={ind}
+            >
+              {ind}
+            </button>
+          ))}
+        </div>
+        
+        <div class="overflow-x-auto rounded-xl border border-slate-700/50">
+          <table class="data-table">
+            <thead>
+              <tr>
+                <th>国家</th>
+                <th>评分</th>
+                <th>市场特点</th>
+                <th>投资建议</th>
+              </tr>
+            </thead>
+            <tbody id="industry-table-body">
+              <!-- 动态填充 -->
+            </tbody>
+          </table>
+        </div>
+      </div>
+
+      <!-- 风险对比面板 -->
+      <div id="panel-risk" class="tab-panel">
+        <div id="risk-bars-container" class="grid grid-cols-1 md:grid-cols-2 gap-6">
+          <!-- 动态填充 -->
+        </div>
+        
+        <h3 class="text-xl font-bold mt-8 mb-4 text-white">风险卡片</h3>
+        <div id="risk-cards-container" class="grid grid-cols-1 md:grid-cols-3 gap-4">
+          <!-- 动态填充 -->
+        </div>
+      </div>
+
+      <!-- 成本对比面板 -->
+      <div id="panel-cost" class="tab-panel">
+        <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+          {countries.map((c) => (
+            <div class="chart-container">
+              <div class="flex items-center gap-3 mb-4">
+                <span class="text-3xl">{c.flag}</span>
+                <h3 class="text-xl font-bold text-white">{c.name}</h3>
+              </div>
+              
+              <div class="space-y-1">
+                <div class="cost-item">
+                  <span class="text-slate-400">用地成本</span>
+                  <span class="font-bold text-white">{c.cost.land}</span>
+                </div>
+                <div class="cost-item">
+                  <span class="text-slate-400">电价</span>
+                  <span class={`font-bold ${c.cost.power === '$0.04/kWh' ? 'text-emerald-400' : 'text-white'}`}>
+                    {c.cost.power}
+                  </span>
+                </div>
+                <div class="cost-item">
+                  <span class="text-slate-400">用工成本</span>
+                  <span class="font-bold text-white">{c.cost.labor}</span>
+                </div>
+                <div class="cost-item">
+                  <span class="text-slate-400">物流成本</span>
+                  <span class="font-bold text-white">{c.cost.logistics}</span>
+                </div>
+                <div class="cost-item">
+                  <span class="text-slate-400">建厂成本</span>
+                  <span class="font-bold text-white">{c.cost.building}</span>
+                </div>
+              </div>
+              
+              <div class="mt-4 pt-4 border-t border-slate-700/50">
+                <div class="cost-item">
+                  <span class="text-slate-400">企业所得税</span>
+                  <span class="font-bold text-white">{c.cost.corpTax}</span>
+                </div>
+                <div class="cost-item">
+                  <span class="text-slate-400">增值税</span>
+                  <span class="font-bold text-white">{c.cost.vat}</span>
+                </div>
+                <div class="cost-item">
+                  <span class="text-slate-400">进口关税</span>
+                  <span class="font-bold text-white">{c.cost.importDuty}</span>
+                </div>
+              </div>
+              
+              <div class="mt-4 p-3 rounded-lg text-center" style="background: rgba(56, 189, 248, 0.1);">
+                <span class="text-sm text-sky-400">最适合: {c.bestFor}</span>
+              </div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <script define:vars={{ countries, industryMatrix, riskDimensions }}>
+    let selectedCountries = ['ethiopia', 'kenya'];
+    let currentIndustry = '制造业';
+    
+    // 国家风险注释
+    const riskNotes = {
+      political: {
+        ethiopia: '内战风险缓解，政治集中',
+        kenya: '选举周期存在冲突风险',
+        uganda: '穆塞韦尼长期执政',
+        tanzania: 'Suluhu务实领导',
+        rwanda: '卡加梅强政府稳定',
+      },
+      fx: {
+        ethiopia: '外汇管制严格，黑市价差大',
+        kenya: '汇率相对稳定',
+        uganda: '波动但可控',
+        tanzania: '先令贬值但稳定',
+        rwanda: '法郎稳定，挂钩美元',
+      },
+      security: {
+        ethiopia: '提格雷冲突已平息',
+        kenya: '恐怖主义威胁(青年党)',
+        uganda: '一般安全，石油区注意',
+        tanzania: '总体安全',
+        rwanda: '非洲最安全国家',
+      },
+    };
+
+    document.addEventListener('DOMContentLoaded', () => {
+      initCountrySelector();
+      initDimTabs();
+      initIndustryChips();
+      updateDisplay();
+    });
+
+    function initCountrySelector() {
+      document.querySelectorAll('.country-btn').forEach(btn => {
+        btn.addEventListener('click', () => {
+          const countryId = btn.dataset.country;
+          
+          if (btn.classList.contains('selected')) {
+            if (selectedCountries.length > 2) {
+              selectedCountries = selectedCountries.filter(id => id !== countryId);
+              btn.classList.remove('selected');
+            }
+          } else {
+            if (selectedCountries.length < 5) {
+              selectedCountries.push(countryId);
+              btn.classList.add('selected');
+            }
+          }
+          
+          updateDisplay();
+        });
+      });
+    }
+
+    function initDimTabs() {
+      document.querySelectorAll('.dim-tab').forEach(tab => {
+        tab.addEventListener('click', () => {
+          document.querySelectorAll('.dim-tab').forEach(t => t.classList.remove('active'));
+          tab.classList.add('active');
+          currentDim = tab.dataset.dim;
+          
+          document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+          const panelId = {
+            '综合对比': 'panel-comprehensive',
+            '行业对比': 'panel-industry',
+            '风险对比': 'panel-risk',
+            '成本对比': 'panel-cost',
+          }[currentDim];
+          document.getElementById(panelId).classList.add('active');
+          
+          updateDisplay();
+        });
+      });
+    }
+
+    function initIndustryChips() {
+      document.querySelectorAll('.industry-chip').forEach(chip => {
+        chip.addEventListener('click', () => {
+          document.querySelectorAll('.industry-chip').forEach(c => c.classList.remove('selected'));
+          chip.classList.add('selected');
+          currentIndustry = chip.dataset.industry;
+          updateIndustryTable();
+        });
+      });
+    }
+
+    function updateDisplay() {
+      updateIndustryTable();
+      updateRiskBars();
+      updateRiskCards();
+      updateTableColumns();
+    }
+
+    function updateTableColumns() {
+      countries.forEach(c => {
+        const cells = document.querySelectorAll(`.country-cell[data-country="${c.id}"]`);
+        const header = document.querySelector(`.country-header[data-country="${c.id}"]`);
+        
+        if (selectedCountries.includes(c.id)) {
+          cells.forEach(cell => cell.style.display = '');
+          if (header) header.style.display = '';
+        } else {
+          cells.forEach(cell => cell.style.display = 'none');
+          if (header) header.style.display = 'none';
+        }
+      });
+    }
+
+    function updateIndustryTable() {
+      const tbody = document.getElementById('industry-table-body');
+      if (!tbody) return;
+
+      const matrix = industryMatrix[currentIndustry] || {};
+      
+      tbody.innerHTML = countries
+        .filter(c => selectedCountries.includes(c.id))
+        .map(c => {
+          const data = matrix[c.id] || { score: 0, note: '-', advice: '-' };
+          const scoreColor = data.score >= 8 ? '#10b981' : data.score >= 5 ? '#F59E0B' : '#ef4444';
+          
+          return `
+            <tr class="table-row">
+              <td class="py-4 px-4">
+                <div class="flex items-center gap-2">
+                  <span class="text-2xl">${c.flag}</span>
+                  <span class="font-bold text-white">${c.name}</span>
+                </div>
+              </td>
+              <td class="text-center py-4 px-4">
+                <span class="inline-flex items-center justify-center w-12 h-12 rounded-full font-bold text-xl" style="background: ${scoreColor}22; color: ${scoreColor};">
+                  ${data.score}
+                </span>
+              </td>
+              <td class="py-4 px-4 text-slate-300">${data.note}</td>
+              <td class="py-4 px-4 text-sky-400 text-xs">${data.advice}</td>
+            </tr>
+          `;
+        }).join('');
+    }
+
+    function updateRiskBars() {
+      const container = document.getElementById('risk-bars-container');
+      if (!container) return;
+
+      container.innerHTML = riskDimensions.map(dim => {
+        const bars = countries
+          .filter(c => selectedCountries.includes(c.id))
+          .map(c => {
+            const score = c.risk[dim.key];
+            const pct = score * 10;
+            const color = score <= 4 ? '#10b981' : score <= 7 ? '#F59E0B' : '#ef4444';
+            
+            return `
+              <div class="flex items-center gap-3 mb-2">
+                <span class="w-8 text-lg">${c.flag}</span>
+                <div class="risk-bar-container flex-1 h-6">
+                  <div class="risk-bar-fill" style="width: ${pct}%; background: ${color};"></div>
+                </div>
+                <span class="w-10 text-right font-bold" style="color: ${color};">${score.toFixed(1)}</span>
+              </div>
+            `;
+          }).join('');
+
+        return `
+          <div class="risk-dimension p-4 rounded-xl" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(148, 163, 184, 0.1);">
+            <div class="flex items-center gap-2 mb-3">
+              <span class="text-lg">${dim.icon}</span>
+              <span class="font-bold text-white">${dim.label}</span>
+            </div>
+            ${bars}
+          </div>
+        `;
+      }).join('');
+    }
+
+    function updateRiskCards() {
+      const container = document.getElementById('risk-cards-container');
+      if (!container) return;
+
+      container.innerHTML = countries
+        .filter(c => selectedCountries.includes(c.id))
+        .map(c => {
+          const totalScore = (c.risk.political + c.risk.fx + c.risk.security + c.risk.compliance + c.risk.environmental) / 5;
+          const color = totalScore <= 4 ? '#10b981' : totalScore <= 5.5 ? '#F59E0B' : '#ef4444';
+          
+          return `
+            <div class="p-4 rounded-xl" style="background: ${color}11; border: 1px solid ${color}33;">
+              <div class="flex items-center gap-3 mb-3">
+                <span class="text-2xl">${c.flag}</span>
+                <span class="font-bold text-white">${c.name}</span>
+                <span class="ml-auto text-2xl font-bold" style="color: ${color};">${totalScore.toFixed(1)}</span>
+              </div>
+              <div class="space-y-1 text-xs">
+                <div class="flex items-start gap-2">
+                  <span class="text-slate-500 w-16">🏛️政治:</span>
+                  <span class="text-slate-300">${riskNotes.political[c.id]}</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-slate-500 w-16">💱汇率:</span>
+                  <span class="text-slate-300">${riskNotes.fx[c.id]}</span>
+                </div>
+                <div class="flex items-start gap-2">
+                  <span class="text-slate-500 w-16">🛡️安全:</span>
+                  <span class="text-slate-300">${riskNotes.security[c.id]}</span>
+                </div>
+              </div>
+            </div>
+          `;
+        }).join('');
+    }
+  </script>
+</IntelLayout>

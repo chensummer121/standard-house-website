@@ -1,0 +1,129 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+
+const countries = [
+  { code: 'ethiopia', name: '埃塞俄比亚', flag: '🇪🇹', description: '非洲之角，东非最大经济体。咖啡出口全球前三，正处于汇率自由化改革期，外汇管制逐步放宽。' },
+  { code: 'uganda', name: '乌干达', flag: '🇺🇬', description: '东非共同体成员国，石油即将商业化生产。拥有全球最年轻人口结构，面向5亿人口EAC市场。' },
+  { code: 'kenya', name: '肯尼亚', flag: '🇰🇪', description: '东非商业与金融中心，"非洲硅谷"。蒙巴萨港辐射整个东非，Fintech生态系统成熟领先。' },
+  { code: 'tanzania', name: '坦桑尼亚', flag: '🇹🇿', description: '东非最大国家，天然气储量58 TCF。达累斯萨拉姆港正与蒙巴萨港激烈争夺区域枢纽地位。' },
+  { code: 'rwanda', name: '卢旺达', flag: '🇷🇼', description: '非洲最安全的国家，ICT产业FDI达4.1亿美元。小国大治理，8.9%GDP增速领跑东非。' },
+  { code: 'south-sudan', name: '南苏丹', flag: '🇸🇸', description: '全球最年轻国家，石油依赖型经济。内战创伤仍在但和平进程推进。基础设施极度匮乏=巨大重建市场。' },
+];
+
+const stats = [
+  { label: '已上线国家', value: '6', suffix: '个' },
+  { label: '行业覆盖', value: '20+', suffix: '个' },
+  { label: '投资决策支持', value: '15', suffix: '篇' },
+];
+---
+
+<BaseLayout title="Standerra - 东非投资情报系统">
+  <Header />
+  
+  <!-- AI引导横幅 -->
+  <section class="bg-gradient-to-br from-primary via-primary/90 to-dark text-white py-20">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center max-w-3xl mx-auto">
+        <div class="text-6xl mb-6">🌍</div>
+        <h1 class="text-4xl md:text-5xl font-bold mb-6">东非投资情报系统</h1>
+        <p class="text-xl text-gray-300 mb-8">从"要不要去"到"怎么落地"——面向中资出海决策者的东非投资情报系统</p>
+        
+        <!-- AI引导入口 -->
+        <div class="ai-guidance-banner max-w-xl mx-auto" style="background: linear-gradient(135deg, rgba(245, 158, 11, 0.2), rgba(217, 119, 6, 0.1)); border-color: rgba(245, 158, 11, 0.4);">
+          <span style="font-size: 24px;">🤖</span>
+          <div class="text-left flex-1">
+            <div style="color: #F59E0B; font-weight: 600; font-size: 14px;">AI顾问随时待命</div>
+            <div style="color: #94a3b8; font-size: 12px;">不知道选哪个国家？问问AI！</div>
+          </div>
+          <button 
+            onclick="window.__openAIChat && window.__openAIChat('帮我选一个适合制造业投资的国家，预算500万美元')"
+            class="ai-inline-button"
+            style="background: linear-gradient(135deg, #F59E0B, #D97706); color: white; border: none;"
+          >
+            💡 问AI选国家
+          </button>
+        </div>
+        
+        <div class="grid grid-cols-3 gap-8 max-w-xl mx-auto mt-8">
+          {stats.map(stat => (
+            <div class="text-center">
+              <div class="text-3xl md:text-4xl font-bold text-secondary">
+                {stat.value}<span class="text-lg">{stat.suffix}</span>
+              </div>
+              <div class="text-sm text-gray-400 mt-1">{stat.label}</div>
+            </div>
+          ))}
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-white">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h2 class="text-2xl font-bold text-center mb-4">选择您的角色</h2>
+      <p class="text-center text-gray-500 mb-12">点击下方进入对应国家的投资决策或研究报告</p>
+      <div class="grid md:grid-cols-2 gap-8 max-w-4xl mx-auto">
+        <a href="/invest/ethiopia" class="group block p-8 bg-gradient-to-br from-secondary to-secondary/80 text-white rounded-2xl hover:shadow-xl transition-all">
+          <div class="text-4xl mb-4">💰</div>
+          <h3 class="text-2xl font-bold mb-2">我是决策者</h3>
+          <p class="text-white/80">30秒出结论，快速评估要不要进入这个市场</p>
+        </a>
+        
+        <a href="/invest/ethiopia/insight" class="group block p-8 bg-gradient-to-br from-primary to-primary/80 text-white rounded-2xl hover:shadow-xl transition-all">
+          <div class="text-4xl mb-4">🔍</div>
+          <h3 class="text-2xl font-bold mb-2">我是研究者</h3>
+          <p class="text-white/80">深度理解这个国家运转的底层逻辑</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <section class="py-16 bg-gray-50">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="flex items-center justify-between mb-12">
+        <div>
+          <h2 class="text-2xl font-bold mb-2">已上线国家</h2>
+          <p class="text-gray-500">覆盖东非五大核心经济体</p>
+        </div>
+        <button 
+          onclick="window.__openAIChat && window.__openAIChat('帮我对比东非五国的投资环境，从政策稳定性、劳动力成本、市场潜力三个维度分析')"
+          class="ai-inline-button"
+        >
+          🤖 AI帮我对比五国
+        </button>
+      </div>
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+        {countries.map(country => (
+          <a href={`/invest/${country.code}`} class="group block p-6 bg-white rounded-xl border border-gray-200 hover:border-primary hover:shadow-lg transition-all">
+            <div class="flex items-center space-x-4 mb-4">
+              <span class="text-4xl">{country.flag}</span>
+              <div>
+                <h3 class="text-lg font-bold">{country.name}</h3>
+                <button 
+                  onclick="event.preventDefault(); window.__openAIChat && window.__openAIChat('详细介绍一下' + arguments[0] + '的投资环境')"
+                  class="ai-inline-button text-xs py-1 px-2"
+                  data-country={country.name}
+                >
+                  💡 AI解读
+                </button>
+              </div>
+            </div>
+            <p class="text-sm text-gray-600">{country.description}</p>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <footer class="bg-dark text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center">
+        <div class="text-2xl mb-4">🏠</div>
+        <div class="text-xl font-bold mb-2">Standerra</div>
+        <p class="text-gray-400 text-sm">东非投资情报系统 · 从"要不要去"到"怎么落地"</p>
+        <p class="text-gray-500 text-xs mt-4">© 2024 Standerra. All rights reserved.</p>
+      </div>
+    </div>
+  </footer>
+</BaseLayout>

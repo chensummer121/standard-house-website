@@ -1,0 +1,365 @@
+---
+import BaseLayout from '../../layouts/IntelLayout.astro';
+
+const packages = [
+  {
+    name: "集装箱微工厂",
+    description: "集装箱改造的移动式微工厂，50万初投资即可启动",
+    href: "/micro-factory/container.html",
+    tag: "推荐",
+    tagColor: "bg-orange-500",
+    price: "¥2,980",
+    category: "基础建材"
+  },
+  {
+    name: "轻钢屋面系统",
+    description: "45天快速交付的轻钢结构屋面，含全套BOM清单",
+    href: "/micro-factory/light-steel.html",
+    tag: "热门",
+    tagColor: "bg-blue-500",
+    price: "¥1,980",
+    category: "基础建材"
+  },
+  {
+    name: "陶粒微工厂",
+    description: "建筑垃圾制陶粒，循环经济的典型案例",
+    href: "/micro-factory/ceramsite.html",
+    tag: "新上线",
+    tagColor: "bg-green-500",
+    price: "¥1,580",
+    category: "基础建材"
+  },
+  {
+    name: "聚氨酯保温",
+    description: "建筑节能+冷链保温，东非保温市场蓝海",
+    href: "/micro-factory/polyurethane.html",
+    tag: "升级",
+    tagColor: "bg-purple-500",
+    price: "¥1,580",
+    category: "保温防水"
+  },
+  {
+    name: "轻质墙板微工厂",
+    description: "轻量化墙体解决方案，替代传统红砖的大趋势",
+    href: "/micro-factory/wall-panel.html",
+    tag: "v1",
+    tagColor: "bg-cyan-500",
+    price: "¥1,280",
+    category: "基础建材"
+  },
+  {
+    name: "景观水泥制品",
+    description: "景观美化+市政配套，东非城市化催生的新需求",
+    href: "/micro-factory/landscape.html",
+    tag: "v1",
+    tagColor: "bg-teal-500",
+    price: "¥980",
+    category: "基础建材"
+  },
+  {
+    name: "集装箱前置仓",
+    description: "分布式建材零售门店网络，集装箱改造前店后仓",
+    href: "/micro-factory/container-warehouse.html",
+    tag: "供应链",
+    tagColor: "bg-amber-500",
+    price: "¥1,580",
+    category: "供应链"
+  },
+  {
+    name: "侨民代建服务",
+    description: "海外侨民远程代建全流程服务，美金前置+数字化透明交付",
+    href: "/micro-factory/proxy-build.html",
+    tag: "服务",
+    tagColor: "bg-emerald-500",
+    price: "¥2,980",
+    category: "服务"
+  },
+  {
+    name: "防水保温喷涂站",
+    description: "聚氨酯+聚脲+防水喷雾+丁基胶带，屋面防水保温一条龙",
+    href: "/micro-factory/waterproof-spray.html",
+    tag: "新上线",
+    tagColor: "bg-amber-500",
+    price: "¥980",
+    category: "保温防水"
+  },
+  {
+    name: "密封胶粘站",
+    description: "结构胶+渗透结晶，轻资产分装快速变现",
+    href: "/micro-factory/sealant.html",
+    tag: "新上线",
+    tagColor: "bg-purple-500",
+    price: "¥1,280",
+    category: "保温防水"
+  },
+  {
+    name: "保温板材厂",
+    description: "EPS/XPS泡沫板，建筑保温+冷链+包装三重需求",
+    href: "/micro-factory/foam-board.html",
+    tag: "新上线",
+    tagColor: "bg-indigo-500",
+    price: "¥1,280",
+    category: "保温防水"
+  },
+  {
+    name: "预制构件站",
+    description: "预制楼梯+楼板+梁柱，替代现浇的效率革命",
+    href: "/micro-factory/precast.html",
+    tag: "新上线",
+    tagColor: "bg-red-500",
+    price: "¥1,580",
+    category: "精装闭环"
+  },
+  {
+    name: "发泡陶瓷站",
+    description: "发泡陶瓷保温板+装饰板，轻质高强新型材料",
+    href: "/micro-factory/foam-ceramic.html",
+    tag: "新上线",
+    tagColor: "bg-orange-500",
+    price: "¥1,180",
+    category: "基础建材"
+  },
+  {
+    name: "水泥瓦站",
+    description: "水泥彩瓦+仿古瓦，屋面刚需产品",
+    href: "/micro-factory/cement-tile.html",
+    tag: "新上线",
+    tagColor: "bg-slate-500",
+    price: "¥880",
+    category: "基础建材"
+  },
+  {
+    name: "对辊制砂站",
+    description: "对辊制砂+碎石，建筑骨料本地化生产",
+    href: "/micro-factory/sand-making.html",
+    tag: "新上线",
+    tagColor: "bg-yellow-600",
+    price: "¥980",
+    category: "基础建材"
+  },
+  {
+    name: "涂装地坪站",
+    description: "油漆+环氧+真石漆，建筑表面防护一条龙",
+    href: "/micro-factory/coating.html",
+    tag: "新上线",
+    tagColor: "bg-pink-500",
+    price: "¥980",
+    category: "精装闭环"
+  },
+  {
+    name: "门窗管材站",
+    description: "铝合金门窗+PVC管+电线，建筑机电标配",
+    href: "/micro-factory/door-pipe.html",
+    tag: "新上线",
+    tagColor: "bg-blue-600",
+    price: "¥1,180",
+    category: "精装闭环"
+  },
+  {
+    name: "墙体材料站",
+    description: "纤维板+加气块+石膏板+水泥压力板，围护体系全覆盖",
+    href: "/micro-factory/wall-material.html",
+    tag: "新上线",
+    tagColor: "bg-stone-500",
+    price: "¥1,180",
+    category: "基础建材"
+  },
+  {
+    name: "上游材料站",
+    description: "钙粉+PAN纤维，为其他微工厂供料",
+    href: "/micro-factory/upstream.html",
+    tag: "新上线",
+    tagColor: "bg-gray-500",
+    price: "¥1,180",
+    category: "供应链"
+  },
+  {
+    name: "离网能源站",
+    description: "太阳能+沼气+微电网，为微工厂供电",
+    href: "/micro-factory/offgrid-energy.html",
+    tag: "新上线",
+    tagColor: "bg-yellow-500",
+    price: "¥1,280",
+    category: "能源供水"
+  },
+  {
+    name: "模块化农业站",
+    description: "蘑菇仓+昆虫仓，集装箱农业衍生",
+    href: "/micro-factory/modular-farm.html",
+    tag: "新上线",
+    tagColor: "bg-green-500",
+    price: "¥880",
+    category: "能源供水"
+  },
+  {
+    name: "高端屋面站",
+    description: "彩石瓦+大波瓦+仿木纹+角驰瓦，别墅商业屋面",
+    href: "/micro-factory/premium-roof.html",
+    tag: "新上线",
+    tagColor: "bg-indigo-500",
+    price: "¥980",
+    category: "基础建材"
+  },
+  {
+    name: "内装精饰站",
+    description: "石英石+PVC天花板+水磨石，全屋精饰方案",
+    href: "/micro-factory/interior-finish.html",
+    tag: "新上线",
+    tagColor: "bg-amber-500",
+    price: "¥980",
+    category: "精装闭环"
+  },
+  {
+    name: "施工装备站",
+    description: "铝模+搅拌车+滑模，从卖建材到卖施工能力",
+    href: "/micro-factory/construction-equip.html",
+    tag: "新上线",
+    tagColor: "bg-orange-500",
+    price: "¥1,580",
+    category: "服务"
+  },
+  {
+    name: "市政基建站",
+    description: "玻璃钢+灯杆+土工格室+无梁拱，市政基建赛道",
+    href: "/micro-factory/municipal.html",
+    tag: "新上线",
+    tagColor: "bg-blue-500",
+    price: "¥980",
+    category: "基础建材"
+  },
+];
+
+const categories = ['全部', '基础建材', '保温防水', '精装闭环', '能源供水', '供应链', '服务'];
+---
+
+<BaseLayout title="投资机会精选 - STANDERRA Intelligence" pageContext="opportunities">
+  <style>
+    .gradient-text {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(56, 189, 248, 0.1);
+    }
+    
+    .btn-gold {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      transition: all 0.3s ease;
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #FBBF24, #F59E0B);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .btn-pill {
+      border-radius: 9999px;
+    }
+    
+    .package-card {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(148, 163, 184, 0.1);
+    }
+    
+    .category-btn {
+      transition: all 0.2s ease;
+    }
+    .category-btn:hover {
+      background: rgba(56, 189, 248, 0.1);
+      border-color: rgba(56, 189, 248, 0.4);
+    }
+    .category-btn.active {
+      background: rgba(56, 189, 248, 0.2);
+      border-color: #38bdf8;
+      color: #38bdf8;
+    }
+  </style>
+
+  <!-- 页面头部 -->
+  <section class="pt-28 pb-12 px-6 bg-gradient-to-b from-slate-900/80 to-transparent">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        <span class="gradient-text">投资机会精选</span>
+      </h1>
+      <p class="text-xl text-slate-400 max-w-2xl">
+        29个微工厂方案包，从¥880到¥2,980，覆盖建筑全产业链
+      </p>
+    </div>
+  </section>
+
+  <!-- 分类标签 -->
+  <section class="py-6 px-6 sticky top-16 z-40 bg-slate-900/95 backdrop-blur-lg border-b border-slate-800">
+    <div class="max-w-7xl mx-auto">
+      <div class="flex flex-wrap gap-3 justify-center">
+        {categories.map((cat) => (
+          <button 
+            class={`category-btn px-4 py-2 rounded-full border border-slate-700 text-slate-300 text-sm font-medium ${cat === '全部' ? 'active' : ''}`}
+            data-category={cat}
+          >
+            {cat}
+          </button>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 方案包网格 -->
+  <section class="py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6" id="packages-grid">
+        {packages.map((pkg) => (
+          <a href={pkg.href} class="package-card rounded-2xl overflow-hidden card-hover block" data-category={pkg.category}>
+            <div class="h-32 bg-gradient-to-br from-sky-500/20 to-blue-600/20 flex items-center justify-center relative">
+              <div class="absolute top-4 left-4 px-3 py-1 rounded-full text-white text-xs font-bold" style={`background: ${pkg.tagColor}`}>
+                {pkg.tag}
+              </div>
+              <svg class="w-16 h-16 text-sky-400/50" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"/>
+              </svg>
+            </div>
+            <div class="p-5">
+              <div class="flex items-center gap-2 mb-2">
+                <span class="px-2 py-0.5 rounded text-xs bg-slate-700 text-slate-400">{pkg.category}</span>
+              </div>
+              <h3 class="text-lg font-bold text-white mb-2">{pkg.name}</h3>
+              <p class="text-slate-400 text-sm mb-4 line-clamp-2">{pkg.description}</p>
+              <div class="flex items-center justify-between pt-3 border-t border-slate-700/50">
+                <span class="text-xl font-bold text-white">{pkg.price}</span>
+                <span class="text-sky-400 text-sm font-medium">查看详情 →</span>
+              </div>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <script>
+    const categoryBtns = document.querySelectorAll('.category-btn');
+    const packageCards = document.querySelectorAll('#packages-grid a');
+    
+    categoryBtns.forEach(btn => {
+      btn.addEventListener('click', function() {
+        categoryBtns.forEach(b => b.classList.remove('active'));
+        this.classList.add('active');
+        
+        const category = this.getAttribute('data-category');
+        
+        packageCards.forEach(card => {
+          if (category === '全部' || card.getAttribute('data-category') === category) {
+            card.style.display = 'block';
+          } else {
+            card.style.display = 'none';
+          }
+        });
+      });
+    });
+  </script>
+</BaseLayout>

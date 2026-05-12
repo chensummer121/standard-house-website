@@ -1,0 +1,175 @@
+---
+import { getLangFromPath } from '../utils/i18n';
+
+interface Props {
+  currentPath: string;
+  country: string;
+}
+
+const { currentPath, country } = Astro.props;
+const lang = getLangFromPath(currentPath);
+
+const sections = [
+  { 
+    key: 'decision', 
+    name: lang === 'en' ? 'Investment Decision' : '投资决策', 
+    nameEn: 'Investment Decision',
+    nameZh: '投资决策',
+    icon: '💰',
+    items: [
+      { name: lang === 'en' ? 'One-Pager Decision' : '一页纸决策', nameEn: 'One-Pager Decision', nameZh: '一页纸决策', href: `/invest/${country}/decision` },
+      { name: lang === 'en' ? 'Quick Cards' : '行业速查卡', nameEn: 'Quick Cards', nameZh: '行业速查卡', href: `/invest/${country}/decision/quick-cards` },
+      { name: lang === 'en' ? 'Industry Compare' : '行业对比', nameEn: 'Industry Compare', nameZh: '行业对比', href: `/invest/${country}/decision/compare` },
+      { name: lang === 'en' ? 'Red Flags' : '避雷清单', nameEn: 'Red Flags', nameZh: '避雷清单', href: `/invest/${country}/decision/red-flags` },
+      { name: lang === 'en' ? 'Policy Window' : '政策窗口', nameEn: 'Policy Window', nameZh: '政策窗口', href: `/invest/${country}/decision/policy-window` },
+      { name: lang === 'en' ? 'Risk Scenarios' : '风险情景推演', nameEn: 'Risk Scenarios', nameZh: '风险情景推演', href: `/invest/${country}/decision/risk-scenarios` },
+    ]
+  },
+  { 
+    key: 'insight', 
+    name: lang === 'en' ? 'Country Insight' : '国家透视', 
+    nameEn: 'Country Insight',
+    nameZh: '国家透视',
+    icon: '🔍',
+    items: [
+      { name: lang === 'en' ? 'Data Panels' : '底层数据', nameEn: 'Data Panels', nameZh: '底层数据', href: `/invest/${country}/insight/data-panels` },
+      { name: lang === 'en' ? 'Why Exists' : '国家凭什么存在', nameEn: 'Why Exists', nameZh: '国家凭什么存在', href: `/invest/${country}/insight/why-exist` },
+      { name: lang === 'en' ? 'Power Structure' : '谁在管这个国家', nameEn: 'Power Structure', nameZh: '谁在管这个国家', href: `/invest/${country}/insight/power-structure` },
+      { name: lang === 'en' ? 'Money Flow' : '钱从哪来到哪去', nameEn: 'Money Flow', nameZh: '钱从哪来到哪去', href: `/invest/${country}/insight/money-flow` },
+      { name: lang === 'en' ? 'Social Safety' : '社会怎么兜底', nameEn: 'Social Safety', nameZh: '社会怎么兜底', href: `/invest/${country}/insight/social-safety` },
+      { name: lang === 'en' ? 'Grey Economy' : '灰色经济', nameEn: 'Grey Economy', nameZh: '灰色经济', href: `/invest/${country}/insight/grey-economy` },
+      { name: lang === 'en' ? 'Risk Cases' : '风险案例', nameEn: 'Risk Cases', nameZh: '风险案例', href: `/invest/${country}/insight/risk-cases` },
+      { name: lang === 'en' ? 'Structural Change' : '结构性变化', nameEn: 'Structural Change', nameZh: '结构性变化', href: `/invest/${country}/insight/structural-change` },
+    ]
+  },
+  { 
+    key: 'industry', 
+    name: lang === 'en' ? 'Industry' : '产业纵深', 
+    nameEn: 'Industry',
+    nameZh: '产业纵深',
+    icon: '🏭',
+    items: [
+      { name: lang === 'en' ? 'Foundation' : '底座产业', nameEn: 'Foundation', nameZh: '底座产业', href: `/invest/${country}/industry/foundation` },
+      { name: lang === 'en' ? 'Artery' : '动脉产业', nameEn: 'Artery', nameZh: '动脉产业', href: `/invest/${country}/industry/artery` },
+      { name: lang === 'en' ? 'Finance' : '金融与分配', nameEn: 'Finance', nameZh: '金融与分配', href: `/invest/${country}/industry/finance` },
+      { name: lang === 'en' ? 'Domestic' : '内需产业', nameEn: 'Domestic', nameZh: '内需产业', href: `/invest/${country}/industry/domestic` },
+      { name: lang === 'en' ? 'Arbitrage' : '套利产业', nameEn: 'Arbitrage', nameZh: '套利产业', href: `/invest/${country}/industry/arbitrage` },
+    ]
+  },
+  { 
+    key: 'toolkit', 
+    name: lang === 'en' ? 'Toolkit' : '实操工具', 
+    nameEn: 'Toolkit',
+    nameZh: '实操工具',
+    icon: '🛠️',
+    items: [
+      { name: lang === 'en' ? 'Industry Map' : '产业地图', nameEn: 'Industry Map', nameZh: '产业地图', href: `/invest/${country}/industry-map`, highlight: true },
+      { name: lang === 'en' ? 'Legal Reference' : '法规速查', nameEn: 'Legal Reference', nameZh: '法规速查', href: `/invest/${country}/toolkit/laws` },
+      { name: lang === 'en' ? 'Companies' : '企业与项目', nameEn: 'Companies', nameZh: '企业与项目', href: `/invest/${country}/toolkit/companies` },
+      { name: lang === 'en' ? 'City Profiles' : '城市档案', nameEn: 'City Profiles', nameZh: '城市档案', href: `/invest/${country}/toolkit/cities` },
+      { name: lang === 'en' ? 'Data Dashboards' : '数据面板', nameEn: 'Data Dashboards', nameZh: '数据面板', href: `/invest/${country}/toolkit/data-dashboards` },
+    ]
+  },
+  { 
+    key: 'archive', 
+    name: lang === 'en' ? 'Archive' : '原始资料', 
+    nameEn: 'Archive',
+    nameZh: '原始资料',
+    icon: '📚',
+    items: [
+      { name: lang === 'en' ? 'Research Reports' : '研究报告', nameEn: 'Research Reports', nameZh: '研究报告', href: `/invest/${country}/archive` },
+    ]
+  },
+];
+---
+
+<aside class="w-64 min-h-screen sticky top-14 overflow-y-auto hidden lg:block" style="background: var(--bg-secondary); border-right: 1px solid var(--border-color);">
+  <div class="p-3">
+    {/* 快速入口标题 */}
+    <div class="px-3 py-2 mb-2">
+      <span class="text-xs font-semibold uppercase tracking-wider" style="color: var(--text-secondary)">{lang === 'en' ? 'Navigation' : '导航'}</span>
+    </div>
+    
+    {sections.map((section, sectionIdx) => {
+      const isActive = currentPath.includes(section.key);
+      return (
+        <div class="mb-2" data-section={section.key}>
+          {/* 主菜单项 */}
+          <button 
+            class={`w-full flex items-center justify-between px-3 py-2.5 rounded-lg transition-all group ${isActive ? 'bg-white/10' : 'hover:bg-white/5'}`}
+            data-toggle={section.key}
+          >
+            <div class="flex items-center space-x-3">
+              <span class="text-lg">{section.icon}</span>
+              <span class={`text-sm font-medium ${isActive ? 'text-white' : ''}`} style={isActive ? 'color: var(--accent-blue)' : 'color: var(--text-secondary)'}>
+                {section.name}
+              </span>
+            </div>
+            <svg 
+              class={`w-4 h-4 transition-transform ${isActive ? 'rotate-90' : ''}`} 
+              fill="none" 
+              stroke="currentColor" 
+              viewBox="0 0 24 24"
+              style="color: var(--text-secondary)"
+            >
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+            </svg>
+          </button>
+          
+          {/* 子菜单 */}
+          <div class={`submenu ml-4 mt-1 space-y-0.5 overflow-hidden transition-all ${isActive ? 'max-h-96 opacity-100' : 'max-h-0 opacity-0'}`}>
+            <div class="border-l pl-4 py-1" style="border-color: var(--border-color)">
+              {section.items.map(item => {
+                const isCurrent = currentPath === item.href;
+                return (
+                  <a 
+                    href={item.href}
+                    class={`block py-1.5 px-3 rounded-lg text-sm transition-all ${
+                      isCurrent 
+                        ? 'bg-white/15 text-white font-medium' 
+                        : 'text-gray-400 hover:text-white hover:bg-white/5'
+                    } ${item.highlight ? 'ring-1 ring-orange-500/30' : ''}`}
+                    style={isCurrent ? 'background: rgba(68,138,255,0.2); color: var(--accent-blue);' : ''}
+                  >
+                    <span class="flex items-center gap-2">
+                      {item.highlight && <span class="w-1.5 h-1.5 rounded-full bg-gradient-to-r from-orange-400 to-red-500"></span>}
+                      {item.name}
+                    </span>
+                  </a>
+                );
+              })}
+            </div>
+          </div>
+        </div>
+      );
+    })}
+  </div>
+ 
+  {/* 底部装饰 */}
+  <div class="absolute bottom-0 left-0 right-0 p-3">
+    <div class="h-1 rounded-full overflow-hidden" style="background: linear-gradient(90deg, var(--accent-blue), var(--accent-orange)); opacity: 0.5;"></div>
+  </div>
+</aside>
+
+<script>
+  // 点击主菜单切换子菜单
+  document.querySelectorAll('[data-toggle]').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const section = btn.getAttribute('data-toggle');
+      const submenu = btn.nextElementSibling;
+      if (submenu) {
+        const isExpanded = submenu.classList.contains('max-h-96');
+        submenu.classList.toggle('max-h-96', !isExpanded);
+        submenu.classList.toggle('max-h-0', isExpanded);
+        submenu.classList.toggle('opacity-100', !isExpanded);
+        submenu.classList.toggle('opacity-0', isExpanded);
+        
+        // 旋转箭头
+        const arrow = btn.querySelector('svg');
+        if (arrow) {
+          arrow.classList.toggle('rotate-90', !isExpanded);
+        }
+      }
+    });
+  });
+</script>

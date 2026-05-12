@@ -1,0 +1,253 @@
+/* pages/index/index.wxss */
+/* Summer Bot 主聊天页面样式 */
+
+.container {
+  display: flex;
+  flex-direction: column;
+  height: 100vh;
+  background-color: var(--bg-primary);
+}
+
+.nav-bar {
+  flex-shrink: 0;
+  background: linear-gradient(180deg, var(--bg-primary) 0%, rgba(15, 23, 42, 0.95) 100%);
+  border-bottom: 1px solid var(--border-color);
+  z-index: 100;
+}
+
+.nav-content {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 20rpx 32rpx;
+  padding-top: calc(20rpx + constant(safe-area-inset-top));
+  padding-top: calc(20rpx + env(safe-area-inset-top));
+}
+
+.nav-left, .nav-right {
+  flex: 0 0 160rpx;
+}
+
+.nav-right {
+  text-align: right;
+}
+
+.nav-left {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.nav-icon {
+  font-size: 32rpx;
+}
+
+.nav-text {
+  font-size: 26rpx;
+  color: var(--text-secondary);
+}
+
+.nav-center {
+  flex: 1;
+  text-align: center;
+}
+
+.nav-title {
+  font-size: 40rpx;
+  font-weight: 700;
+  background: linear-gradient(135deg, var(--accent-blue), var(--accent-cyan));
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+  background-clip: text;
+}
+
+.nav-subtitle {
+  font-size: 20rpx;
+  color: var(--text-muted);
+}
+
+.message-list {
+  flex: 1;
+  padding: 0 24rpx;
+  overflow-y: auto;
+}
+
+.welcome-tip {
+  text-align: center;
+  padding: 24rpx 0;
+}
+
+.tip-text {
+  font-size: 24rpx;
+  color: var(--text-muted);
+}
+
+.quick-actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 20rpx;
+  padding: 24rpx 0;
+  justify-content: center;
+}
+
+.quick-btn {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 8rpx;
+  padding: 24rpx 32rpx;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 16rpx;
+  transition: all 0.3s ease;
+  min-width: 150rpx;
+}
+
+.quick-btn:active {
+  transform: scale(0.95);
+  background: rgba(30, 41, 59, 0.6);
+}
+
+.quick-btn.active {
+  border-color: var(--accent-gold);
+  background: rgba(245, 158, 11, 0.1);
+}
+
+.quick-icon {
+  font-size: 40rpx;
+}
+
+.quick-label {
+  font-size: 24rpx;
+  color: var(--text-secondary);
+  font-weight: 500;
+}
+
+.quick-btn.active .quick-label {
+  color: var(--accent-gold);
+}
+
+.messages {
+  display: flex;
+  flex-direction: column;
+  gap: 24rpx;
+  padding: 24rpx 0;
+}
+
+.loading-more {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  padding: 24rpx;
+  justify-content: center;
+}
+
+.loading-dots {
+  display: flex;
+  align-items: center;
+  gap: 8rpx;
+}
+
+.loading-dots view {
+  width: 12rpx;
+  height: 12rpx;
+  background: var(--accent-gold);
+  border-radius: 50%;
+  animation: pulse 1.4s ease-in-out infinite;
+}
+
+.loading-dots view:nth-child(2) { animation-delay: 0.2s; }
+.loading-dots view:nth-child(3) { animation-delay: 0.4s; }
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; transform: scale(1); }
+  50% { opacity: 0.5; transform: scale(0.8); }
+}
+
+.loading-text {
+  font-size: 24rpx;
+  color: var(--text-muted);
+}
+
+.bottom-placeholder {
+  height: 200rpx;
+}
+
+.input-area {
+  flex-shrink: 0;
+  background: linear-gradient(0deg, var(--bg-primary) 0%, rgba(15, 23, 42, 0.98) 100%);
+  border-top: 1px solid var(--border-color);
+  padding: 20rpx 24rpx;
+  padding-bottom: calc(20rpx + env(safe-area-inset-bottom));
+}
+
+.input-wrapper {
+  display: flex;
+  align-items: center;
+  gap: 16rpx;
+  background: var(--bg-card);
+  border: 1px solid var(--border-color);
+  border-radius: 40rpx;
+  padding: 12rpx 16rpx;
+}
+
+.clear-btn {
+  padding: 12rpx;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.clear-icon {
+  font-size: 32rpx;
+  opacity: 0.6;
+}
+
+.input-field {
+  flex: 1;
+  height: 72rpx;
+  font-size: 28rpx;
+  color: var(--text-primary);
+  background: transparent;
+  border: none;
+  padding: 0 16rpx;
+}
+
+.input-placeholder {
+  color: var(--text-muted);
+  font-size: 28rpx;
+}
+
+.send-btn {
+  width: 72rpx;
+  height: 72rpx;
+  border-radius: 50%;
+  background: var(--bg-secondary);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  opacity: 0.5;
+}
+
+.send-btn.active {
+  background: linear-gradient(135deg, var(--accent-gold), var(--accent-gold-dark));
+  opacity: 1;
+  box-shadow: 0 4rpx 12rpx rgba(245, 158, 11, 0.3);
+}
+
+.send-icon {
+  font-size: 28rpx;
+  color: #fff;
+  font-weight: bold;
+}
+
+.input-tip {
+  text-align: center;
+  margin-top: 12rpx;
+}
+
+.tip {
+  font-size: 20rpx;
+  color: var(--text-muted);
+}

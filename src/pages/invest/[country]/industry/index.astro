@@ -1,0 +1,109 @@
+---
+import BaseLayout from '../../../../layouts/BaseLayout.astro';
+import Header from '../../../../components/Header.astro';
+import Sidebar from '../../../../components/Sidebar.astro';
+import Breadcrumb from '../../../../components/Breadcrumb.astro';
+
+export function getStaticPaths() {
+  return [
+    { params: { country: 'ethiopia' } },
+    { params: { country: 'uganda' } },
+    { params: { country: 'kenya' } },
+    { params: { country: 'tanzania' } },
+    { params: { country: 'rwanda' } },
+    { params: { country: 'south-sudan' } },
+  ];
+}
+
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+
+const countryNames = {
+  ethiopia: '埃塞俄比亚',
+  uganda: '乌干达',
+  kenya: '肯尼亚'
+};
+
+const items = [
+  {
+    title: '底座产业',
+    desc: '支撑整个经济运转的基础产业',
+    icon: '🏗️',
+    href: `/invest/${country}/industry/foundation`,
+    color: '#f59e0b'
+  },
+  {
+    title: '动脉产业',
+    desc: '连接经济各环节的流通产业',
+    icon: '🛤️',
+    href: `/invest/${country}/industry/artery`,
+    color: '#3b82f6'
+  },
+  {
+    title: '金融与分配',
+    desc: '资金配置和财富分配',
+    icon: '🏦',
+    href: `/invest/${country}/industry/finance`,
+    color: '#10b981'
+  },
+  {
+    title: '内需产业',
+    desc: '服务本地市场的消费产业',
+    icon: '🏪',
+    href: `/invest/${country}/industry/domestic`,
+    color: '#ef4444'
+  },
+  {
+    title: '套利产业',
+    desc: '利用国内外价差的贸易产业',
+    icon: '⚖️',
+    href: `/invest/${country}/industry/arbitrage`,
+    color: '#8b5cf6'
+  },
+];
+---
+
+<BaseLayout title={`产业纵深 - ${countryNames[country]}`}>
+  <Header country={country} />
+  
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    
+    <main class="flex-1 p-6 max-w-5xl">
+      <Breadcrumb items={[{ name: countryNames[country], href: `/invest/${country}` }, { name: '产业纵深' }]} />
+      
+      <div class="mb-8">
+        <h1 class="text-2xl font-bold mb-2">🏭 产业纵深</h1>
+        <p class="text-sm" style="color: var(--text-secondary)">分析{countryNames[country]}各产业的投资机会与风险</p>
+      </div>
+
+      <div class="grid md:grid-cols-2 gap-4">
+        {items.map(item => (
+          <a 
+            href={item.href} 
+            class="group block p-6 rounded-xl transition-all hover:scale-[1.02] hover:-translate-y-1"
+            style="background: var(--bg-card); border: 1px solid var(--border-color);"
+          >
+            <div class="flex items-start space-x-4">
+              <div 
+                class="w-14 h-14 rounded-xl flex items-center justify-center text-2xl flex-shrink-0"
+                style={`background: ${item.color}20;`}
+              >
+                {item.icon}
+              </div>
+              <div class="flex-1">
+                <h2 class="text-lg font-bold mb-1 group-hover:underline" style="color: var(--text-primary);">
+                  {item.title}
+                </h2>
+                <p class="text-sm" style="color: var(--text-secondary);">{item.desc}</p>
+              </div>
+              <svg class="w-5 h-5 opacity-0 group-hover:opacity-100 transition-opacity" fill="none" stroke="currentColor" viewBox="0 0 24 24" style="color: var(--accent-blue);">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7"/>
+              </svg>
+            </div>
+          </a>
+        ))}
+      </div>
+    </main>
+  </div>
+</BaseLayout>

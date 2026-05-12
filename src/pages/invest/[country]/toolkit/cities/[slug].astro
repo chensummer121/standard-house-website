@@ -1,0 +1,68 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Header from '../../../../../components/Header.astro';
+import Sidebar from '../../../../../components/Sidebar.astro';
+import Breadcrumb from '../../../../../components/Breadcrumb.astro';
+import { getCollection, render } from 'astro:content';
+
+export async function getStaticPaths() {
+  const countries = ['ethiopia', 'uganda', 'kenya', 'tanzania', 'rwanda', 'south-sudan'];
+  const docs = await getCollection('countries', ({ id }) =>
+    countries.some(c => id.startsWith(`${c}/toolkit/cities/`)) && !id.endsWith('/index')
+  );
+  
+  return docs.map(doc => ({
+    params: {
+      country: doc.id.split('/')[0],
+      slug: doc.id.split('/').pop()
+    },
+    props: { doc },
+  }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+const pageContext = "当前页面：" + doc.data.title;
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+const pageTitle = doc.data.title + " - Standerra";
+---
+
+<BaseLayout title={pageTitle} pageContext={pageContext}>
+  <Header country={country} />
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    <main class="flex-1 p-8 max-w-4xl">
+      <Breadcrumb items={[{ name: '实操工具', href: `/invest/${country}/toolkit` }, { name: '城市档案', href: `/invest/${country}/toolkit/cities` }, { name: doc.data.title }] } />
+      <article style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem;">
+        <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+          <h1 class="text-3xl font-bold" style="color: var(--text-primary);">{doc.data.title}</h1>
+        </header>
+        <div class="prose prose-lg max-w-none">
+          <Content />
+        </div>
+      </article>
+    </main>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .prose h1 { font-size: 2rem; font-weight: 700; margin: 2rem 0 1rem; }
+  .prose h2 { font-size: 1.5rem; font-weight: 600; margin: 1.5rem 0 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+  .prose h3 { font-size: 1.25rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
+  .prose p { margin: 0.75rem 0; line-height: 1.8; color: var(--text-secondary); }
+  .prose ul, .prose ol { margin: 1rem 0; padding-left: 1.5rem; }
+  .prose li { margin: 0.5rem 0; line-height: 1.7; }
+  .prose strong { font-weight: 600; color: var(--text-primary); }
+  .prose blockquote { border-left: 4px solid var(--accent-green); padding-left: 1rem; margin: 1.5rem 0; background: var(--bg-secondary); padding: 1rem; border-radius: 0 8px 8px 0; }
+  .prose code { background: var(--bg-secondary); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+  .prose pre { background: var(--bg-secondary); color: var(--text-primary); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1.5rem 0; }
+  .prose pre code { background: none; padding: 0; }
+  .prose table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+  .prose th, .prose td { border: 1px solid var(--border-color); padding: 0.75rem; text-align: left; }
+  .prose th { background: var(--bg-secondary); font-weight: 600; }
+  .prose tr:nth-child(even) { background: rgba(68, 138, 255, 0.05); }
+  .prose a { color: var(--accent-green); text-decoration: underline; }
+  .prose a:hover { color: var(--accent-orange); }
+  .prose hr { border: none; border-top: 1px solid var(--border-color); margin: 2rem 0; }
+</style>

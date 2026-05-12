@@ -1,0 +1,284 @@
+---
+import BuildLayout from '../layouts/BuildLayout.astro';
+
+const steps = [
+  { id: 1, name: "Select Model" },
+  { id: 2, name: "Customize" },
+  { id: 3, name: "Features" },
+  { id: 4, name: "BOM Quote" },
+  { id: 5, name: "Review" },
+];
+
+const modelOptions = [
+  {
+    id: "model-a",
+    name: "Model A - Economy",
+    image: "https://images.unsplash.com/photo-1600585154340-be6161a56a0c?w=600&q=80",
+    bedrooms: 2,
+    bathrooms: 1,
+    area: "65-80",
+    price: "UGX 200M",
+    badge: "Economy",
+    description: "Efficient single-story layout. Perfect for first-time homeowners.",
+  },
+  {
+    id: "model-b",
+    name: "Model B - Standard",
+    image: "https://images.unsplash.com/photo-1600596542815-ffad4c1539a9?w=600&q=80",
+    bedrooms: 3,
+    bathrooms: 2,
+    area: "120-150",
+    price: "UGX 450M",
+    badge: "Popular",
+    description: "Our most popular family home. Complete BOM package included.",
+  },
+  {
+    id: "model-c",
+    name: "Model C - Premium",
+    image: "https://images.unsplash.com/photo-1613490493576-7fde63acd811?w=600&q=80",
+    bedrooms: 4,
+    bathrooms: 3,
+    area: "200-400",
+    price: "Custom",
+    badge: "Premium",
+    description: "Fully customizable villa design. Modular expansion ready.",
+  },
+];
+
+const customizationOptions = {
+  roof: ["Gable", "Hip", "Flat"],
+  finishes: ["Standard BOM", "Premium Package", "Luxury Finish"],
+  exterior: ["Standard Cladding", "Premium Cladding", "Custom Design"],
+};
+
+const bomFeatures = [
+  { name: "Foundation Materials", description: "Complete concrete & steel foundation package" },
+  { name: "Steel Structure", description: "Prefabricated steel frame & connections" },
+  { name: "Roofing System", description: "Roof sheets, insulation & rain gutters" },
+  { name: "Electrical System", description: "Wiring, switches, distribution board" },
+  { name: "Plumbing System", description: "Pipes, fittings, fixtures" },
+];
+
+const optionalFeatures = [
+  { name: "Solar Panel System", price: "UGX 85M" },
+  { name: "Smart Home System", price: "UGX 55M" },
+  { name: "Garage Addition", price: "UGX 65M" },
+  { name: "Rooftop Terrace", price: "UGX 75M" },
+];
+---
+
+<BuildLayout title="Configurator" description="在线配置你的家 — Select a base model and customize it to your needs. Get a precise BOM quote.">
+  
+  <!-- Header -->
+  <section class="bg-earth-800 text-white py-12">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <h1 class="text-3xl md:text-4xl font-bold mb-4">
+        Configure Your Home
+      </h1>
+      <p class="text-earth-200 max-w-2xl">
+        在线配置你的家 — Select a base model and customize it to your needs. 
+        Get a precise BOM quote with 100% transparent pricing.
+      </p>
+    </div>
+  </section>
+
+  <!-- Progress Steps -->
+  <section class="bg-white border-b border-earth-200">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-4">
+      <div class="flex items-center justify-between max-w-3xl mx-auto">
+        {steps.map((step, index) => (
+          <div class="flex items-center">
+            <div class="flex flex-col items-center">
+              <div class={`w-10 h-10 rounded-full flex items-center justify-center ${
+                index < 2 ? 'bg-sage-600 text-white' : index === 2 ? 'bg-primary text-white' : 'bg-earth-100 text-earth-400'
+              }`}>
+                {index < 2 ? (
+                  <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                ) : (
+                  <span>{step.id}</span>
+                )}
+              </div>
+              <span class={`text-xs mt-2 font-medium hidden md:block ${
+                index === 2 ? 'text-primary' : 'text-earth-500'
+              }`}>
+                {step.name}
+              </span>
+            </div>
+            {index < steps.length - 1 && (
+              <div class={`w-12 md:w-20 h-0.5 mx-2 ${
+                index < 2 ? 'bg-sage-600' : 'bg-earth-200'
+              }`}></div>
+            )}
+          </div>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- Step Content -->
+  <section class="py-16 md:py-24">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="max-w-4xl mx-auto">
+        <!-- Step 1: Select Model -->
+        <div class="animate-fade-in">
+          <h2 class="text-2xl font-bold text-earth-800 mb-2">
+            Choose Your Base Model
+          </h2>
+          <p class="text-earth-600 mb-6">
+            Select one of our standard prefabricated models as your starting point.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-3 gap-6">
+            {modelOptions.map((model) => (
+              <div class="text-left rounded-2xl overflow-hidden shadow-md hover:shadow-lg transition-all bg-white">
+                <div class="relative aspect-[4/3]">
+                  <img
+                    src={model.image}
+                    alt={model.name}
+                    class="w-full h-full object-cover"
+                  />
+                  <div class="absolute top-4 left-4">
+                    <span class="px-3 py-1 bg-primary text-white text-sm font-medium rounded-full">
+                      {model.badge}
+                    </span>
+                  </div>
+                </div>
+                <div class="p-4">
+                  <h3 class="font-semibold text-earth-800 mb-1">{model.name}</h3>
+                  <p class="text-sm text-earth-600 mb-3">{model.description}</p>
+                  <div class="flex items-center gap-3 text-xs text-earth-500 mb-3">
+                    <span>{model.bedrooms} Beds</span>
+                    <span>•</span>
+                    <span>{model.bathrooms} Baths</span>
+                    <span>•</span>
+                    <span>{model.area}m²</span>
+                  </div>
+                  <div class="text-lg font-bold text-primary">{model.price}</div>
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Step 2: Customization Preview -->
+        <div class="mt-16">
+          <h2 class="text-2xl font-bold text-earth-800 mb-2">
+            Customization Options
+          </h2>
+          <p class="text-earth-600 mb-8">
+            Customize your selection with these options. Contact us for a personalized quote.
+          </p>
+
+          <div class="space-y-8">
+            {Object.entries(customizationOptions).map(([key, options]) => (
+              <div>
+                <h3 class="text-lg font-semibold text-earth-700 mb-3 capitalize">
+                  {key === "exterior" ? "Exterior Design" : key}
+                </h3>
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  {options.map((option) => (
+                    <div class="p-4 rounded-xl border-2 border-earth-200 text-center hover:border-primary transition-colors">
+                      <span class="font-medium">{option}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Step 3: Optional Features -->
+        <div class="mt-16">
+          <h2 class="text-2xl font-bold text-earth-800 mb-2">
+            BOM Add-ons & Upgrades
+          </h2>
+          <p class="text-earth-600 mb-8">
+            Enhance your package with optional upgrades. All items come with precise pricing.
+          </p>
+          <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+            {optionalFeatures.map((feature) => (
+              <div class="flex items-center justify-between p-4 rounded-xl border-2 border-earth-200 hover:border-primary transition-colors">
+                <span class="font-medium">{feature.name}</span>
+                <span class="text-primary font-medium">{feature.price}</span>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        <!-- Step 4: BOM Quote -->
+        <div class="mt-16">
+          <h2 class="text-2xl font-bold text-earth-800 mb-2">
+            BOM Precise Quote
+          </h2>
+          <p class="text-earth-600 mb-8">
+            100% Transparent Pricing — Every bolt, every beam accounted for.
+          </p>
+          
+          <div class="bg-white rounded-2xl p-6 shadow-md mb-6">
+            <div class="flex items-center justify-between mb-6">
+              <h3 class="text-lg font-semibold">Included in Base Package</h3>
+              <svg class="h-6 w-6 text-sage-600" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m5.618-4.016A11.955 11.955 0 0112 2.944a11.955 11.955 0 01-8.618 3.04A12.02 12.02 0 003 9c0 5.591 3.824 10.29 9 11.622 5.176-1.332 9-6.03 9-11.622 0-1.042-.133-2.052-.382-3.016z" />
+              </svg>
+            </div>
+            <div class="space-y-3">
+              {bomFeatures.map((feature) => (
+                <div class="flex items-start gap-3 p-3 bg-earth-50 rounded-lg">
+                  <svg class="h-5 w-5 text-sage-600 mt-0.5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7" />
+                  </svg>
+                  <div>
+                    <span class="font-medium text-earth-800">{feature.name}</span>
+                    <p class="text-sm text-earth-500">{feature.description}</p>
+                  </div>
+                </div>
+              ))}
+            </div>
+          </div>
+
+          <div class="bg-primary/5 rounded-2xl p-6">
+            <div class="flex items-center gap-2 mb-4">
+              <svg class="h-6 w-6 text-primary" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-1.657 0-3 .895-3 2s1.343 2 3 2 3 .895 3 2-1.343 2-3 2m0-8c1.11 0 2.08.402 2.599 1M12 8V7m0 1v8m0 0v1m0-1c-1.11 0-2.08-.402-2.599-1M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
+              </svg>
+              <h3 class="text-lg font-semibold">Price Summary</h3>
+            </div>
+            <div class="space-y-2">
+              <div class="flex justify-between">
+                <span>Base Model (Model B - Standard)</span>
+                <span class="font-medium">UGX 450M</span>
+              </div>
+              <div class="flex justify-between text-earth-500">
+                <span>Configuration Upgrade</span>
+                <span>Included</span>
+              </div>
+              <div class="pt-2 mt-2 border-t border-earth-200">
+                <div class="flex justify-between text-xl font-bold text-primary">
+                  <span>Total BOM Estimate</span>
+                  <span>UGX 450M+</span>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <!-- CTA -->
+        <div class="mt-16 p-6 bg-sage-50 rounded-xl border border-sage-200">
+          <h3 class="font-semibold text-earth-800 mb-2">Ready to Get Started?</h3>
+          <p class="text-earth-600 text-sm mb-4">
+            Contact our team to discuss your project details and schedule a site visit. 
+            We'll help you configure the perfect home within your budget.
+          </p>
+          <a href="/about#contact" class="inline-flex items-center gap-2 bg-primary text-white px-6 py-3 rounded-lg font-medium hover:bg-amber-600 transition-colors">
+            Contact Us to Proceed
+            <svg class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3" />
+            </svg>
+          </a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+</BuildLayout>

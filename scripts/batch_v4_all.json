@@ -1,0 +1,128 @@
+[
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/卢旺达基础设施实际吞吐与区域总部可行性深度情报报告 (2025-2026)_1778571708250_0_0k8s.pdf",
+    "country": "rwanda",
+    "section": "industry",
+    "subsection": "foundation",
+    "level": "internal",
+    "title": "卢旺达基础设施实际吞吐与区域总部可行性",
+    "filename": "rwanda-infrastructure-throughput"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/卢旺达投资环境深度情报与东非五国横向对比分析报告 (2026版)_1778571708250_1_mvgd.pdf",
+    "country": "rwanda",
+    "section": "toolkit",
+    "subsection": "data-dashboards",
+    "level": "internal",
+    "title": "卢旺达投资环境深度情报与东非五国横向对比",
+    "filename": "rwanda-investment-env-comparison"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/深度情报：东非投资全景评估与乌干达市场中资企业实操指南 (2026版)_1778571708251_2_zx1y.pdf",
+    "country": "uganda",
+    "section": "decision",
+    "subsection": "quick-cards",
+    "level": "internal",
+    "title": "东非投资全景评估与乌干达中资企业实操指南",
+    "filename": "uganda-practical-guide-chinese"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/深度研究报告：埃塞俄比亚制造业供应链可获性与中资企业投资决策指南_1778571708251_3_d26m.pdf",
+    "country": "ethiopia",
+    "section": "industry",
+    "subsection": "commerce",
+    "level": "internal",
+    "title": "埃塞俄比亚制造业供应链可获性与中资投资决策",
+    "filename": "ethiopia-supply-chain-manufacturing"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/深度研判：乌干达供应链可获性与中资东非产业协同战略报告 (2025-2026)_1778571708251_4_6v6e.pdf",
+    "country": "uganda",
+    "section": "industry",
+    "subsection": "foundation",
+    "level": "internal",
+    "title": "乌干达供应链可获性与中资东非产业协同",
+    "filename": "uganda-supply-chain-ecosystem"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/坦桑尼亚基础设施实际吞吐能力与中资出海战略深度情报报告 (2026版)_1778571708252_5_mfrn.pdf",
+    "country": "tanzania",
+    "section": "industry",
+    "subsection": "artery",
+    "level": "internal",
+    "title": "坦桑尼亚基础设施实际吞吐与中资出海战略",
+    "filename": "tanzania-infrastructure-throughput"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/坦桑尼亚制度运行机制与东非五国投资环境深度情报报告_1778571708252_6_spmh.pdf",
+    "country": "tanzania",
+    "section": "insight",
+    "subsection": "structural-change",
+    "level": "internal",
+    "title": "坦桑尼亚制度运行机制与东非五国投资环境",
+    "filename": "tanzania-institutional-mechanics"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/乌干达基础设施实际吞吐能力与东非投资战略深度评估报告 (2026版)_1778571708252_7_wngz.pdf",
+    "country": "uganda",
+    "section": "industry",
+    "subsection": "artery",
+    "level": "internal",
+    "title": "乌干达基础设施实际吞吐与东非投资战略",
+    "filename": "uganda-infrastructure-throughput"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/2026东非五国投资情报与肯尼亚市场实操深度审视报告_1778571759971_0_xqni.pdf",
+    "country": "kenya",
+    "section": "decision",
+    "subsection": "quick-cards",
+    "level": "internal",
+    "title": "东非五国投资情报与肯尼亚市场实操深度审视",
+    "filename": "kenya-practical-guide-2026"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/埃塞俄比亚及东非投资情报深度解析：去法规化（De Facto）视角的实操博弈与战略重构_1778571759971_1_rjt0.pdf",
+    "country": "ethiopia",
+    "section": "insight",
+    "subsection": "structural-change",
+    "level": "internal",
+    "title": "埃塞俄比亚制度运行机制与去法规化实操博弈",
+    "filename": "ethiopia-institutional-mechanics-defacto"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/东非五国基建实际吞吐与投资战略情报深度评估报告_1778571759972_2_q5hz.pdf",
+    "country": "rwanda",
+    "section": "industry",
+    "subsection": "logistics",
+    "level": "internal",
+    "title": "东非五国基建实际吞吐与投资战略评估",
+    "filename": "eac-infrastructure-throughput-comparison"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/东非五国投资情报与埃塞俄比亚基础设施实际吞吐量深度调研报告_1778571759972_3_7tvx.pdf",
+    "country": "ethiopia",
+    "section": "industry",
+    "subsection": "artery",
+    "level": "internal",
+    "title": "埃塞俄比亚基础设施实际吞吐量深度调研",
+    "filename": "ethiopia-infrastructure-throughput"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/东非五国投资情报与地理实操约束深度分析报告_1778571759972_4_k6ac.pdf",
+    "country": "tanzania",
+    "section": "insight",
+    "subsection": "structural-change",
+    "level": "internal",
+    "title": "东非五国地理实操约束深度分析",
+    "filename": "eac-geo-practical-constraints"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/肯尼亚供应链可获性深度评估报告：中资企业东非区域配送中心与制造基地投资指南 (2026版)_1778571759972_5_9fip.pdf",
+    "country": "kenya",
+    "section": "industry",
+    "subsection": "foundation",
+    "level": "internal",
+    "title": "肯尼亚供应链可获性与中资配送中心投资指南",
+    "filename": "kenya-supply-chain-availability"
+  }
+]

@@ -1,0 +1,108 @@
+<!-- pages/index/index.wxml -->
+<!-- Summer Bot 主聊天页面 -->
+
+<view class="container">
+  <!-- 自定义导航栏 -->
+  <view class="nav-bar safe-area-top">
+    <view class="nav-content">
+      <view class="nav-left" bindtap="onGoHistory">
+        <text class="nav-icon">📋</text>
+        <text class="nav-text">历史</text>
+      </view>
+      <view class="nav-center">
+        <text class="nav-title gradient-text">Summer Bot</text>
+      </view>
+      <view class="nav-right">
+        <text class="nav-subtitle">STANDERRA Intelligence</text>
+      </view>
+    </view>
+  </view>
+
+  <!-- 主内容区 -->
+  <scroll-view
+    id="message-list"
+    class="message-list"
+    scroll-y
+    enhanced
+    bounces
+    show-scrollbar="false"
+  >
+    <!-- 欢迎提示 -->
+    <view class="welcome-tip" wx:if="{{messages.length <= 1}}">
+      <text class="tip-text">👋 试试快捷入口快速开始</text>
+    </view>
+
+    <!-- 快捷入口按钮 -->
+    <view class="quick-actions">
+      <block wx:for="{{quickActions}}" wx:key="mode">
+        <view 
+          class="quick-btn {{currentMode === item.mode ? 'active' : ''}}"
+          bindtap="onQuickAction"
+          data-mode="{{item.mode}}"
+          data-question="{{item.question}}"
+        >
+          <text class="quick-icon">{{item.icon}}</text>
+          <text class="quick-label">{{item.label}}</text>
+        </view>
+      </block>
+    </view>
+
+    <!-- 消息列表 -->
+    <view class="messages">
+      <block wx:for="{{messages}}" wx:key="id">
+        <chat-bubble
+          message="{{item}}"
+          index="{{index}}"
+          bind:resend="onResend"
+          bind:copy="onCopy"
+        />
+      </block>
+    </view>
+
+    <!-- 加载中 -->
+    <view class="loading-more" wx:if="{{isLoading}}">
+      <view class="loading-dots">
+        <view></view>
+        <view></view>
+        <view></view>
+      </view>
+      <text class="loading-text">Summer Bot 思考中...</text>
+    </view>
+
+    <!-- 底部占位 -->
+    <view class="bottom-placeholder"></view>
+  </scroll-view>
+
+  <!-- 输入区域 -->
+  <view class="input-area safe-area-bottom" style="padding-bottom: {{keyboardHeight > 0 ? 20 : safeAreaBottom}}rpx;">
+    <view class="input-wrapper">
+      <view class="clear-btn" bindtap="onClearChat">
+        <text class="clear-icon">🗑️</text>
+      </view>
+      
+      <input
+        class="input-field"
+        type="text"
+        value="{{inputValue}}"
+        placeholder="输入您的问题..."
+        placeholder-class="input-placeholder"
+        confirm-type="send"
+        bindconfirm="sendMessage"
+        bindinput="onInputChange"
+        adjust-position="false"
+        cursor-spacing="20"
+      />
+      
+      <view 
+        class="send-btn {{inputValue.trim() ? 'active' : ''}}"
+        bindtap="sendMessage"
+      >
+        <text class="send-icon">➤</text>
+      </view>
+    </view>
+    
+    <view class="input-tip">
+      <text class="tip">Summer Bot AI 投资顾问 | STANDERRA Intelligence</text>
+    </view>
+  </view>
+</view>

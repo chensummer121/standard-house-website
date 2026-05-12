@@ -1,0 +1,321 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Header from '../../../../../components/Header.astro';
+import Sidebar from '../../../../../components/Sidebar.astro';
+import Breadcrumb from '../../../../../components/Breadcrumb.astro';
+import StepGuide from '../../../../../components/StepGuide.tsx';
+import Checklist from '../../../../../components/Checklist.tsx';
+import { getCollection, render } from 'astro:content';
+import lawGuidesData from '../../../../../data/law-guides.json';
+
+export async function getStaticPaths() {
+  const countries = ['ethiopia', 'uganda', 'kenya', 'tanzania', 'rwanda', 'south-sudan'];
+  const docs = await getCollection('countries', ({ id }) =>
+    countries.some(c => id.startsWith(`${c}/toolkit/laws/`)) && !id.endsWith('/index')
+  );
+  
+  return docs.map(doc => ({
+    params: {
+      country: doc.id.split('/')[0],
+      slug: doc.id.split('/').pop()
+    },
+    props: { doc },
+  }));
+}
+
+const { doc } = Astro.props;
+const { Content } = await render(doc);
+const pageText = doc.body || '';
+const pageContext = `当前页面：${doc.data.title}\n\n${typeof pageText === 'string' ? pageText.substring(0, 3000) : JSON.stringify(pageText).substring(0, 3000)}`;
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+
+// Get the law guide data for this slug
+const slug = doc.id.split('/').pop();
+const guideData = lawGuidesData[slug as keyof typeof lawGuidesData];
+
+// Serialize the guide data for client-side components
+const serializedGuideData = guideData ? JSON.stringify(guideData) : null;
+---
+
+<BaseLayout title={`${doc.data.title} - Standerra`} pageContext={pageContext}>
+  <Header country={country} />
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    <main class="flex-1 p-8 max-w-5xl">
+      <Breadcrumb items={[
+          { name: '实操工具', href: `/invest/${country}/toolkit` },
+          { name: '法规速查', href: `/invest/${country}/toolkit/laws` },
+          { name: doc.data.title }
+        ]} />
+      
+      {/* Law Content */}
+      <article style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem;">
+        <header style="margin-bottom: 2rem; padding-bottom: 1.5rem; border-bottom: 1px solid var(--border-color);">
+          <h1 class="text-3xl font-bold" style="color: var(--text-primary);">{doc.data.title}</h1>
+        </header>
+        <div class="prose prose-lg max-w-none">
+          <Content />
+        </div>
+      </article>
+
+      {/* Practical Guide Section */}
+      {guideData && (
+        <div class="law-guide-section">
+          {/* Overview Card */}
+          <div style="background: linear-gradient(135deg, rgba(59, 130, 246, 0.1) 0%, rgba(0, 230, 118, 0.05) 100%); border: 1px solid var(--accent-blue); border-radius: 12px; padding: 1.5rem; margin-top: 24px;">
+            <div style="display: flex; align-items: center; gap: 12px; margin-bottom: 12px;">
+              <span style="font-size: 24px;">📋</span>
+              <h3 style="margin: 0; font-size: 18px; font-weight: 600; color: var(--text-primary);">
+                {guideData.title}
+              </h3>
+            </div>
+            <p style="margin: 0 0 16px 0; color: var(--text-secondary); font-size: 14px; line-height: 1.6;">
+              {guideData.overview}
+            </p>
+            
+            {/* Timeline Summary */}
+            <div style="display: flex; flex-wrap: wrap; gap: 24px;">
+              <div style="background: rgba(27, 27, 47, 0.6); padding: 12px 16px; border-radius: 8px; min-width: 140px;">
+                <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">官方时间</div>
+                <div style="font-size: 16px; font-weight: 600; color: var(--accent-green);">{guideData.timeline.official}</div>
+              </div>
+              <div style="background: rgba(27, 27, 47, 0.6); padding: 12px 16px; border-radius: 8px; min-width: 140px;">
+                <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 4px;">实际时间</div>
+                <div style="font-size: 16px; font-weight: 600; color: var(--accent-orange);">{guideData.timeline.actual}</div>
+              </div>
+            </div>
+            {guideData.timeline.note && (
+              <p style="margin: 12px 0 0 0; font-size: 12px; color: var(--text-secondary); font-style: italic;">
+                💡 {guideData.timeline.note}
+              </p>
+            )}
+          </div>
+
+          {/* Bank Strategy (for fx-control) */}
+          {guideData.bankStrategy && (
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-top: 24px;">
+              <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                <span>🏦</span> 银行选择策略
+              </h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 12px;">
+                {guideData.bankStrategy.map((bank: any) => (
+                  <div style="background: rgba(27, 27, 47, 0.6); padding: 12px; border-radius: 8px; border: 1px solid var(--border-color);">
+                    <div style="font-size: 14px; font-weight: 600; color: var(--accent-blue); margin-bottom: 8px;">{bank.bank}</div>
+                    <div style="font-size: 12px;">
+                      <div style="color: var(--accent-green); margin-bottom: 4px;">✅ {bank.pros}</div>
+                      <div style="color: var(--accent-orange);">⚠️ {bank.cons}</div>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Red Flags (for fx-control) */}
+          {guideData.redFlags && (
+            <div style="background: rgba(255, 82, 82, 0.1); border: 1px solid var(--accent-red); border-radius: 12px; padding: 1.5rem; margin-top: 24px;">
+              <h3 style="font-size: 16px; font-weight: 600; color: var(--accent-red); margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                <span>🚫</span> 合规红线（绝对禁止）
+              </h3>
+              <ul style="margin: 0; padding-left: 20px; color: var(--text-secondary); font-size: 13px;">
+                {guideData.redFlags.map((flag: string) => (
+                  <li style="margin-bottom: 8px; line-height: 1.5;">{flag}</li>
+                ))}
+              </ul>
+            </div>
+          )}
+
+          {/* Approval Levels (for land-acquisition) */}
+          {guideData.approvalLevels && (
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-top: 24px;">
+              <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                <span>🏛️</span> 审批层级与部门
+              </h3>
+              <div style="overflow-x: auto;">
+                <table style="width: 100%; border-collapse: collapse; font-size: 13px;">
+                  <thead>
+                    <tr style="background: rgba(22, 36, 71, 0.8);">
+                      <th style="padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); color: var(--text-primary);">审批层级</th>
+                      <th style="padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); color: var(--text-primary);">管辖范围</th>
+                      <th style="padding: 10px 12px; text-align: left; border-bottom: 1px solid var(--border-color); color: var(--text-primary);">预计时间</th>
+                    </tr>
+                  </thead>
+                  <tbody>
+                    {guideData.approvalLevels.map((level: any, index: number) => (
+                      <tr style={index % 2 === 0 ? 'background: transparent;' : 'background: rgba(68, 138, 255, 0.05);'}>
+                        <td style="padding: 10px 12px; border-bottom: 1px solid var(--border-color); color: var(--accent-blue);">{level.level}</td>
+                        <td style="padding: 10px 12px; border-bottom: 1px solid var(--border-color); color: var(--text-secondary);">{level.jurisdiction}</td>
+                        <td style="padding: 10px 12px; border-bottom: 1px solid var(--border-color); color: var(--accent-green);">{level.timeline}</td>
+                      </tr>
+                    ))}
+                  </tbody>
+                </table>
+              </div>
+            </div>
+          )}
+
+          {/* Tax Calendar (for tax-guide) */}
+          {guideData.calendar && (
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-top: 24px;">
+              <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                <span>📅</span> 税务申报日历
+              </h3>
+              
+              <div style="margin-bottom: 20px;">
+                <h4 style="font-size: 14px; font-weight: 600; color: var(--accent-blue); margin: 0 0 10px 0;">月度申报</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  {guideData.calendar.monthly.map((item: any) => (
+                    <div style="background: rgba(27, 27, 47, 0.6); padding: 8px 12px; border-radius: 6px; border-left: 3px solid var(--accent-blue);">
+                      <div style="font-size: 12px; color: var(--accent-green); font-weight: 500;">{item.deadline}</div>
+                      <div style="font-size: 13px; color: var(--text-secondary);">{item.task}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div style="margin-bottom: 20px;">
+                <h4 style="font-size: 14px; font-weight: 600; color: var(--accent-orange); margin: 0 0 10px 0;">季度申报</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  {guideData.calendar.quarterly.map((item: any) => (
+                    <div style="background: rgba(27, 27, 47, 0.6); padding: 8px 12px; border-radius: 6px; border-left: 3px solid var(--accent-orange);">
+                      <div style="font-size: 12px; color: var(--accent-green); font-weight: 500;">{item.deadline}</div>
+                      <div style="font-size: 13px; color: var(--text-secondary);">{item.task}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+
+              <div>
+                <h4 style="font-size: 14px; font-weight: 600; color: var(--accent-red); margin: 0 0 10px 0;">年度申报</h4>
+                <div style="display: flex; flex-wrap: wrap; gap: 8px;">
+                  {guideData.calendar.annually.map((item: any) => (
+                    <div style="background: rgba(27, 27, 47, 0.6); padding: 8px 12px; border-radius: 6px; border-left: 3px solid var(--accent-red);">
+                      <div style="font-size: 12px; color: var(--accent-green); font-weight: 500;">{item.deadline}</div>
+                      <div style="font-size: 13px; color: var(--text-secondary);">{item.task}</div>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
+          )}
+
+          {/* Arbitration Clause Template (for dispute-resolution) */}
+          {guideData.arbitrationClause && (
+            <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.5rem; margin-top: 24px;">
+              <h3 style="font-size: 16px; font-weight: 600; color: var(--text-primary); margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                <span>⚖️</span> 仲裁条款模板要点
+              </h3>
+              
+              <div style="margin-bottom: 16px;">
+                <h4 style="font-size: 14px; font-weight: 600; color: var(--accent-blue); margin: 0 0 10px 0;">关键要素清单</h4>
+                <ul style="margin: 0; padding-left: 20px; color: var(--text-secondary); font-size: 13px;">
+                  {guideData.arbitrationClause.keyElements.map((element: string) => (
+                    <li style="margin-bottom: 6px; line-height: 1.5;">{element}</li>
+                  ))}
+                </ul>
+              </div>
+
+              <div style="background: rgba(22, 36, 71, 0.8); padding: 16px; border-radius: 8px; border: 1px solid var(--border-color);">
+                <div style="font-size: 12px; color: var(--text-secondary); margin-bottom: 8px;">推荐条款模板（英文）:</div>
+                <pre style="margin: 0; font-size: 11px; color: var(--accent-green); line-height: 1.6; white-space: pre-wrap; word-break: break-all;">{guideData.arbitrationClause.templateSnippet}</pre>
+              </div>
+            </div>
+          )}
+
+          {/* Execution Obstacles (for dispute-resolution) */}
+          {guideData.obstacles && (
+            <div style="background: rgba(255, 145, 0, 0.1); border: 1px solid var(--accent-orange); border-radius: 12px; padding: 1.5rem; margin-top: 24px;">
+              <h3 style="font-size: 16px; font-weight: 600; color: var(--accent-orange); margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                <span>⚠️</span> 执行判决的实际障碍
+              </h3>
+              <div style="display: flex; flex-direction: column; gap: 12px;">
+                {guideData.obstacles.map((obstacle: any) => (
+                  <div style="background: rgba(27, 27, 47, 0.6); padding: 12px; border-radius: 8px;">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                      <span style="background: rgba(255, 145, 0, 0.2); padding: 2px 8px; border-radius: 4px; font-size: 12px; font-weight: 600; color: var(--accent-orange);">{obstacle.type}</span>
+                    </div>
+                    <div style="font-size: 13px; color: var(--text-secondary); margin-bottom: 6px; line-height: 1.5;">{obstacle.description}</div>
+                    <div style="font-size: 12px; color: var(--text-secondary); font-style: italic;">📌 案例：{obstacle.case}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Emergency Measures (for dispute-resolution) */}
+          {guideData.emergencyMeasures && (
+            <div style="background: rgba(255, 82, 82, 0.1); border: 1px solid var(--accent-red); border-radius: 12px; padding: 1.5rem; margin-top: 24px;">
+              <h3 style="font-size: 16px; font-weight: 600; color: var(--accent-red); margin: 0 0 16px 0; display: flex; align-items: center; gap: 8px;">
+                <span>🚨</span> 紧急保全措施
+              </h3>
+              <div style="display: grid; grid-template-columns: repeat(auto-fit, minmax(220px, 1fr)); gap: 12px;">
+                {guideData.emergencyMeasures.map((measure: any) => (
+                  <div style="background: rgba(27, 27, 47, 0.6); padding: 12px; border-radius: 8px; border-left: 3px solid var(--accent-red);">
+                    <div style="display: flex; align-items: center; gap: 8px; margin-bottom: 6px;">
+                      <span style="font-size: 14px; font-weight: 600; color: var(--text-primary);">{measure.measure}</span>
+                      {measure.urgency === '紧急' && (
+                        <span style="background: rgba(255, 82, 82, 0.2); padding: 2px 6px; border-radius: 4px; font-size: 10px; color: var(--accent-red);">紧急</span>
+                      )}
+                    </div>
+                    <div style="font-size: 12px; color: var(--text-secondary); line-height: 1.5;">{measure.description}</div>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* Step Guide Component */}
+          <StepGuide client:load steps={guideData.steps} title="实操步骤流程" />
+
+          {/* Checklist Component */}
+          <Checklist client:load items={guideData.checklist} title="合规检查清单" />
+        </div>
+      )}
+
+      {!guideData && (
+        <div style="background: rgba(160, 160, 176, 0.1); border: 1px dashed var(--border-color); border-radius: 12px; padding: 2rem; margin-top: 24px; text-align: center;">
+          <span style="font-size: 32px; display: block; margin-bottom: 12px;">🔧</span>
+          <p style="color: var(--text-secondary); font-size: 14px; margin: 0;">
+            该法规的实操指南正在建设中，敬请期待...
+          </p>
+        </div>
+      )}
+    </main>
+  </div>
+</BaseLayout>
+
+<style is:global>
+  .prose h1 { font-size: 2rem; font-weight: 700; margin: 2rem 0 1rem; }
+  .prose h2 { font-size: 1.5rem; font-weight: 600; margin: 1.5rem 0 0.75rem; border-bottom: 1px solid var(--border-color); padding-bottom: 0.5rem; }
+  .prose h3 { font-size: 1.25rem; font-weight: 600; margin: 1.25rem 0 0.5rem; }
+  .prose p { margin: 0.75rem 0; line-height: 1.8; color: var(--text-secondary); }
+  .prose ul, .prose ol { margin: 1rem 0; padding-left: 1.5rem; }
+  .prose li { margin: 0.5rem 0; line-height: 1.7; }
+  .prose strong { font-weight: 600; color: var(--text-primary); }
+  .prose blockquote { border-left: 4px solid var(--accent-green); padding-left: 1rem; margin: 1.5rem 0; background: var(--bg-secondary); padding: 1rem; border-radius: 0 8px 8px 0; }
+  .prose code { background: var(--bg-secondary); padding: 0.2rem 0.4rem; border-radius: 4px; font-size: 0.9em; }
+  .prose pre { background: var(--bg-secondary); color: var(--text-primary); padding: 1rem; border-radius: 8px; overflow-x: auto; margin: 1.5rem 0; }
+  .prose pre code { background: none; padding: 0; }
+  .prose table { width: 100%; border-collapse: collapse; margin: 1.5rem 0; }
+  .prose th, .prose td { border: 1px solid var(--border-color); padding: 0.75rem; text-align: left; }
+  .prose th { background: var(--bg-secondary); font-weight: 600; }
+  .prose tr:nth-child(even) { background: rgba(68, 138, 255, 0.05); }
+  .prose a { color: var(--accent-green); text-decoration: underline; }
+  .prose a:hover { color: var(--accent-orange); }
+  .prose hr { border: none; border-top: 1px solid var(--border-color); margin: 2rem 0; }
+  
+  .law-guide-section {
+    margin-top: 24px;
+  }
+  
+  @media (max-width: 768px) {
+    .flex {
+      flex-direction: column !important;
+    }
+    
+    main {
+      padding: 1rem !important;
+    }
+  }
+</style>

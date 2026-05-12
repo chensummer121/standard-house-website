@@ -1,0 +1,82 @@
+---
+import BaseLayout from '../../../../../layouts/BaseLayout.astro';
+import Header from '../../../../../components/Header.astro';
+import Sidebar from '../../../../../components/Sidebar.astro';
+import Breadcrumb from '../../../../../components/Breadcrumb.astro';
+import { getCollection } from 'astro:content';
+
+export async function getStaticPaths() {
+  const countries = ['ethiopia', 'uganda', 'kenya', 'tanzania', 'rwanda', 'south-sudan'];
+  const paths = [];
+  for (const c of countries) {
+    const docs = await getCollection('countries', ({ id }) =>
+      id.startsWith(`${c}/toolkit/data-dashboards/`) && !id.endsWith('/index')
+    );
+    const items = docs.map(doc => ({
+      slug: doc.id.split('/').pop(),
+      title: doc.data.title,
+      description: doc.data.description || '',
+    }));
+    paths.push({ params: { country: c }, props: { items } });
+  }
+  return paths;
+}
+
+const { items } = Astro.props;
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+const countryNames = { ethiopia: '埃塞俄比亚', uganda: '乌干达', kenya: '肯尼亚', tanzania: '坦桑尼亚', rwanda: '卢旺达' };
+const sectionName = '数据面板';
+---
+
+<BaseLayout title={`${countryNames[country]} - ${sectionName} - Standerra`}>
+  
+  <Header country={country} />
+  
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    
+    <main class="flex-1 p-8 max-w-4xl">
+      <Breadcrumb items={[
+        { name: countryNames[country] || country, href: `/invest/${country}` },
+        { name: '实操工具', href: `/invest/${country}/toolkit` },
+        { name: sectionName }
+      ]} />
+      
+      <div style="margin-bottom: 2rem;">
+        <h1 class="text-2xl font-bold" style="color: var(--text-primary); margin-bottom: 0.5rem;">
+          📈 数据面板
+        </h1>
+        <p style="color: var(--text-secondary); font-size: 14px;">
+          {countryNames[country]} · {items.length} 篇文章
+        </p>
+      </div>
+
+      <div style="display: grid; grid-template-columns: repeat(auto-fill, minmax(280px, 1fr)); gap: 16px;">
+        {items.map((item: any) => (
+          <a
+            href={`/invest/${country}/toolkit/data-dashboards/${item.slug}`}
+            style="display: block; background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 1.25rem; transition: all 0.2s ease; text-decoration: none;"
+            onmouseover="this.style.borderColor='var(--accent-blue)'; this.style.transform='translateY(-2px)'"
+            onmouseout="this.style.borderColor='var(--border-color)'; this.style.transform='translateY(0)'"
+          >
+            <h3 style="font-size: 15px; font-weight: 600; color: var(--text-primary); margin: 0 0 8px 0; line-height: 1.4;">
+              {item.title}
+            </h3>
+            {item.description && (
+              <p style="font-size: 13px; color: var(--text-secondary); margin: 0; line-height: 1.5;">
+                {item.description.substring(0, 100)}{item.description.length > 100 ? '...' : ''}
+              </p>
+            )}
+          </a>
+        ))}
+      </div>
+
+      {items.length === 0 && (
+        <div style="background: var(--bg-card); border: 1px solid var(--border-color); border-radius: 12px; padding: 2rem; text-align: center;">
+          <p style="color: var(--text-secondary);">该分类下暂无文章</p>
+        </div>
+      )}
+    </main>
+  </div>
+</BaseLayout>

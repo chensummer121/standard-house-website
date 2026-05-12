@@ -1,0 +1,344 @@
+---
+import BaseLayout from '../../layouts/IntelLayout.astro';
+import RiskRadarChart from '../../components/charts/RiskRadarChart.tsx';
+import IndustryHeatmap from '../../components/charts/IndustryHeatmap.tsx';
+
+const countries = [
+  { 
+    name: '埃塞俄比亚', 
+    flag: '🇪🇹', 
+    href: '/invest/ethiopia', 
+    gdp: '$155B', 
+    growth: '6.3%', 
+    risk: 'B+',
+    opportunity: 4,
+    population: '1.2亿',
+    color: 'from-blue-500 to-indigo-600',
+    highlights: ['人口红利最大', '电力成本最低', '外汇管制严']
+  },
+  { 
+    name: '乌干达', 
+    flag: '🇺🇬', 
+    href: '/invest/uganda', 
+    gdp: '$54B', 
+    growth: '5.7%', 
+    risk: 'B',
+    opportunity: 4,
+    population: '4800万',
+    color: 'from-emerald-500 to-teal-600',
+    highlights: ['人口最年轻', '石油即将投产', 'EAC成员']
+  },
+  { 
+    name: '肯尼亚', 
+    flag: '🇰🇪', 
+    href: '/invest/kenya', 
+    gdp: '$120B', 
+    growth: '5.4%', 
+    risk: 'A-',
+    opportunity: 5,
+    population: '5500万',
+    color: 'from-amber-500 to-orange-600',
+    highlights: ['区域金融中心', 'ICT领先', '营商环境最佳']
+  },
+  { 
+    name: '坦桑尼亚', 
+    flag: '🇹🇿', 
+    href: '/invest/tanzania', 
+    gdp: '$78B', 
+    growth: '5.2%', 
+    risk: 'B+',
+    opportunity: 3,
+    population: '6500万',
+    color: 'from-violet-500 to-purple-600',
+    highlights: ['天然气储量巨大', '旅游资源顶级', '政策改善中']
+  },
+  { 
+    name: '卢旺达', 
+    flag: '🇷🇼', 
+    href: '/invest/rwanda', 
+    gdp: '$14B', 
+    growth: '8.9%', 
+    risk: 'A',
+    opportunity: 4,
+    population: '1400万',
+    color: 'from-rose-500 to-pink-600',
+    highlights: ['增速最快', '最安全国家', '数字化领先']
+  },
+];
+
+function renderStars(count: number): string {
+  return '★'.repeat(count) + '☆'.repeat(5 - count);
+}
+---
+
+<BaseLayout title="东非五国投资情报中心 - STANDERRA Intelligence" pageContext="intelligence">
+  <style>
+    .gradient-text {
+      background: linear-gradient(135deg, #38bdf8, #0ea5e9);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+    
+    .card-hover {
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+    .card-hover:hover {
+      transform: translateY(-4px);
+      box-shadow: 0 20px 40px rgba(0, 0, 0, 0.4), 0 0 20px rgba(56, 189, 248, 0.1);
+    }
+    
+    .btn-gold {
+      background: linear-gradient(135deg, #F59E0B, #D97706);
+      transition: all 0.3s ease;
+    }
+    .btn-gold:hover {
+      background: linear-gradient(135deg, #FBBF24, #F59E0B);
+      box-shadow: 0 8px 25px rgba(245, 158, 11, 0.4);
+      transform: translateY(-2px);
+    }
+    
+    .btn-pill {
+      border-radius: 9999px;
+    }
+    
+    .country-card {
+      background: rgba(30, 41, 59, 0.8);
+      border: 1px solid rgba(56, 189, 248, 0.15);
+      backdrop-filter: blur(10px);
+    }
+    .country-card:hover {
+      border-color: rgba(56, 189, 248, 0.4);
+      background: rgba(30, 41, 59, 0.95);
+    }
+    
+    .table-header {
+      background: rgba(30, 41, 59, 0.9);
+      border-bottom: 2px solid rgba(56, 189, 248, 0.3);
+    }
+    
+    .table-row {
+      background: rgba(30, 41, 59, 0.5);
+      border-bottom: 1px solid rgba(148, 163, 184, 0.1);
+      transition: background 0.2s ease;
+    }
+    .table-row:hover {
+      background: rgba(30, 41, 59, 0.8);
+    }
+    
+    .star-filled { color: #F59E0B; }
+    .star-empty { color: #475569; }
+    
+    .highlight-tag {
+      background: rgba(56, 189, 248, 0.15);
+      border: 1px solid rgba(56, 189, 248, 0.3);
+      transition: all 0.2s ease;
+    }
+    .highlight-tag:hover {
+      background: rgba(56, 189, 248, 0.25);
+      transform: scale(1.05);
+    }
+  </style>
+
+  <!-- 页面头部 -->
+  <section class="pt-28 pb-12 px-6 bg-gradient-to-b from-slate-900/80 to-transparent">
+    <div class="max-w-7xl mx-auto">
+      <h1 class="text-4xl md:text-5xl font-bold mb-4">
+        <span class="gradient-text">东非五国投资情报中心</span>
+      </h1>
+      <p class="text-xl text-slate-400 max-w-2xl">
+        国家级投资决策支持系统，深度覆盖埃塞俄比亚、乌干达、肯尼亚、坦桑尼亚、卢旺达五国市场
+      </p>
+    </div>
+  </section>
+
+  <!-- 五国风险雷达图 -->
+  <section class="py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6">
+        <span class="gradient-text">🎯 五国风险雷达对比</span>
+      </h2>
+      <div class="rounded-2xl p-6" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(148, 163, 184, 0.1);">
+        <RiskRadarChart client:only="react" />
+      </div>
+    </div>
+  </section>
+
+  <!-- 5国卡片 -->
+  <section class="py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6">快速入口</h2>
+      <div class="grid grid-cols-1 md:grid-cols-5 gap-6">
+        {countries.map((country) => (
+          <a href={country.href} class="country-card rounded-2xl p-6 card-hover block text-center">
+            <span class="text-5xl mb-4 block">{country.flag}</span>
+            <h3 class="text-xl font-bold text-white mb-4">{country.name}</h3>
+            <div class="space-y-3 text-left">
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400 text-sm">GDP</span>
+                <span class="text-white font-semibold">{country.gdp}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400 text-sm">增速</span>
+                <span class="text-emerald-400 font-semibold">{country.growth}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400 text-sm">风险</span>
+                <span class="px-2 py-1 rounded bg-slate-700 text-amber-400 font-semibold text-sm">{country.risk}</span>
+              </div>
+              <div class="flex justify-between items-center">
+                <span class="text-slate-400 text-sm">机会</span>
+                <span class="text-amber-400 font-semibold">{renderStars(country.opportunity)}</span>
+              </div>
+            </div>
+            <!-- 亮点标签 -->
+            <div class="mt-4 pt-4 border-t border-slate-700/50">
+              <div class="flex flex-wrap gap-1 justify-center">
+                {country.highlights.map((tag) => (
+                  <span class="highlight-tag text-xs px-2 py-1 rounded text-sky-300">
+                    {tag}
+                  </span>
+                ))}
+              </div>
+            </div>
+            <div class="mt-4">
+              <span class="text-sky-400 text-sm font-medium">进入详情 →</span>
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </section>
+
+  <!-- 行业热力图 -->
+  <section class="py-12 px-6 bg-slate-900/50">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6">
+        <span class="gradient-text">🔥 行业机会热力图</span>
+      </h2>
+      <div class="rounded-2xl p-6" style="background: rgba(30, 41, 59, 0.6); border: 1px solid rgba(148, 163, 184, 0.1);">
+        <IndustryHeatmap client:only="react" />
+      </div>
+    </div>
+  </section>
+
+  <!-- KPI对比表格 -->
+  <section class="py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6">
+        <span class="gradient-text">五国投资指标对比</span>
+      </h2>
+      
+      <div class="rounded-2xl overflow-hidden border border-slate-700/50">
+        <table class="w-full">
+          <thead class="table-header">
+            <tr>
+              <th class="px-6 py-4 text-left text-sm font-semibold text-slate-300">国家</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-slate-300">GDP总量</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-slate-300">GDP增速</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-slate-300">人口</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-slate-300">主权风险</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-slate-300">投资机会</th>
+              <th class="px-6 py-4 text-center text-sm font-semibold text-slate-300">操作</th>
+            </tr>
+          </thead>
+          <tbody>
+            {countries.map((country, index) => (
+              <tr class="table-row">
+                <td class="px-6 py-4">
+                  <div class="flex items-center gap-3">
+                    <span class="text-2xl">{country.flag}</span>
+                    <span class="font-semibold text-white">{country.name}</span>
+                  </div>
+                </td>
+                <td class="px-6 py-4 text-center text-slate-300">{country.gdp}</td>
+                <td class="px-6 py-4 text-center">
+                  <span class="text-emerald-400 font-semibold">{country.growth}</span>
+                </td>
+                <td class="px-6 py-4 text-center text-slate-300">{country.population}</td>
+                <td class="px-6 py-4 text-center">
+                  <span class={`px-3 py-1 rounded font-semibold text-sm ${country.risk.startsWith('A') ? 'bg-emerald-500/20 text-emerald-400' : 'bg-amber-500/20 text-amber-400'}`}>
+                    {country.risk}
+                  </span>
+                </td>
+                <td class="px-6 py-4 text-center">
+                  <span class="star-filled">{renderStars(country.opportunity)}</span>
+                </td>
+                <td class="px-6 py-4 text-center">
+                  <a href={country.href} class="btn-pill px-4 py-2 btn-gold text-white font-semibold text-sm inline-block">
+                    查看详情
+                  </a>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
+      </div>
+      
+      <div class="mt-6 text-center text-slate-500 text-sm">
+        数据来源：世界银行、IMF、国际评级机构（2024年最新数据）
+      </div>
+    </div>
+  </section>
+
+  <!-- 情报分类入口 -->
+  <section class="py-12 px-6">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6">
+        <span class="gradient-text">情报分类</span>
+      </h2>
+      
+      <div class="grid grid-cols-2 md:grid-cols-4 gap-4">
+        <a href="/invest/ethiopia" class="bg-gradient-to-br from-blue-500/20 to-blue-600/20 border border-blue-500/30 rounded-xl p-6 card-hover block text-center">
+          <div class="text-3xl mb-3">📊</div>
+          <h3 class="font-bold text-white mb-1">产业情报</h3>
+          <p class="text-slate-400 text-sm">120+份</p>
+        </a>
+        
+        <a href="/invest/kenya" class="bg-gradient-to-br from-violet-500/20 to-violet-600/20 border border-violet-500/30 rounded-xl p-6 card-hover block text-center">
+          <div class="text-3xl mb-3">📜</div>
+          <h3 class="font-bold text-white mb-1">政策解读</h3>
+          <p class="text-slate-400 text-sm">85份</p>
+        </a>
+        
+        <a href="/invest/uganda" class="bg-gradient-to-br from-emerald-500/20 to-emerald-600/20 border border-emerald-500/30 rounded-xl p-6 card-hover block text-center">
+          <div class="text-3xl mb-3">📈</div>
+          <h3 class="font-bold text-white mb-1">市场分析</h3>
+          <p class="text-slate-400 text-sm">150份</p>
+        </a>
+        
+        <a href="/invest/rwanda" class="bg-gradient-to-br from-red-500/20 to-red-600/20 border border-red-500/30 rounded-xl p-6 card-hover block text-center">
+          <div class="text-3xl mb-3">⚠️</div>
+          <h3 class="font-bold text-white mb-1">风险预警</h3>
+          <p class="text-slate-400 text-sm">59份</p>
+        </a>
+      </div>
+    </div>
+  </section>
+
+  <!-- 快速对比工具入口 -->
+  <section class="py-12 px-6 bg-slate-900/50">
+    <div class="max-w-7xl mx-auto">
+      <h2 class="text-2xl font-bold mb-6">
+        <span class="gradient-text">🛠️ 快速决策工具</span>
+      </h2>
+      <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+        <a href="/intel/ai" class="bg-gradient-to-br from-cyan-500/20 to-blue-500/20 border border-cyan-500/30 rounded-xl p-6 card-hover block text-center">
+          <div class="text-4xl mb-3">🤖</div>
+          <h3 class="font-bold text-white mb-2">AI分析师</h3>
+          <p class="text-slate-400 text-sm">智能问答，30秒出结论</p>
+        </a>
+        <a href="/intel/compare" class="bg-gradient-to-br from-amber-500/20 to-orange-500/20 border border-amber-500/30 rounded-xl p-6 card-hover block text-center">
+          <div class="text-4xl mb-3">⚖️</div>
+          <h3 class="font-bold text-white mb-2">国家对比</h3>
+          <p class="text-slate-400 text-sm">多维度数据对比分析</p>
+        </a>
+        <a href="/intel/ai" class="bg-gradient-to-br from-emerald-500/20 to-teal-500/20 border border-emerald-500/30 rounded-xl p-6 card-hover block text-center">
+          <div class="text-4xl mb-3">📊</div>
+          <h3 class="font-bold text-white mb-2">投资模拟</h3>
+          <p class="text-slate-400 text-sm">估算回报和风险</p>
+        </a>
+      </div>
+    </div>
+  </section>
+</BaseLayout>

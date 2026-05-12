@@ -1,0 +1,15 @@
+# [机密] contact-network-uganda-ugandapower-structure深度解-析-Museveni王朝-军-商复合体与代际交接博-弈ugandapower-structuredeep-analysis-Museveni王朝-军-商复合体与代际交接博弈.md
+
+> 级别：[机密] - AI只输出方向性建议
+
+# 乌干达权力结构深度解 析：Museveni王朝、军 商复合体与代际交接博 弈乌干达权力结构深度解析：Museveni王朝、军 商复合体与代际交接博弈
+
+**分级**: [机密]
+
+# 乌干达权力结构深度解 析：Museveni王朝、军 商复合体与代际交接博 弈乌干达权力结构深度解析：Museveni王朝、军 商复合体与代际交接博弈
+May 11, 2026 at 02:33 PM
+https://gemini.google.com/gem/2a9097d54f15/ac6d1a76068eed1c Deep Research Report
+## 核心摘要
+自1986年全国抵抗军（NRA）夺取政权以来，Yoweri Museveni通过持续的宪法重构、军商复合体 的无序扩张与国家机器的泛家族化布局，已将乌干达从一个过渡性的后殖民军事政权，深度重塑为 一个以“第一家庭”为绝对核心的超级利益矩阵。基于宏观政治经济学与底层制度演变的第一性原理， 本报告的分析指出：乌干达当前的权力结构并非简单的个人威权统治，而是一个高度制度化、资本 化且具备强烈排他性的“军商复合体”（Military-Bu
+
+[完整内容仅在内部系统中可访问]

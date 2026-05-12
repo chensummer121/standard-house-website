@@ -1,0 +1,33 @@
+{
+  "description": "埃塞俄比亚投资数据库 - 数据更新日志",
+  "version": "1.0",
+  "lastUpdate": "2026-05-08T11:49:39.836Z",
+  "lastDataFetch": {
+    "exchangeRate": {
+      "value": 155.85,
+      "date": "2026-05-08",
+      "source": "Exchangerate-API"
+    },
+    "inflationRate": {
+      "value": 10.9,
+      "date": "2025-11",
+      "source": "Fallback"
+    },
+    "fetchedAt": "2026-05-08T11:49:39.836Z"
+  },
+  "updates": [
+    {
+      "timestamp": "2026-05-08T11:49:39.836Z",
+      "field": "officialExchangeRate",
+      "oldValue": "136",
+      "newValue": "156",
+      "file": "macroeconomy.md",
+      "source": "Exchangerate-API"
+    }
+  ],
+  "notes": [
+    "此文件由 data-refresh.js 自动生成和管理",
+    "每次数据刷新都会在这里记录更新的历史",
+    "格式: { timestamp, field, oldValue, newValue, file, source }"
+  ]
+}

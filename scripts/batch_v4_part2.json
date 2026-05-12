@@ -1,0 +1,56 @@
+[
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/2026东非五国投资情报与肯尼亚市场实操深度审视报告_1778571759971_0_xqni.pdf",
+    "country": "kenya",
+    "section": "decision",
+    "subsection": "quick-cards",
+    "level": "internal",
+    "title": "东非五国投资情报与肯尼亚市场实操深度审视",
+    "filename": "kenya-practical-guide-2026"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/埃塞俄比亚及东非投资情报深度解析：去法规化（De Facto）视角的实操博弈与战略重构_1778571759971_1_rjt0.pdf",
+    "country": "ethiopia",
+    "section": "insight",
+    "subsection": "structural-change",
+    "level": "internal",
+    "title": "埃塞俄比亚制度运行机制与去法规化实操博弈",
+    "filename": "ethiopia-institutional-mechanics-defacto"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/东非五国基建实际吞吐与投资战略情报深度评估报告_1778571759972_2_q5hz.pdf",
+    "country": "rwanda",
+    "section": "industry",
+    "subsection": "logistics",
+    "level": "internal",
+    "title": "东非五国基建实际吞吐与投资战略评估",
+    "filename": "eac-infrastructure-throughput-comparison"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/东非五国投资情报与埃塞俄比亚基础设施实际吞吐量深度调研报告_1778571759972_3_7tvx.pdf",
+    "country": "ethiopia",
+    "section": "industry",
+    "subsection": "artery",
+    "level": "internal",
+    "title": "埃塞俄比亚基础设施实际吞吐量深度调研",
+    "filename": "ethiopia-infrastructure-throughput"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/东非五国投资情报与地理实操约束深度分析报告_1778571759972_4_k6ac.pdf",
+    "country": "tanzania",
+    "section": "insight",
+    "subsection": "structural-change",
+    "level": "internal",
+    "title": "东非五国地理实操约束深度分析",
+    "filename": "eac-geo-practical-constraints"
+  },
+  {
+    "pdf": "/app/data/所有对话/主对话/用户上传/肯尼亚供应链可获性深度评估报告：中资企业东非区域配送中心与制造基地投资指南 (2026版)_1778571759972_5_9fip.pdf",
+    "country": "kenya",
+    "section": "industry",
+    "subsection": "foundation",
+    "level": "internal",
+    "title": "肯尼亚供应链可获性与中资配送中心投资指南",
+    "filename": "kenya-supply-chain-availability"
+  }
+]

@@ -1,0 +1,208 @@
+---
+import BaseLayout from '../../../layouts/BaseLayout.astro';
+import Header from '../../../components/Header.astro';
+import Sidebar from '../../../components/Sidebar.astro';
+import Breadcrumb from '../../../components/Breadcrumb.astro';
+import IndustryMap from '../../../components/IndustryMap';
+
+export function getStaticPaths() {
+  return [
+    { params: { country: 'ethiopia' } },
+    { params: { country: 'uganda' } },
+    { params: { country: 'kenya' } },
+    { params: { country: 'tanzania' } },
+    { params: { country: 'rwanda' } },
+    { params: { country: 'south-sudan' } },
+  ];
+}
+
+const { country } = Astro.params;
+const currentPath = Astro.url.pathname;
+
+// Country-specific metadata
+const countryMeta = {
+  ethiopia: {
+    name: '埃塞俄比亚',
+    flag: '🇪🇹',
+    description: '非洲制造业新星，产业园区遍地开花',
+    stats: {
+      cities: 10,
+      projects: 8,
+      zones: 3,
+      corridors: 2,
+    },
+  },
+  kenya: {
+    name: '肯尼亚',
+    flag: '🇰🇪',
+    description: '东非金融科技中心，LAPSSET超级工程',
+    stats: {
+      cities: 10,
+      projects: 8,
+      zones: 4,
+      corridors: 3,
+    },
+  },
+  uganda: {
+    name: '乌干达',
+    flag: '🇺🇬',
+    description: '东非油气新贵，石油商业化在即',
+    stats: {
+      cities: 10,
+      projects: 8,
+      zones: 4,
+      corridors: 3,
+    },
+  },
+  tanzania: {
+    name: '坦桑尼亚',
+    flag: '🇹🇿',
+    description: '天然气大国，LNG开发蓄势待发',
+    stats: {
+      cities: 10,
+      projects: 8,
+      zones: 4,
+      corridors: 4,
+    },
+  },
+  rwanda: {
+    name: '卢旺达',
+    flag: '🇷🇼',
+    description: '非洲新加坡，ICT创新驱动转型',
+    stats: {
+      cities: 8,
+      projects: 8,
+      zones: 4,
+      corridors: 3,
+    },
+  },
+};
+
+const meta = countryMeta[country] || countryMeta.ethiopia;
+---
+
+<BaseLayout title={`${meta.name}产业城市地图 - Standerra`} pageContext={`${meta.name}产业地图`}>
+  <Header country={country} />
+  
+  <div class="flex">
+    <Sidebar currentPath={currentPath} country={country} />
+    
+    <main class="flex-1 p-6 max-w-7xl overflow-x-hidden">
+      <Breadcrumb items={[
+        { name: meta.name, href: `/invest/${country}` },
+        { name: '产业地图' }
+      ]} />
+      
+      {/* Page Header */}
+      <div class="mb-6">
+        <div class="flex items-center space-x-4 mb-3">
+          <span class="text-4xl">{meta.flag}</span>
+          <div>
+            <h1 class="text-2xl font-bold flex items-center gap-2">
+              产业城市地图
+              <span class="text-sm font-normal px-2 py-1 rounded" style="background: linear-gradient(135deg, #ff9100, #ff5252); color: white;">
+                Interactive
+              </span>
+            </h1>
+            <p class="text-sm" style="color: var(--text-secondary)">{meta.description}</p>
+          </div>
+        </div>
+      </div>
+
+      {/* Stats Cards */}
+      <div class="grid grid-cols-2 lg:grid-cols-4 gap-4 mb-6">
+        <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+          <div class="text-2xl font-bold" style="color: #3b82f6;">{meta.stats.cities}</div>
+          <div class="text-sm" style="color: var(--text-secondary);">重点城市</div>
+        </div>
+        <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+          <div class="text-2xl font-bold" style="color: #f97316;">{meta.stats.projects}</div>
+          <div class="text-sm" style="color: var(--text-secondary);">重点项目</div>
+        </div>
+        <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+          <div class="text-2xl font-bold" style="color: #a78bfa;">{meta.stats.zones}</div>
+          <div class="text-sm" style="color: var(--text-secondary);">产业集群区</div>
+        </div>
+        <div class="rounded-xl p-4" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+          <div class="text-2xl font-bold" style="color: #ffd740;">{meta.stats.corridors}</div>
+          <div class="text-sm" style="color: var(--text-secondary);">基建走廊</div>
+        </div>
+      </div>
+
+      {/* Interactive Map */}
+      <div class="mb-6">
+        <div class="rounded-xl overflow-hidden" style="box-shadow: 0 4px 20px rgba(0,0,0,0.3);">
+          <IndustryMap 
+            client:only="react" 
+            country={country} 
+            height="650px"
+            showIndustrialZones={true}
+            showCorridors={true}
+            showBorderPorts={true}
+          />
+        </div>
+      </div>
+
+      {/* Feature Description Cards */}
+      <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-4 mb-6">
+        <div class="rounded-xl p-5" style="background: linear-gradient(135deg, #1e3a5f 0%, #0f2744 100%); border: 1px solid #2a4a6f;">
+          <div class="text-3xl mb-3">🏙️</div>
+          <h3 class="font-bold text-lg mb-2">城市产业标记</h3>
+          <p class="text-sm" style="color: var(--text-secondary);">
+            圆形标记按产业类型分色，大小反映经济规模。点击查看城市详情和主导产业。
+          </p>
+        </div>
+        <div class="rounded-xl p-5" style="background: linear-gradient(135deg, #3b1e5f 0%, #2a1444 100%); border: 1px solid #4a2a6f;">
+          <div class="text-3xl mb-3">🏭</div>
+          <h3 class="font-bold text-lg mb-2">产业集群区域</h3>
+          <p class="text-sm" style="color: var(--text-secondary);">
+            半透明多边形展示产业带范围，包括工业走廊、农业产区、矿业开发区等。
+          </p>
+        </div>
+        <div class="rounded-xl p-5" style="background: linear-gradient(135deg, #5f3b1e 0%, #4a2a0f 100%); border: 1px solid #6f4a2a;">
+          <div class="text-3xl mb-3">🛤️</div>
+          <h3 class="font-bold text-lg mb-2">基建走廊网络</h3>
+          <p class="text-sm" style="color: var(--text-secondary);">
+            铁路、公路、管道、电网用彩色虚线标注，清晰展示区域互联互通。
+          </p>
+        </div>
+      </div>
+
+      {/* Country Quick Links */}
+      <div class="rounded-xl p-6" style="background: var(--bg-card); border: 1px solid var(--border-color);">
+        <h3 class="text-lg font-bold mb-4" style="color: var(--text-primary);">探索其他东非国家</h3>
+        <div class="grid grid-cols-2 lg:grid-cols-5 gap-3">
+          {Object.entries(countryMeta).filter(([key]) => key !== country).map(([key, data]) => (
+            <a 
+              href={`/invest/${key}/industry-map`}
+              class="flex items-center gap-2 p-3 rounded-lg transition-all hover:scale-105"
+              style="background: var(--bg-secondary);"
+            >
+              <span class="text-2xl">{data.flag}</span>
+              <span class="text-sm font-medium" style="color: var(--text-primary);">{data.name}</span>
+            </a>
+          ))}
+        </div>
+      </div>
+
+      {/* Navigation to Country Homepage */}
+      <div class="mt-6 text-center">
+        <a 
+          href={`/invest/${country}`}
+          class="inline-flex items-center gap-2 px-4 py-2 rounded-lg transition-all hover:opacity-80"
+          style="background: var(--bg-secondary); color: var(--text-secondary);"
+        >
+          ← 返回{meta.name}投资概览
+        </a>
+      </div>
+    </main>
+  </div>
+</BaseLayout>
+
+<style>
+  @media (max-width: 768px) {
+    main {
+      padding: 1rem !important;
+    }
+  }
+</style>
