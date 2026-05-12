@@ -1,0 +1,154 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import Header from '../../components/Header.astro';
+import Breadcrumb from '../../components/Breadcrumb.astro';
+import CountryRelationGraph from '../../components/CountryRelationGraph';
+
+export function getStaticPaths() {
+  return [{}];
+}
+---
+
+<BaseLayout title="东非11国联系网络 - Standerra Intelligence" pageContext="11国多维关系图谱">
+  <Header />
+  
+  <main class="min-h-screen" style="background: var(--bg-primary);">
+    <div class="max-w-7xl mx-auto px-6 py-8">
+      <Breadcrumb items={[{ name: '东非联系网络' }]} />
+      
+      {/* 页面标题 */}
+      <div class="mb-8">
+        <h1 class="text-4xl font-bold mb-4" style="background: linear-gradient(135deg, #f59e0b, #fbbf24); -webkit-background-clip: text; -webkit-text-fill-color: transparent;">
+          东非11国联系网络
+        </h1>
+        <p class="text-lg" style="color: var(--text-secondary);">
+          展示11个东非国家之间的贸易、基础设施、安全、金融、资源和区域组织联系
+        </p>
+      </div>
+
+      {/* 图谱组件 */}
+      <div class="mb-8">
+        <CountryRelationGraph client:only="react" className="w-full" />
+      </div>
+
+      {/* 关系类型说明 */}
+      <div class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-4 mb-8">
+        <div class="p-4 rounded-xl" style="background: rgba(30, 41, 59, 0.8);">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-4 h-4 rounded" style="background: #10b981;"></div>
+            <h3 class="font-semibold text-white">贸易联系</h3>
+          </div>
+          <p class="text-sm" style="color: var(--text-secondary);">
+            双边贸易额、主要进出口商品结构
+          </p>
+        </div>
+        
+        <div class="p-4 rounded-xl" style="background: rgba(30, 41, 59, 0.8);">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-4 h-4 rounded" style="background: #f59e0b;"></div>
+            <h3 class="font-semibold text-white">基础设施走廊</h3>
+          </div>
+          <p class="text-sm" style="color: var(--text-secondary);">
+            公路、铁路、管道连接，如北走廊、亚吉铁路、LAPSSET
+          </p>
+        </div>
+        
+        <div class="p-4 rounded-xl" style="background: rgba(30, 41, 59, 0.8);">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-4 h-4 rounded" style="background: #ef4444;"></div>
+            <h3 class="font-semibold text-white">安全联动</h3>
+          </div>
+          <p class="text-sm" style="color: var(--text-secondary);">
+            冲突溢出、恐怖主义、难民流动、维和行动
+          </p>
+        </div>
+        
+        <div class="p-4 rounded-xl" style="background: rgba(30, 41, 59, 0.8);">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-4 h-4 rounded" style="background: #3b82f6;"></div>
+            <h3 class="font-semibold text-white">金融联系</h3>
+          </div>
+          <p class="text-sm" style="color: var(--text-secondary);">
+            货币联动、区域支付系统、跨境银行服务
+          </p>
+        </div>
+        
+        <div class="p-4 rounded-xl" style="background: rgba(30, 41, 59, 0.8);">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-4 h-4 rounded" style="background: #8b5cf6;"></div>
+            <h3 class="font-semibold text-white">资源争夺</h3>
+          </div>
+          <p class="text-sm" style="color: var(--text-secondary);">
+            水资源（尼罗河）、矿产、油气开发权益
+          </p>
+        </div>
+        
+        <div class="p-4 rounded-xl" style="background: rgba(30, 41, 59, 0.8);">
+          <div class="flex items-center gap-3 mb-2">
+            <div class="w-4 h-4 rounded" style="background: #06b6d4;"></div>
+            <h3 class="font-semibold text-white">区域组织</h3>
+          </div>
+          <p class="text-sm" style="color: var(--text-secondary);">
+            EAC、IGAD、COMESA、AU等成员关系
+          </p>
+        </div>
+      </div>
+
+      {/* 中国项目特别说明 */}
+      <div class="p-6 rounded-xl mb-8" style="background: linear-gradient(135deg, rgba(220, 38, 38, 0.2), rgba(220, 38, 38, 0.1)); border: 1px solid rgba(220, 38, 38, 0.3);">
+        <div class="flex items-center gap-3 mb-4">
+          <span class="text-2xl">🇨🇳</span>
+          <h2 class="text-xl font-bold text-white">中国一带一路项目</h2>
+        </div>
+        <p class="text-sm mb-4" style="color: var(--text-secondary);">
+          中国在东非的投资覆盖港口、铁路、公路、矿产和能源等多个领域。吉布提是"一带一路"在非洲的核心节点，埃塞俄比亚、肯尼亚、刚果（金）也是重要合作国家。
+        </p>
+        <div class="flex flex-wrap gap-2">
+          {['亚吉铁路', '蒙内铁路', '吉布提港', 'SICOMINES', 'EACOP管道', 'Colluli钾盐矿'].map(project => (
+            <span class="px-3 py-1 rounded-full text-sm" style="background: rgba(220, 38, 38, 0.3); color: #fca5a5;">
+              {project}
+            </span>
+          ))}
+        </div>
+      </div>
+
+      {/* 11国列表 */}
+      <div class="grid grid-cols-2 md:grid-cols-4 lg:grid-cols-6 gap-4">
+        {[
+          { id: 'ethiopia', name: '埃塞俄比亚', flag: '🇪🇹', desc: '东非最大经济体' },
+          { id: 'kenya', name: '肯尼亚', flag: '🇰🇪', desc: '区域金融中心' },
+          { id: 'uganda', name: '乌干达', flag: '🇺🇬', desc: '石油即将投产' },
+          { id: 'tanzania', name: '坦桑尼亚', flag: '🇹🇿', desc: '天然气储量丰富' },
+          { id: 'rwanda', name: '卢旺达', flag: '🇷🇼', desc: '数字经济领先' },
+          { id: 'south-sudan', name: '南苏丹', flag: '🇸🇸', desc: '石油依赖国' },
+          { id: 'burundi', name: '布隆迪', flag: '🇧🇮', desc: '矿业潜力' },
+          { id: 'djibouti', name: '吉布提', flag: '🇩🇯', desc: '战略港口' },
+          { id: 'somalia', name: '索马里', flag: '🇸🇴', desc: '重建中' },
+          { id: 'eritrea', name: '厄立特里亚', flag: '🇪🇷', desc: '钾盐矿待开发' },
+          { id: 'dr-congo', name: '刚果（金）', flag: '🇨🇩', desc: '铜钴资源' },
+        ].map(country => (
+          <a 
+            href={`/invest/${country.id}`}
+            class="group p-4 rounded-xl transition-all hover:scale-105"
+            style="background: rgba(30, 41, 59, 0.6);"
+          >
+            <div class="text-3xl mb-2">{country.flag}</div>
+            <div class="font-semibold text-white group-hover:text-amber-500 transition-colors">
+              {country.name}
+            </div>
+            <div class="text-xs" style="color: var(--text-secondary);">
+              {country.desc}
+            </div>
+          </a>
+        ))}
+      </div>
+    </div>
+  </main>
+</BaseLayout>
+
+<style>
+  :global(body) {
+    background: #0f172a;
+    color: #e2e8f0;
+  }
+</style>
