@@ -30,7 +30,7 @@ export default async function handler(req, res) {
 
     const user_id = sessionId || `web-${Date.now()}-${Math.random().toString(36).substr(2, 6)}`;
 
-    // 调用Coze Chat API (stream mode required)
+    // 调用Coze Chat API (stream mode required by v3)
     const chatRes = await fetch(`${COZE_API_BASE}/v3/chat`, {
       method: 'POST',
       headers: {
@@ -54,30 +54,34 @@ export default async function handler(req, res) {
       const errText = await chatRes.text();
       console.error('Coze API error:', chatRes.status, errText);
       return res.status(200).json({
-        reply: 'AI顾问暂时无法响应，请稍后再试。您可以直接浏览站内各国投资报告获取信息。',
+        reply: 'AI顾问暂时无法响应，请稍后再试。',
         source: 'fallback',
         error: 'Coze API unavailable'
       });
     }
 
-    // 解析SSE流，收集answer内容
+    // 解析SSE流 - 使用getReader()兼容Web ReadableStream
     let reply = '';
-    const reader = chatRes.body;
-    const decoder = new TextDecoder();
-    let buffer = '';
+    let chatId = '';
+    let conversationId = '';
     let chatCompleted = false;
     const startTime = Date.now();
-    const MAX_WAIT = 55000; // 55秒超时（Vercel Pro 60s）
+    const MAX_WAIT = 55000;
+
+    // Web ReadableStream
+    const reader = chatRes.body.getReader();
+    const decoder = new TextDecoder();
+    let buffer = '';
 
     while (!chatCompleted && (Date.now() - startTime) < MAX_WAIT) {
-      const chunk = await reader.read();
-      if (chunk.done) break;
+      const { done, value } = await reader.read();
+      if (done) break;
       
-      buffer += decoder.decode(chunk.value, { stream: true });
+      buffer += decoder.decode(value, { stream: true });
       
       // 按行解析SSE
       const lines = buffer.split('\n');
-      buffer = lines.pop() || ''; // 保留不完整的行
+      buffer = lines.pop() || '';
       
       for (const line of lines) {
         if (!line.startsWith('data:')) continue;
@@ -85,48 +89,47 @@ export default async function handler(req, res) {
         try {
           const data = JSON.parse(line.slice(5).trim());
           
-          // 收集answer类型的completed消息
-          if (data.type === 'answer' && data.event === 'conversation.message.completed') {
-            reply += data.content || '';
+          // 提取chat_id和conversation_id
+          if (data.id && !chatId) chatId = data.id;
+          if (data.conversation_id && !conversationId) conversationId = data.conversation_id;
+          
+          // 收集answer增量内容
+          if (data.type === 'answer') {
+            if (data.event === 'conversation.message.delta') {
+              reply += data.content || '';
+            }
+            if (data.event === 'conversation.message.completed') {
+              // completed时content是完整answer，直接覆盖
+              reply = data.content || reply;
+            }
           }
           
           // 检测chat完成
-          if (data.status === 'completed' || data.event === 'conversation.chat.completed') {
+          if (data.event === 'conversation.chat.completed' || data.status === 'completed') {
             chatCompleted = true;
           }
         } catch (e) {
-          // 跳过无效JSON
+          // 跳过无效JSON行
         }
       }
     }
 
-    // 如果没收集到answer，尝试用retrieve API获取
-    if (!reply) {
-      // 从SSE中提取chat_id和conversation_id
-      // 备选方案：用非流式retrieve
-      const chatIdMatch = buffer.match(/"id":"(\d+)"/);
-      const convIdMatch = buffer.match(/"conversation_id":"(\d+)"/);
-      
-      if (chatIdMatch && convIdMatch) {
-        const chatId = chatIdMatch[1];
-        const convId = convIdMatch[1];
+    // 如果没收集到answer，尝试用retrieve API
+    if (!reply && chatId && conversationId) {
+      for (let i = 0; i < 5; i++) {
+        await new Promise(r => setTimeout(r, 2000));
         
-        // 等待完成后获取消息列表
-        for (let i = 0; i < 5; i++) {
-          await new Promise(r => setTimeout(r, 2000));
-          
-          const msgRes = await fetch(
-            `${COZE_API_BASE}/v3/chat/message/list?chat_id=${chatId}&conversation_id=${convId}`,
-            { headers: { 'Authorization': `Bearer ${COZE_API_KEY}` } }
-          );
-          
-          if (msgRes.ok) {
-            const msgData = await msgRes.json();
-            const answer = msgData?.data?.find(m => m.type === 'answer');
-            if (answer?.content) {
-              reply = answer.content;
-              break;
-            }
+        const msgRes = await fetch(
+          `${COZE_API_BASE}/v3/chat/message/list?chat_id=${chatId}&conversation_id=${conversationId}`,
+          { headers: { 'Authorization': `Bearer ${COZE_API_KEY}` } }
+        );
+        
+        if (msgRes.ok) {
+          const msgData = await msgRes.json();
+          const answer = msgData?.data?.find(m => m.type === 'answer');
+          if (answer?.content) {
+            reply = answer.content;
+            break;
           }
         }
       }
@@ -148,7 +151,7 @@ export default async function handler(req, res) {
 
   } catch (error) {
     console.error('Proxy error:', error);
-    return res.status(500).json({
+    return res.status(200).json({
       reply: '服务暂时不可用，请稍后再试。',
       source: 'fallback',
       error: error.message
