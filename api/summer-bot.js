@@ -65,8 +65,8 @@ export default async function handler(req, res) {
 - 中文回复，专业术语可用英文`;
 
     // 组装完整消息：上下文 + 用户问题
-    const fullMessage = contextPrefix 
-      ? `[系统上下文]\n${contextPrefix}\n\n[用户问题]\n${message}` 
+    const fullMessage = BOT_CONTEXT 
+      ? `[系统上下文]\n${BOT_CONTEXT}\n\n[用户问题]\n${message}` 
       : message;
 
     // 调用Coze Chat API (stream mode required by v3)
