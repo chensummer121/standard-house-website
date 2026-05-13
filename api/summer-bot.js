@@ -46,7 +46,11 @@ export default async function handler(req, res) {
           role: 'user',
           content: message,
           content_type: 'text'
-        }]
+        }],
+        custom_variables: {
+          country_count: '11',
+          countries: '埃塞俄比亚、乌干达、肯尼亚、坦桑尼亚、卢旺达、南苏丹、布隆迪、吉布提、索马里、厄立特里亚、刚果金'
+        }
       })
     });
 

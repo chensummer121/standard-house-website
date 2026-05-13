@@ -6,17 +6,23 @@ import InvestmentSimulator from '../../components/InvestmentSimulator.tsx';
 
 const quickQuestions = [
   '东非哪个国家最适合制造业投资？',
-  '肯尼亚的债务危机对投资有什么影响？',
-  '乌干达石油商业化进展如何？',
-  '卢旺达ICT产业有什么机会？',
+  '刚果金钴矿投资有哪些合规风险？',
+  '索马里电信行业的机会和风险？',
+  '吉布提自贸区的税收优惠政策？',
+  '南苏丹石油产业的最新进展？',
+  '厄立特里亚矿业投资的准入门槛？',
+  '布隆迪的外汇管制对投资影响？',
   '埃塞俄比亚工业园区有哪些？',
-  '坦桑尼亚基础设施建设规划',
+  '十一国投资风险排名对比',
+  '机密级东非深层数据查询',
 ];
 
-const recentChats = [
-  { title: '埃塞俄比亚税收优惠政策', time: '今天 14:30' },
-  { title: '肯尼亚房地产投资回报分析', time: '今天 11:20' },
-  { title: '卢旺达公司注册流程', time: '昨天 16:45' },
+const hotTopics = [
+  { title: '刚果金M23冲突对钴矿供应链影响', tag: '风险', tagColor: 'red' },
+  { title: '吉布提港扩建与红海航运格局', tag: '基建', tagColor: 'blue' },
+  { title: '索马里HIPC债务减免进展', tag: '金融', tagColor: 'amber' },
+  { title: '东非六国电力互联计划', tag: '能源', tagColor: 'emerald' },
+  { title: '厄立特里亚红海战略价值', tag: '地缘', tagColor: 'violet' },
 ];
 
 const aiUseCases = [
@@ -155,20 +161,25 @@ const aiUseCases = [
             </div>
           </div>
           
-          <!-- 最近对话 -->
+          <!-- 热门话题 -->
           <div class="sidebar-card rounded-xl p-5">
-            <h3 class="text-lg font-bold text-white mb-4">最近对话</h3>
+            <h3 class="text-lg font-bold text-white mb-4">🔥 热门话题</h3>
             <div class="space-y-3">
-              {recentChats.map((chat) => (
+              {hotTopics.map((topic) => (
                 <a href="#" class="block px-4 py-3 rounded-lg bg-slate-700/30 hover:bg-slate-700/60 transition-colors">
-                  <p class="text-white text-sm font-medium truncate">{chat.title}</p>
-                  <p class="text-slate-500 text-xs mt-1">{chat.time}</p>
+                  <div class="flex justify-between items-start gap-2">
+                    <p class="text-white text-sm font-medium flex-1">{topic.title}</p>
+                    <span class={`text-xs px-2 py-1 rounded-full font-medium shrink-0 ${
+                      topic.tagColor === 'red' ? 'bg-red-500/20 text-red-300' :
+                      topic.tagColor === 'blue' ? 'bg-blue-500/20 text-blue-300' :
+                      topic.tagColor === 'amber' ? 'bg-amber-500/20 text-amber-300' :
+                      topic.tagColor === 'emerald' ? 'bg-emerald-500/20 text-emerald-300' :
+                      'bg-violet-500/20 text-violet-300'
+                    }`}>{topic.tag}</span>
+                  </div>
                 </a>
               ))}
             </div>
-            <a href="#" class="block mt-4 text-center text-sky-400 hover:text-sky-300 text-sm font-medium">
-              查看全部历史 →
-            </a>
           </div>
           
           <!-- AI能力说明 -->
@@ -177,7 +188,7 @@ const aiUseCases = [
             <ul class="space-y-3 text-slate-400 text-sm">
               <li class="flex items-start gap-2">
                 <span class="text-emerald-400 mt-0.5">✓</span>
-                <span>投资环境分析</span>
+                <span>投资环境分析（11国）</span>
               </li>
               <li class="flex items-start gap-2">
                 <span class="text-emerald-400 mt-0.5">✓</span>
@@ -195,6 +206,26 @@ const aiUseCases = [
                 <span class="text-emerald-400 mt-0.5">✓</span>
                 <span>方案包推荐</span>
               </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 mt-0.5">✓</span>
+                <span>国家关系图谱分析</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 mt-0.5">✓</span>
+                <span>产业地图标注查询</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-amber-400 mt-0.5">🔒</span>
+                <span class="text-amber-400">机密级情报解锁</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-amber-400 mt-0.5">🔒</span>
+                <span class="text-amber-400">灰色经济与影子市场分析</span>
+              </li>
+              <li class="flex items-start gap-2">
+                <span class="text-emerald-400 mt-0.5">✓</span>
+                <span>跨国走廊与基础设施追踪</span>
+              </li>
             </ul>
           </div>
           
@@ -207,19 +238,31 @@ const aiUseCases = [
             <div class="space-y-2">
               <div class="flex items-center gap-2 text-xs text-slate-500">
                 <span class="w-2 h-2 rounded-full bg-sky-400"></span>
-                <span>世界银行数据库</span>
+                <span>非洲开发银行(AfDB)</span>
               </div>
               <div class="flex items-center gap-2 text-xs text-slate-500">
                 <span class="w-2 h-2 rounded-full bg-emerald-400"></span>
-                <span>IMF经济展望</span>
+                <span>COMTRADE贸易数据库</span>
               </div>
               <div class="flex items-center gap-2 text-xs text-slate-500">
                 <span class="w-2 h-2 rounded-full bg-amber-400"></span>
-                <span>各国统计局</span>
+                <span>UN危险区域监测</span>
               </div>
               <div class="flex items-center gap-2 text-xs text-slate-500">
                 <span class="w-2 h-2 rounded-full bg-violet-400"></span>
-                <span>实地调研数据</span>
+                <span>世界银行WDI数据库</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-rose-400"></span>
+                <span>IMF世界经济展望</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-cyan-400"></span>
+                <span>各国央行官方数据</span>
+              </div>
+              <div class="flex items-center gap-2 text-xs text-slate-500">
+                <span class="w-2 h-2 rounded-full bg-lime-400"></span>
+                <span>一线实地调研数据</span>
               </div>
             </div>
           </div>
