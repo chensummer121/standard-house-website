@@ -30,7 +30,7 @@ const AIContext = createContext<{
 });
 
 // 从URL解析页面上下文
-function parsePageContextFromURL(pathname: string): PageContext {
+export function parsePageContextFromURL(pathname: string): PageContext {
   const ctx: PageContext = {
     pagePath: pathname
   };
